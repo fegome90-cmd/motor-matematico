@@ -1,0 +1,41 @@
+schema_version: 1
+constitution_commit: cdb626e0960e88e3be1ce4a1755f5441a1dbe251
+authority_document: GOVERNANCE.md
+enforcement: descriptive_only
+default_role: reader
+separation_of_duties: prepare_review_approve
+roles:
+  reader:
+    capabilities: [read, review]
+    responsibility: default_when_no_role_is_assigned
+  owner:
+    actor: fegome90-cmd
+    capabilities: [govern, approve]
+    responsibility: product_scope_and_sensitive_effects
+  implementer:
+    actor: task_assigned_agent_or_maintainer
+    capabilities: [read, write, review]
+    responsibility: implement_and_verify_authorized_changes
+    restrictions: [no_self_approval, no_role_elevation, no_effective_policy_change_without_owner]
+  reviewer:
+    actor: explicitly_identified_human_or_agent
+    capabilities: [read, review]
+    responsibility: review_evidence_without_fabricating_human_approval
+surfaces:
+  code_and_tests:
+    paths: [src, tests, cli.mjs, scripts, examples]
+    authority: implementer_within_task
+  documentation:
+    paths: [README.md, docs]
+    authority: implementer_within_task
+  governance_and_ci:
+    paths: [AGENTS.md, GOVERNANCE.md, _ctx/policy, .github/workflows]
+    risk: critical
+    draft_authority: implementer_with_explicit_task_scope
+    effective_change_authority: owner_explicit_authorization
+  remote_branch_and_pull_request:
+    repository: fegome90-cmd/motor-matematico
+    authority: implementer_within_task
+  merge_release_deploy_and_access:
+    authority: owner_explicit_authorization
+    includes: [main_merge, package_publish, deployment, permissions, secrets]

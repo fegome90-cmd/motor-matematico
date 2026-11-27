@@ -1,30 +1,44 @@
-import { validate } from './core.js';
+import { INPUT_LIMITS, validate } from './core.js';
 export const DEFAULT_PLAN_LIMITS = Object.freeze({
-    maxWorlds: 128, maxActions: 32, maxStates: 20000,
-    maxTransitions: 500000, maxDepth: 32, maxMillis: 1000,
+    maxWorlds: 128,
+    maxActions: 32,
+    maxStates: 20000,
+    maxTransitions: 500000,
+    maxDepth: 32,
+    maxMillis: 1000,
 });
 export const PLAN_LIMIT_CEILINGS = Object.freeze({
-    maxWorlds: 512, maxActions: 64, maxStates: 200000,
-    maxTransitions: 2000000, maxDepth: 64, maxMillis: 10000,
+    maxWorlds: 512,
+    maxActions: 64,
+    maxStates: 200000,
+    maxTransitions: 2000000,
+    maxDepth: 64,
+    maxMillis: 10000,
 });
 function options(raw) {
     const limits = { ...DEFAULT_PLAN_LIMITS };
     if (raw === undefined)
         return limits;
-    if (typeof raw !== 'object' || raw === null || Array.isArray(raw) ||
+    if (typeof raw !== 'object' ||
+        raw === null ||
+        Array.isArray(raw) ||
         ![Object.prototype, null].includes(Object.getPrototypeOf(raw))) {
         throw new TypeError('options: expected plain object');
     }
     for (const key of Reflect.ownKeys(raw)) {
         const descriptor = Object.getOwnPropertyDescriptor(raw, key);
-        if (typeof key !== 'string' || !Object.prototype.hasOwnProperty.call(limits, key) ||
-            !descriptor.enumerable || !('value' in descriptor)) {
+        if (typeof key !== 'string' ||
+            !Object.hasOwn(limits, key) ||
+            !descriptor.enumerable ||
+            !('value' in descriptor)) {
             throw new TypeError('options: unexpected field or non-data property');
         }
         const name = key;
         const value = descriptor.value;
-        if (typeof value !== 'number' || !Number.isSafeInteger(value) ||
-            value < (name === 'maxDepth' ? 0 : 1) || value > PLAN_LIMIT_CEILINGS[name]) {
+        if (typeof value !== 'number' ||
+            !Number.isSafeInteger(value) ||
+            value < (name === 'maxDepth' ? 0 : 1) ||
+            value > PLAN_LIMIT_CEILINGS[name]) {
             throw new TypeError(`options.${name}: integer outside supported range`);
         }
         limits[name] = value;
@@ -32,32 +46,48 @@ function options(raw) {
     return limits;
 }
 class SearchLimit extends Error {
+    reason;
     constructor(reason) {
         super(reason);
         this.reason = reason;
     }
 }
-const compare = (a, b) => a < b ? -1 : a > b ? 1 : 0;
+const compare = (a, b) => (a < b ? -1 : a > b ? 1 : 0);
 /** Exact minimax planning for the supplied finite model. Limits return no partial policy. */
 export function plan(raw, configuration) {
     const limits = options(configuration);
     const input = validate(raw);
     const started = performance.now();
-    const actionById = new Map(input.actions.map(action => [action.id, action]));
-    const worlds = input.worlds.filter(world => input.observations.every(observation => actionById.get(observation.action).outcomes[world.id] === observation.outcome));
-    const signatures = worlds.map(world => JSON.stringify(input.decisions.map(decision => world.answers[decision.id])));
+    const actionById = new Map(input.actions.map((action) => [action.id, action]));
+    const worlds = input.worlds.filter((world) => input.observations.every((observation) => actionById.get(observation.action).outcomes[world.id] === observation.outcome));
+    const signatures = worlds.map((world) => JSON.stringify(input.decisions.map((decision) => world.answers[decision.id])));
     const signatureCount = new Set(signatures).size;
     const budget = BigInt(input.remainingBudget);
-    const actions = input.actions.filter(action => action.permission === 'allowed' && action.available && BigInt(action.cost) <= budget);
+    const actions = input.actions.filter((action) => action.permission === 'allowed' && action.available && BigInt(action.cost) <= budget);
     const statistics = {
-        worlds: input.worlds.length, compatibleWorlds: worlds.length, signatures: signatureCount,
-        actions: input.actions.length, admissibleActions: actions.length,
-        states: 0, cacheHits: 0, transitions: 0, maxDepth: 0, policyNodes: 0,
+        worlds: input.worlds.length,
+        compatibleWorlds: worlds.length,
+        signatures: signatureCount,
+        actions: input.actions.length,
+        admissibleActions: actions.length,
+        states: 0,
+        cacheHits: 0,
+        transitions: 0,
+        maxDepth: 0,
+        policyNodes: 0,
     };
     const finish = (status, reason, policy = null, cost = null, recommendedAction = null) => ({
-        status, reason, recommendedAction, worstCaseCost: cost === null ? null : String(cost), policy,
-        coverage: input.coverage, gate: input.gate, costUnit: input.costUnit,
-        remainingBudget: input.remainingBudget, statistics, limits,
+        status,
+        reason,
+        recommendedAction,
+        worstCaseCost: cost === null ? null : String(cost),
+        policy,
+        coverage: input.coverage,
+        gate: input.gate,
+        costUnit: input.costUnit,
+        remainingBudget: input.remainingBudget,
+        statistics,
+        limits,
     });
     if (input.coverage === 'complete' && signatureCount === 0)
         return finish('conflict', 'CONFLICT');
@@ -69,9 +99,7 @@ export function plan(raw, configuration) {
         return finish('incomplete', 'INCOMPLETE_COVERAGE');
     if (signatureCount === 1) {
         statistics.policyNodes = 1;
-        return finish('solved', 'SUFFICIENT', { root: 'n0', nodes: [
-                { id: 'n0', type: 'leaf', answers: { ...worlds[0].answers } },
-            ] }, 0n);
+        return finish('solved', 'SUFFICIENT', { root: 'n0', nodes: [{ id: 'n0', type: 'leaf', answers: { ...worlds[0].answers } }] }, 0n);
     }
     if (worlds.length > limits.maxWorlds)
         return finish('limit_exceeded', 'MAX_WORLDS');
@@ -94,15 +122,20 @@ export function plan(raw, configuration) {
             answersBySignature.set(signature, world.answers);
             return { world, bit };
         });
-        const prepared = actions.map(action => {
+        const prepared = actions.map((action) => {
             checkTime();
             const groups = new Map();
             for (const { world, bit } of worldBits) {
                 const outcome = action.outcomes[world.id];
                 groups.set(outcome, (groups.get(outcome) ?? 0n) | bit);
             }
-            return { id: action.id, cost: BigInt(action.cost), branches: [...groups]
-                    .sort(([a], [b]) => compare(a, b)).map(([outcome, mask]) => ({ outcome, mask })) };
+            return {
+                id: action.id,
+                cost: BigInt(action.cost),
+                branches: [...groups]
+                    .sort(([a], [b]) => compare(a, b))
+                    .map(([outcome, mask]) => ({ outcome, mask })),
+            };
         });
         const memo = new Map();
         const solve = (mask, depth) => {
@@ -123,7 +156,10 @@ export function plan(raw, configuration) {
             statistics.maxDepth = Math.max(statistics.maxDepth, depth);
             const signature = signaturesByBit.get(mask & -mask);
             if ((signatureMasks.get(signature) & mask) === mask) {
-                const state = { solution: { type: 'leaf', cost: 0n, signature }, searchHeight: 0 };
+                const state = {
+                    solution: { type: 'leaf', cost: 0n, signature, steps: 0 },
+                    searchHeight: 0,
+                };
                 memo.set(mask, state);
                 return state;
             }
@@ -131,12 +167,14 @@ export function plan(raw, configuration) {
             let searchHeight = 0;
             for (const action of prepared) {
                 checkTime();
-                const branches = action.branches.map(branch => ({ outcome: branch.outcome, mask: branch.mask & mask }))
-                    .filter(branch => branch.mask !== 0n);
+                const branches = action.branches
+                    .map((branch) => ({ outcome: branch.outcome, mask: branch.mask & mask }))
+                    .filter((branch) => branch.mask !== 0n);
                 // A previous deterministic action is constant here, so the world subset is the complete state key.
                 if (branches.length < 2)
                     continue;
                 let worst = 0n;
+                let worstSteps = 0;
                 let feasible = true;
                 for (const branch of branches) {
                     if (statistics.transitions >= limits.maxTransitions)
@@ -150,10 +188,11 @@ export function plan(raw, configuration) {
                     }
                     if (child.solution.cost > worst)
                         worst = child.solution.cost;
+                    worstSteps = Math.max(worstSteps, child.solution.steps);
                 }
                 const cost = action.cost + worst;
                 if (feasible && (best === null || cost < best.cost)) {
-                    best = { type: 'decision', cost, action: action.id, branches };
+                    best = { type: 'decision', cost, action: action.id, branches, steps: 1 + worstSteps };
                 }
             }
             const state = { solution: best, searchHeight };
@@ -165,6 +204,8 @@ export function plan(raw, configuration) {
         checkTime();
         if (optimal === null || optimal.cost > budget)
             return finish('infeasible', 'NO_POLICY_WITHIN_BUDGET');
+        if (optimal.steps > INPUT_LIMITS.observations - input.observations.length)
+            return finish('limit_exceeded', 'MAX_OBSERVATIONS');
         const nodes = [];
         const nodeByMask = new Map();
         const leafBySignature = new Map();
@@ -183,12 +224,19 @@ export function plan(raw, configuration) {
             nodeByMask.set(mask, id);
             if (solution.type === 'leaf') {
                 leafBySignature.set(solution.signature, id);
-                nodes.push({ id, type: 'leaf', answers: { ...answersBySignature.get(solution.signature) } });
+                nodes.push({
+                    id,
+                    type: 'leaf',
+                    answers: { ...answersBySignature.get(solution.signature) },
+                });
             }
             else {
                 const node = { id, type: 'decision', action: solution.action, branches: [] };
                 nodes.push(node);
-                node.branches = solution.branches.map(branch => ({ outcome: branch.outcome, child: materialize(branch.mask) }));
+                node.branches = solution.branches.map((branch) => ({
+                    outcome: branch.outcome,
+                    child: materialize(branch.mask),
+                }));
             }
             return id;
         };

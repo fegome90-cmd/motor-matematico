@@ -1,6 +1,6 @@
-import {readFileSync} from 'node:fs';
-import {resolve} from 'node:path';
-import {pathToFileURL} from 'node:url';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
 
 const args = process.argv.slice(2);
 if (args.length && (args.length !== 2 || args[0] !== '--module')) {
@@ -9,7 +9,7 @@ if (args.length && (args.length !== 2 || args[0] !== '--module')) {
 const moduleURL = args.length
   ? pathToFileURL(resolve(args[1])).href
   : new URL('../dist/index.js', import.meta.url).href;
-const {plan} = await import(moduleURL);
+const { plan } = await import(moduleURL);
 if (typeof plan !== 'function') throw new TypeError('module must export plan()');
 
 function freezeTree(value) {
@@ -22,17 +22,17 @@ function freezeTree(value) {
 
 const rows = JSON.parse(readFileSync(0, 'utf8'));
 if (!Array.isArray(rows)) throw new TypeError('batch input must be an array');
-const output = rows.map(row => {
+const output = rows.map((row) => {
   try {
     const input = freezeTree(row.input);
     const options = Object.hasOwn(row, 'options') ? freezeTree(row.options) : undefined;
-    const before = JSON.stringify({input, options});
+    const before = JSON.stringify({ input, options });
     const result = plan(input, options);
-    if (before !== JSON.stringify({input, options})) throw new Error('plan() mutated its input');
+    if (before !== JSON.stringify({ input, options })) throw new Error('plan() mutated its input');
     // JSON serialization is part of the public contract; BigInt output must fail here.
-    return {ok: true, result: JSON.parse(JSON.stringify(result))};
+    return { ok: true, result: JSON.parse(JSON.stringify(result)) };
   } catch (error) {
-    return {ok: false, error: {name: error.name, message: error.message}};
+    return { ok: false, error: { name: error.name, message: error.message } };
   }
 });
 process.stdout.write(JSON.stringify(output) + '\n');

@@ -1,13 +1,61 @@
 {
-  "name": "falp-math-router-prototype",
-  "version": "0.1.0",
+  "name": "@fegome90/motor-matematico",
+  "version": "0.2.0",
+  "description": "Exact, bounded minimax planning over finite FALP decision models",
   "private": true,
   "type": "module",
-  "exports": "./dist/core.js",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fegome90-cmd/motor-matematico.git"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./diagnostics": {
+      "types": "./dist/core.d.ts",
+      "import": "./dist/core.js"
+    }
+  },
+  "bin": {
+    "motor-matematico": "./cli.mjs"
+  },
+  "files": [
+    "dist",
+    "src",
+    "cli.mjs",
+    "README.md",
+    "LICENSE",
+    "THIRD_PARTY_NOTICES.md",
+    "AGENTS.md",
+    "GOVERNANCE.md",
+    "_ctx/policy/roles.yaml",
+    "docs",
+    "examples/*.json",
+    "examples/session.mjs"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "node --test tests/core.test.mjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "test": "node --test tests/*.test.mjs",
     "test:oracle": "python3 -B tests/oracle.py",
-    "demo": "node cli.mjs examples/focused.json"
+    "test:planner-oracle": "python3 -B tests/planner-oracle.py",
+    "check:docs": "python3 -B scripts/check-docs.py",
+    "verify:package": "node scripts/verify-package.mjs",
+    "check": "npm run lint && npm run typecheck && npm run build && npm test && npm run test:oracle && npm run test:planner-oracle && npm run check:docs && npm run verify:package",
+    "demo": "node examples/session.mjs",
+    "bench": "node scripts/benchmark.mjs",
+    "prepack": "npm run build"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.6.9",
+    "typescript": "5.9.3"
   }
 }

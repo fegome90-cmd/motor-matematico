@@ -11,7 +11,7 @@ export type PlanOptions = Partial<PlanLimits>;
 export declare const DEFAULT_PLAN_LIMITS: Readonly<PlanLimits>;
 export declare const PLAN_LIMIT_CEILINGS: Readonly<PlanLimits>;
 export type PlanStatus = 'solved' | 'planned' | 'infeasible' | 'blocked' | 'conflict' | 'incomplete' | 'limit_exceeded';
-export type PlanLimitReason = 'MAX_WORLDS' | 'MAX_ACTIONS' | 'MAX_STATES' | 'MAX_TRANSITIONS' | 'MAX_DEPTH' | 'MAX_MILLIS';
+export type PlanLimitReason = 'MAX_WORLDS' | 'MAX_ACTIONS' | 'MAX_STATES' | 'MAX_TRANSITIONS' | 'MAX_DEPTH' | 'MAX_MILLIS' | 'MAX_OBSERVATIONS';
 export type PlanReason = PlanLimitReason | 'CONFLICT' | 'GATE_DENIED' | 'GATE_UNKNOWN' | 'INCOMPLETE_COVERAGE' | 'SUFFICIENT' | 'OPTIMAL_POLICY' | 'NO_POLICY_WITHIN_BUDGET';
 export type PolicyNode = {
     id: string;

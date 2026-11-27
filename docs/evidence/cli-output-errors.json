@@ -1,0 +1,101 @@
+{
+  "timestamp": "2026-11-27T12:28:29.451947+00:00",
+  "method": "CLI sources run as ESM with identical argv; output connected to an OS pipe with read end closed before child starts",
+  "node": "v24.22.3",
+  "beforeSha256": "89c74b94900e241d4fdad7ba7ad0f45426d631f4cf44ee9e49a44c157e85b74e",
+  "afterSha256": "8427474f6d90e53eecb7c8fca800a4c9f1962ab10cd05752c94e361e33b5a054",
+  "before": [
+    {
+      "closed": [
+        "stdout"
+      ],
+      "args": [
+        "plan",
+        "examples/parity3.json"
+      ],
+      "exitCode": 1,
+      "stdout": null,
+      "stderr": "node:events:505\n    throw er; // Unhandled 'error' event\n    ^\n\nError: write EPIPE\n    at afterWriteDispatched (node:internal/stream_base_commons:138:10)\n    at writeGeneric (node:internal/stream_base_commons:126:10)\n    at Socket._writeGeneric (node:net:1324:11)\n    at Socket._write (node:net:1336:8)\n    at writeOrBuffer (node:internal/streams/writable:574:12)\n    at _write (node:internal/streams/writable:503:10)\n    at Writable.write (node:internal/streams/writable:512:10)\n    at file:///workspace/scratch/ea177efed27f/motor-mvp/[eval1]:69:20\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\nEmitted 'error' event on Socket instance at:\n    at emitErrorNT (node:internal/streams/destroy:170:8)\n    at emitErrorCloseNT (node:internal/streams/destroy:129:3)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {\n  errno: -32,\n  code: 'EPIPE',\n  syscall: 'write'\n}\n\nNode.js v24.22.3\n"
+    },
+    {
+      "closed": [
+        "stdout"
+      ],
+      "args": [
+        "--help"
+      ],
+      "exitCode": 1,
+      "stdout": null,
+      "stderr": "node:events:505\n    throw er; // Unhandled 'error' event\n    ^\n\nError: write EPIPE\n    at afterWriteDispatched (node:internal/stream_base_commons:138:10)\n    at writeGeneric (node:internal/stream_base_commons:126:10)\n    at Socket._writeGeneric (node:net:1324:11)\n    at Socket._write (node:net:1336:8)\n    at writeOrBuffer (node:internal/streams/writable:574:12)\n    at _write (node:internal/streams/writable:503:10)\n    at Writable.write (node:internal/streams/writable:512:10)\n    at file:///workspace/scratch/ea177efed27f/motor-mvp/[eval1]:39:20\n    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)\n    at async node:internal/modules/esm/loader:223:26\nEmitted 'error' event on Socket instance at:\n    at emitErrorNT (node:internal/streams/destroy:170:8)\n    at emitErrorCloseNT (node:internal/streams/destroy:129:3)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {\n  errno: -32,\n  code: 'EPIPE',\n  syscall: 'write'\n}\n\nNode.js v24.22.3\n"
+    },
+    {
+      "closed": [
+        "stderr"
+      ],
+      "args": [],
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": null
+    },
+    {
+      "closed": [
+        "stdout",
+        "stderr"
+      ],
+      "args": [
+        "plan",
+        "examples/parity3.json"
+      ],
+      "exitCode": 1,
+      "stdout": null,
+      "stderr": null
+    }
+  ],
+  "after": [
+    {
+      "closed": [
+        "stdout"
+      ],
+      "args": [
+        "plan",
+        "examples/parity3.json"
+      ],
+      "exitCode": 3,
+      "stdout": null,
+      "stderr": "{\"error\":\"IO_ERROR\",\"message\":\"write EPIPE\"}\n"
+    },
+    {
+      "closed": [
+        "stdout"
+      ],
+      "args": [
+        "--help"
+      ],
+      "exitCode": 3,
+      "stdout": null,
+      "stderr": "{\"error\":\"IO_ERROR\",\"message\":\"write EPIPE\"}\n"
+    },
+    {
+      "closed": [
+        "stderr"
+      ],
+      "args": [],
+      "exitCode": 3,
+      "stdout": "",
+      "stderr": null
+    },
+    {
+      "closed": [
+        "stdout",
+        "stderr"
+      ],
+      "args": [
+        "plan",
+        "examples/parity3.json"
+      ],
+      "exitCode": 3,
+      "stdout": null,
+      "stderr": null
+    }
+  ]
+}

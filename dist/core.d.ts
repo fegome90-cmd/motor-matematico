@@ -31,6 +31,14 @@ export interface Input {
     actions: Action[];
     observations: Observation[];
 }
+export declare const INPUT_LIMITS: Readonly<{
+    readonly decisions: 64;
+    readonly worlds: 4096;
+    readonly actions: 128;
+    readonly observations: 512;
+    readonly domain: 128;
+    readonly digits: 128;
+}>;
 /** Validate and canonicalize the entire JSON contract. Completeness/authority are external assertions, not proven here. */
 export declare function validate(input: unknown): Input;
 /** Exact comparison for non-negative rational metrics with strictly positive denominator. */
