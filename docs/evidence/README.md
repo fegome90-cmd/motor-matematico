@@ -72,15 +72,17 @@ Desde el repositorio, después de preparar herramientas y checker según [Operac
 ```sh
 npm run check
 npm run bench -- --output .audit/local/benchmark.json
-git show b8df8baa6095cfa4bb346caf378b8a20b7eeb63a:dist/core.js > .audit/local/baseline-core.mjs
+git show b1b3180c4b3e6b4d659e648e2c45ba327c7b83bd:dist/core.js > .audit/local/baseline-core.mjs
 node scripts/benchmark.mjs --baseline .audit/local/baseline-core.mjs --output .audit/local/paired.json
 python3 -B tests/planner-oracle.py --output .audit/local/planner-oracle-full.json
 ```
 
 La salida completa del oráculo puede regenerarse; este repositorio conserva su resumen con hashes y los corpus/scripts que la producen. La medición perfilada se reproduce con el comando de profile-summary.json. La campaña anterior al arreglo del CLI se conserva en [benchmark histórico](history/benchmark-before-io.json); las cifras de esta página corresponden a la repetición posterior.
 
+La publicación se realizó mediante la conexión de GitHub porque el cliente Git local no tenía credenciales HTTPS. Los cinco árboles publicados coinciden exactamente con los árboles locales verificados. El [mapa de commits](publish-map.json) conserva la correspondencia: los metadatos de publicación cambiaron los IDs de commit, sin alterar archivos ni modos. Las referencias históricas del registro a `b8df8ba` identifican el commit local; su equivalente publicado es `b1b3180`.
+
 ## CI y alcance pendiente
 
-La configuración remota ejecuta los gates en Node 22 y 24. Su resultado se registra para el commit revisado una vez recibido de GitHub. La configuración por sí sola no prueba ejecución.
+GitHub ejecutó y aprobó la matriz Node 22/24 para el commit de producto `4c671f01d2a7a1c88f9c14733fa5bbf35b2ff04a`, tanto en [push](https://github.com/fegome90-cmd/motor-matematico/actions/runs/45999962754) como en [PR](https://github.com/fegome90-cmd/motor-matematico/actions/runs/45999969623). Pasaron el gate integrado, la correspondencia de dist, la demo y el benchmark acotado de Node24. El [registro de CI](ci.json) conserva estados, pasos y tiempos observados. Los commits posteriores de evidencia tienen sus propios [checks del PR](https://github.com/fegome90-cmd/motor-matematico/pull/2/checks).
 
 Quedan fuera de esta aceptación la calidad semántica de prompts, mediciones de tokens, servicios externos, un adaptador Code Dope y un corpus real de tareas. El motor depende de costos y resultados deterministas declarados; no modela variación de costos, ruido probabilístico ni efectos externos de las acciones.

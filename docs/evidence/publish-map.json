@@ -1,0 +1,32 @@
+{
+  "method": "GitHub connector Git Data API",
+  "reason": "Local git push had no HTTPS credentials; the authorized GitHub connection preserved identical trees with new commit metadata.",
+  "base": "009b00f3bb656bb6e4d32bbe8f852a2b54b305e9",
+  "commits": [
+    {
+      "local_sha": "b8df8baa6095cfa4bb346caf378b8a20b7eeb63a",
+      "remote_sha": "b1b3180c4b3e6b4d659e648e2c45ba327c7b83bd",
+      "tree_sha": "e11643a86201e9a51115f58cb1217eaaf802ea35"
+    },
+    {
+      "local_sha": "552a639f05b05df69ead23a2f22889dac4872514",
+      "remote_sha": "80509e5e420a35835ab9afd03d22488d7e5bb03f",
+      "tree_sha": "27a674ca88dded0a2ea28edd1b9c7742e1ec4277"
+    },
+    {
+      "local_sha": "1805d9f5bfedc85a1965a0eb9733255153ed2cbd",
+      "remote_sha": "9f0bf1c4e2643a6dbbb5addc2e429f06ac05194f",
+      "tree_sha": "b9edcdedb5e2250f70c994efafe4a755f80531a1"
+    },
+    {
+      "local_sha": "30763a4aff3bf7013d444b682a8dd69c8e1bc96d",
+      "remote_sha": "9893bba3bf46606338970d7c8891993671e445d8",
+      "tree_sha": "8346c5b51c2d6eec397b0c14ce4f4dd55fc82050"
+    },
+    {
+      "local_sha": "1e6c46bdc7ed6bb3c6b8b1af5ded39277b83d49c",
+      "remote_sha": "4c671f01d2a7a1c88f9c14733fa5bbf35b2ff04a",
+      "tree_sha": "760f6ed2e1e1dfec3ec7aecc4ef4456c81194718"
+    }
+  ]
+}
