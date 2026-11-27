@@ -1,0 +1,13 @@
+{
+  "name": "falp-math-router-prototype",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": "./dist/core.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "node --test tests/core.test.mjs",
+    "test:oracle": "python3 -B tests/oracle.py",
+    "demo": "node cli.mjs examples/focused.json"
+  }
+}

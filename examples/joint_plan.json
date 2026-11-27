@@ -1,0 +1,70 @@
+{
+  "coverage": "complete",
+  "gate": "allowed",
+  "costUnit": "work_units",
+  "remainingBudget": "20",
+  "decisions": [
+    {
+      "id": "decision",
+      "domain": [
+        "same",
+        "different"
+      ]
+    }
+  ],
+  "worlds": [
+    {
+      "id": "w00",
+      "answers": {
+        "decision": "same"
+      }
+    },
+    {
+      "id": "w01",
+      "answers": {
+        "decision": "different"
+      }
+    },
+    {
+      "id": "w10",
+      "answers": {
+        "decision": "different"
+      }
+    },
+    {
+      "id": "w11",
+      "answers": {
+        "decision": "same"
+      }
+    }
+  ],
+  "actions": [
+    {
+      "id": "observe_a",
+      "capability": "evidence",
+      "permission": "allowed",
+      "available": true,
+      "cost": "1",
+      "outcomes": {
+        "w00": "v0",
+        "w01": "v0",
+        "w10": "v1",
+        "w11": "v1"
+      }
+    },
+    {
+      "id": "observe_b",
+      "capability": "evidence",
+      "permission": "allowed",
+      "available": true,
+      "cost": "1",
+      "outcomes": {
+        "w00": "v0",
+        "w01": "v1",
+        "w10": "v0",
+        "w11": "v1"
+      }
+    }
+  ],
+  "observations": []
+}
