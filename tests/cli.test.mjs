@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { spawn, spawnSync } from 'node:child_process';
+import { once } from 'node:events';
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -18,11 +19,20 @@ const cli = (args, input) =>
   });
 
 async function cliWithClosedOutput(args, closed) {
-  const child = spawn(process.execPath, ['cli.mjs', ...args], {
-    cwd: root,
-    stdio: ['ignore', 'pipe', 'pipe'],
-    timeout: 5000,
-  });
+  // EOF releases the CLI only after the selected output streams close.
+  const bootstrap = `
+    await new Promise((resolve) => process.stdin.once('end', resolve).resume());
+    await import('./cli.mjs');
+  `;
+  const child = spawn(
+    process.execPath,
+    ['--input-type=module', '--eval', bootstrap, '--', 'cli.mjs', ...args],
+    {
+      cwd: root,
+      stdio: ['pipe', 'pipe', 'pipe'],
+      timeout: 5000,
+    },
+  );
   let stdout = '',
     stderr = '';
   child.stdout.setEncoding('utf8').on('data', (chunk) => {
@@ -35,8 +45,16 @@ async function cliWithClosedOutput(args, closed) {
     child.once('error', reject);
     child.once('close', (status, signal) => resolve({ status, signal }));
   });
-  for (const name of closed) child[name].destroy();
-  return { ...(await completion), stdout, stderr };
+  const outputsClosed = Promise.all(
+    closed.map((name) => {
+      const stream = child[name];
+      const closedEvent = once(stream, 'close');
+      stream.destroy();
+      return closedEvent;
+    }),
+  );
+  const [result] = await Promise.all([completion, outputsClosed.then(() => child.stdin.end())]);
+  return { ...result, stdout, stderr };
 }
 
 test('CLI plans JSON file and stdin through the public library', () => {
