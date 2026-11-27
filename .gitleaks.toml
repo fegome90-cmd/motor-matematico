@@ -1,0 +1,8 @@
+title = "Motor Matematico repository policy"
+[extend]
+useDefault = true
+
+[[rules]]
+id = "private-user-path"
+description = "Absolute path under a local user home"
+regex = '''(?:/(?:Users|home)/[A-Za-z0-9._-]+/|[A-Za-z]:\\Users\\[A-Za-z0-9._-]+\\)'''
