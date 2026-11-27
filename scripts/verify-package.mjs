@@ -17,8 +17,10 @@ try {
   const names = packed.files.map((file) => file.path);
   assert.ok(names.includes('dist/index.js'));
   assert.ok(names.includes('dist/index.d.ts'));
+  assert.ok(names.includes('dist/falp.d.ts'));
   assert.ok(names.includes('docs/api.md'));
   assert.ok(names.includes('docs/design.md'));
+  assert.ok(names.includes('docs/falp-integration.md'));
   assert.ok(!names.some((name) => name.startsWith('tests/') || name.startsWith('.audit/')));
   writeFileSync(join(work, 'package.json'), '{"private":true,"type":"module"}\n');
   execFileSync(
@@ -58,12 +60,54 @@ try {
     { cwd: work, input: anchorFixture, encoding: 'utf8' },
   );
   assert.deepEqual(JSON.parse(anchorImported), ['exploratory', '5']);
+  const falpConsumer = `
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {compileAnchor, routeFalp, acceptFalpReceipt} from '@fegome90/motor-matematico';
+const brief = JSON.parse(fs.readFileSync(0, 'utf8'));
+const context = {taskId:'pack-check', revision:'rev-1', anchor:brief.anchor, gate:'allowed'};
+const ready = routeFalp({kind:'ready', context, explorationRequested:false});
+assert.equal(ready.next, 'readback');
+assert.equal(ready.plan, null);
+let request = {kind:'investigation', context, classification:'focused', explorationRequested:false, state:compileAnchor(brief)};
+const initial = routeFalp(request);
+assert.deepEqual([initial.route, initial.observationRoute, initial.next, initial.plan.worstCaseCost], ['focused', 'exploratory', 'observe', '5']);
+for (const [questionId, action, outcome, budget] of [
+  ['runtime', 'inspect_host', 'native', '3'],
+  ['contract', 'locate_contract', 'local', '0'],
+]) {
+  const dispatch = {taskId:context.taskId, revision:context.revision, anchor:context.anchor, questionId, action};
+  const receipt = {...dispatch, status:'SUPPORTED', outcome, source:'tarball-smoke'};
+  const result = acceptFalpReceipt(request, dispatch, receipt);
+  assert.equal(result.status, 'ACCEPTED');
+  assert.equal(result.request.state.model.remainingBudget, budget);
+  request = result.request;
+  const replay = acceptFalpReceipt(request, dispatch, receipt);
+  assert.equal(replay.status, 'DUPLICATE');
+  assert.deepEqual(replay.request, request);
+}
+const final = routeFalp(request);
+assert.deepEqual([final.route, final.next, final.plan.status], ['focused', 'reassess', 'solved']);
+assert.equal(request.context.anchor, brief.anchor);
+assert.equal(request.state.anchor, brief.anchor);
+process.stdout.write(JSON.stringify({next:final.next, remainingBudget:request.state.model.remainingBudget}));
+`;
+  writeFileSync(join(work, 'falp-consumer.mjs'), falpConsumer);
+  const falpImported = JSON.parse(
+    execFileSync(process.execPath, ['falp-consumer.mjs'], {
+      cwd: work,
+      input: anchorFixture,
+      encoding: 'utf8',
+    }),
+  );
+  assert.deepEqual(falpImported, { next: 'reassess', remainingBudget: '0' });
   console.log(
     JSON.stringify({
       status: 'PASS',
       packedFiles: names.length,
       libraryCost: imported,
       cliCost: result.worstCaseCost,
+      falpSession: falpImported,
       runtimeDependencies: 0,
     }),
   );
