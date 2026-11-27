@@ -40,6 +40,7 @@ DEFAULT_LIMITS = {
     'maxWorlds': 128, 'maxActions': 32, 'maxStates': 20000,
     'maxTransitions': 500000, 'maxDepth': 32, 'maxMillis': 1000,
 }
+OBSERVATION_CAPACITY = 512
 STATISTIC_FIELDS = {
     'worlds', 'compatibleWorlds', 'signatures', 'actions', 'admissibleActions',
     'states', 'cacheHits', 'transitions', 'maxDepth', 'policyNodes',
@@ -57,6 +58,7 @@ class Case:
     same_as: str | None = None
     hand_cost: int | None = None
     hand_status: str | None = None
+    hand_steps: int | None = None
 
     def request(self) -> dict:
         row = {'input': self.input}
@@ -74,6 +76,7 @@ class Reference:
     worlds: dict[str, tuple[str, ...]]
     decisions: tuple[str, ...]
     states: int = 0
+    steps: int | None = None
 
 
 def js_key(value: str) -> bytes:
@@ -97,7 +100,7 @@ def reference(x: dict) -> Reference:
     if x['coverage'] != 'complete':
         return Reference('incomplete', 'INCOMPLETE_COVERAGE', None, None, worlds, decisions)
     if len(signatures) == 1:
-        return Reference('solved', 'SUFFICIENT', 0, None, worlds, decisions)
+        return Reference('solved', 'SUFFICIENT', 0, None, worlds, decisions, steps=0)
 
     observed = {o['action'] for o in x['observations']}
     pending = tuple(sorted((a['id'] for a in x['actions']
@@ -105,10 +108,10 @@ def reference(x: dict) -> Reference:
                             and a['id'] not in observed), key=js_key))
 
     @lru_cache(maxsize=None)
-    def solve(compatible: tuple[str, ...], remaining: tuple[str, ...]) -> tuple[int | None, str | None]:
+    def solve(compatible: tuple[str, ...], remaining: tuple[str, ...]) -> tuple[int | None, str | None, int | None]:
         if len({worlds[w] for w in compatible}) == 1:
-            return 0, None
-        best_cost, best_action = None, None
+            return 0, None, 0
+        best_cost, best_action, best_steps = None, None, None
         for action_id in remaining:
             action = actions[action_id]
             buckets: dict[str, list[str]] = defaultdict(list)
@@ -117,20 +120,37 @@ def reference(x: dict) -> Reference:
             if len(buckets) < 2:
                 continue
             next_actions = tuple(a for a in remaining if a != action_id)
-            continuation = [solve(tuple(group), next_actions)[0] for group in buckets.values()]
-            if any(cost is None for cost in continuation):
+            continuation = [solve(tuple(group), next_actions) for group in buckets.values()]
+            if any(cost is None for cost, _, _ in continuation):
                 continue
-            cost = int(action['cost']) + max(continuation)
+            cost = int(action['cost']) + max(child[0] for child in continuation)
+            steps = 1 + max(child[2] for child in continuation)
             # The iteration order implements the documented lexicographic tie break.
             if best_cost is None or cost < best_cost:
-                best_cost, best_action = cost, action_id
-        return best_cost, best_action
+                best_cost, best_action, best_steps = cost, action_id, steps
+        return best_cost, best_action, best_steps
 
-    optimum, action = solve(tuple(sorted(worlds, key=js_key)), pending)
+    optimum, action, steps = solve(tuple(sorted(worlds, key=js_key)), pending)
     states = solve.cache_info().currsize
     if optimum is None or optimum > int(x['remainingBudget']):
-        return Reference('infeasible', 'NO_POLICY_WITHIN_BUDGET', optimum, None, worlds, decisions, states)
-    return Reference('planned', 'OPTIMAL_POLICY', optimum, action, worlds, decisions, states)
+        return Reference('infeasible', 'NO_POLICY_WITHIN_BUDGET', optimum, None, worlds, decisions, states, steps)
+    return Reference('planned', 'OPTIMAL_POLICY', optimum, action, worlds, decisions, states, steps)
+
+
+def canonical_observation_count(x: dict) -> int:
+    return len({(o['action'], o['outcome'], o['source']) for o in x['observations']})
+
+
+def observation_capacity_reason(x: dict, ref: Reference) -> str | None:
+    """Capacity follows minimax selection and affordability; it never changes the objective."""
+    if ref.status == 'planned' and ref.steps > OBSERVATION_CAPACITY - canonical_observation_count(x):
+        return 'MAX_OBSERVATIONS'
+    return None
+
+
+def expected_outcome(case: Case, ref: Reference) -> tuple[str, str]:
+    reason = case.limit_reason or observation_capacity_reason(case.input, ref)
+    return ('limit_exceeded', reason) if reason else (ref.status, ref.reason)
 
 
 def require(condition: bool, message: str) -> None:
@@ -158,6 +178,7 @@ def verify_policy(x: dict, result: dict, ref: Reference) -> dict:
     root = nodes[policy['root']]
     actions = {a['id']: a for a in x['actions']}
     budget = int(x['remainingBudget'])
+    existing_observations = canonical_observation_count(x)
     reached: dict[str, set[str]] = defaultdict(set)
     paths, costs, action_steps = [], [], 0
     for world_id, signature in ref.worlds.items():
@@ -182,6 +203,8 @@ def verify_policy(x: dict, result: dict, ref: Reference) -> dict:
             action = actions[action_id]
             require(action['permission'] == 'allowed' and action['available'],
                     f'unauthorized or unavailable policy action {action_id!r}')
+            require(existing_observations + len(path) + 1 <= OBSERVATION_CAPACITY,
+                    f'policy exceeds remaining observation capacity in world {world_id}')
             cost += int(action['cost'])
             require(cost <= budget, f'path exceeds remaining budget in world {world_id}')
             branches = node.get('branches')
@@ -230,8 +253,7 @@ def verify_result(case: Case, actual: dict, ref: Reference | None) -> dict:
     result = actual.get('result')
     require(isinstance(result, dict), 'plan result must be an object')
     require(result.get('status') in VALID_STATUSES, 'unknown status')
-    expected_status = 'limit_exceeded' if case.limit_reason else ref.status
-    expected_reason = case.limit_reason or ref.reason
+    expected_status, expected_reason = expected_outcome(case, ref)
     require(result['status'] == expected_status, f'status {result["status"]!r} != {expected_status!r}')
     require(result.get('reason') == expected_reason, f'reason {result.get("reason")!r} != {expected_reason!r}')
     for key in ('coverage', 'gate', 'costUnit', 'remainingBudget'):
@@ -394,6 +416,80 @@ def regression_cases() -> list[Case]:
     return cases
 
 
+def observation_capacity_cases() -> list[Case]:
+    def with_receipts(count: int, joint: bool = False, direct: bool = False) -> dict:
+        if joint:
+            bits = list(itertools.product(range(2), repeat=2))
+            signatures = [(f'v{a ^ b}',) for a, b in bits]
+            actions = [('signal_a', 1, [f'o{a}' for a, b in bits]),
+                       ('signal_b', 1, [f'o{b}' for a, b in bits])]
+            if direct:
+                actions.append(('direct', 3, [f'o{a ^ b}' for a, b in bits]))
+            budget = 3 if direct else 2
+        else:
+            signatures = [('v0',), ('v1',)]
+            actions = [('probe', 1, ['o0', 'o1'])]
+            budget = 1
+        actions.append(('receipt', 1, ['recorded'] * len(signatures)))
+        x = model(signatures, actions, budget)
+        x['observations'] = [{'action': 'receipt', 'outcome': 'recorded', 'source': f'receipt-{i:03d}'}
+                             for i in range(count)]
+        return x
+
+    one = with_receipts(511)
+    full = with_receipts(512)
+    two = with_receipts(510, joint=True, direct=True)
+    two_short = with_receipts(511, joint=True, direct=True)
+    cases = [
+        Case('receipts_511_one_action', 'observation_capacity', one,
+             hand_cost=1, hand_status='planned', hand_steps=1),
+        Case('receipts_512_one_action', 'observation_capacity', full,
+             hand_cost=1, hand_status='limit_exceeded', hand_steps=1),
+        Case('receipts_510_two_actions', 'observation_capacity', two,
+             hand_cost=2, hand_status='planned', hand_steps=2),
+        Case('receipts_511_two_actions_with_costlier_direct', 'observation_capacity', two_short,
+             hand_cost=2, hand_status='limit_exceeded', hand_steps=2),
+    ]
+    # The direct action fits the one remaining receipt slot, but costs 3 rather
+    # than the minimax optimum 2. Capacity must abstain, not silently re-optimize.
+    require(two_short['actions'][2]['id'] == 'direct' and int(two_short['actions'][2]['cost']) == 3,
+            'receipt capacity fixture lost its affordable direct alternative')
+    duplicated_one = copy.deepcopy(one)
+    duplicated_one['observations'].append(copy.deepcopy(duplicated_one['observations'][0]))
+    cases.append(Case('receipts_raw512_unique511_one_action', 'observation_capacity', duplicated_one,
+                      same_as='receipts_511_one_action', hand_cost=1, hand_status='planned', hand_steps=1))
+    duplicated_two = copy.deepcopy(two)
+    duplicated_two['observations'].extend(copy.deepcopy(duplicated_two['observations'][:2]))
+    cases.append(Case('receipts_raw512_unique510_two_actions', 'observation_capacity', duplicated_two,
+                      same_as='receipts_510_two_actions', hand_cost=2, hand_status='planned', hand_steps=2))
+    solved = with_receipts(512)
+    solved['worlds'][1]['answers'] = copy.deepcopy(solved['worlds'][0]['answers'])
+    cases.append(Case('receipts_512_already_solved', 'observation_capacity', solved,
+                      hand_cost=0, hand_status='solved', hand_steps=0))
+    underfunded = with_receipts(512, joint=True, direct=True)
+    underfunded['remainingBudget'] = '1'
+    cases.append(Case('receipts_512_budget_failure_precedes_capacity', 'observation_capacity', underfunded,
+                      hand_cost=2, hand_status='infeasible', hand_steps=2))
+    different_actions = with_receipts(256)
+    second_receipt = copy.deepcopy(different_actions['actions'][-1])
+    second_receipt['id'] = 'second_receipt'
+    different_actions['actions'].append(second_receipt)
+    different_actions['observations'].extend([
+        {**receipt, 'action': 'second_receipt'} for receipt in different_actions['observations']
+    ])
+    cases.append(Case('receipts_512_distinct_actions_same_sources', 'observation_capacity', different_actions,
+                      hand_cost=1, hand_status='limit_exceeded', hand_steps=1))
+    reordered = copy.deepcopy(full)
+    reordered['observations'].reverse()
+    cases.append(Case('receipts_512_reordered', 'observation_capacity', reordered,
+                      same_as='receipts_512_one_action', hand_cost=1,
+                      hand_status='limit_exceeded', hand_steps=1))
+    for case in cases:
+        require(len(case.input['observations']) <= OBSERVATION_CAPACITY,
+                'receipt capacity fixture violates the raw input observation bound')
+    return cases
+
+
 def exhaustive_cases() -> list[Case]:
     """All binary answers and two binary action maps on four worlds, budgets 0..3.
 
@@ -539,13 +635,16 @@ def malformed_cases() -> list[Case]:
 def self_test() -> dict:
     regressions = regression_cases()
     hand_checked = 0
-    for case in regressions + limit_cases():
+    for case in regressions + observation_capacity_cases() + limit_cases():
         ref = reference(case.input)
         if case.hand_cost is not None:
             require(ref.optimum == case.hand_cost, f'oracle self-check cost failed: {case.name}')
             hand_checked += 1
         if case.hand_status is not None:
-            require(ref.status == case.hand_status, f'oracle self-check status failed: {case.name}')
+            require(expected_outcome(case, ref)[0] == case.hand_status,
+                    f'oracle self-check status failed: {case.name}')
+        if case.hand_steps is not None:
+            require(ref.steps == case.hand_steps, f'oracle self-check policy steps failed: {case.name}')
     x = model([('v0',), ('v1',)], [('resolve', 2, ['o0', 'o1'])], 2)
     ref = reference(x)
     valid = {'recommendedAction': 'resolve', 'worstCaseCost': '2', 'policy': {'root': 'n0', 'nodes': [
@@ -605,6 +704,18 @@ def self_test() -> dict:
         rejected += 1
     else:
         raise AssertionError('certificate checker accepted an over-budget path')
+    changed = copy.deepcopy(x)
+    changed['actions'].append({'id': 'receipt', 'capability': 'synthetic_evidence',
+                               'permission': 'allowed', 'available': True, 'cost': '1',
+                               'outcomes': {'w0': 'recorded', 'w1': 'recorded'}})
+    changed['observations'] = [{'action': 'receipt', 'outcome': 'recorded', 'source': f'receipt-{i:03d}'}
+                               for i in range(OBSERVATION_CAPACITY)]
+    try:
+        verify_policy(changed, valid, reference(changed))
+    except AssertionError:
+        rejected += 1
+    else:
+        raise AssertionError('certificate checker accepted a policy without observation slots')
     return {'hand_derived_optimum_checks': hand_checked, 'corrupt_certificates_rejected': rejected}
 
 
@@ -646,7 +757,7 @@ def main() -> int:
         print(json.dumps({'status': 'PASS', 'self_checks': self_checks}, sort_keys=True))
         return 0
     artifacts = module_fingerprint(args.module)
-    cases = regression_cases() + limit_cases() + malformed_cases()
+    cases = regression_cases() + observation_capacity_cases() + limit_cases() + malformed_cases()
     if not args.quick:
         cases += exhaustive_cases() + seeded_cases(args.seeded_count) + historical_cases()
     require(len({case.name for case in cases}) == len(cases), 'duplicate campaign case identifier')
@@ -667,9 +778,11 @@ def main() -> int:
             ref = None if case.expected_error else reference(case.input)
             record = {'id': case.name, 'group': case.group, 'pass': False}
             if ref is not None:
-                record['reference_status'] = 'limit_exceeded' if case.limit_reason else ref.status
+                record['reference_status'] = expected_outcome(case, ref)[0]
                 record['unconstrained_optimum'] = None if ref.optimum is None else str(ref.optimum)
                 record['reference_first_action'] = ref.action
+                record['reference_policy_steps'] = ref.steps
+                record['canonical_observations'] = canonical_observation_count(case.input)
                 oracle_states += ref.states
             try:
                 metrics = verify_result(case, observed, ref)
@@ -679,7 +792,10 @@ def main() -> int:
                 if case.hand_cost is not None:
                     require(ref.optimum == case.hand_cost, 'hand-derived expected optimum changed')
                 if case.hand_status is not None:
-                    require(ref.status == case.hand_status, 'hand-derived expected status changed')
+                    require(expected_outcome(case, ref)[0] == case.hand_status,
+                            'hand-derived expected status changed')
+                if case.hand_steps is not None:
+                    require(ref.steps == case.hand_steps, 'hand-derived selected policy steps changed')
                 status_counts[metrics['status']] += 1
                 groups[case.group]['passed'] += 1
                 record.update({'pass': True, 'actual_status': metrics['status'],
