@@ -4,6 +4,11 @@ function object(v, p) {
     if (typeof v !== 'object' || v === null || Array.isArray(v) ||
         ![Object.prototype, null].includes(Object.getPrototypeOf(v)))
         fail(p + ': expected plain object');
+    for (const key of Reflect.ownKeys(v)) {
+        const descriptor = Object.getOwnPropertyDescriptor(v, key);
+        if (typeof key !== 'string' || !descriptor.enumerable || !('value' in descriptor))
+            fail(p + ': expected JSON data properties');
+    }
     return v;
 }
 function fields(o, expected, p) {
@@ -35,7 +40,16 @@ function integer(v, p, positive = false) {
 function arr(v, p, min, max) {
     if (!Array.isArray(v) || v.length < min || v.length > max)
         fail(p + ': invalid array size');
-    return Array.from(v);
+    if (Object.getPrototypeOf(v) !== Array.prototype || Reflect.ownKeys(v).length !== v.length + 1)
+        fail(p + ': expected JSON array');
+    const values = [];
+    for (let i = 0; i < v.length; i++) {
+        const descriptor = Object.getOwnPropertyDescriptor(v, String(i));
+        if (!descriptor || !descriptor.enumerable || !('value' in descriptor))
+            fail(p + ': expected JSON array elements');
+        values.push(descriptor.value);
+    }
+    return values;
 }
 const cmp = (a, b) => a < b ? -1 : a > b ? 1 : 0;
 const sorted = (v) => [...v].sort(cmp);
@@ -111,8 +125,8 @@ export function evaluate(raw) {
     const x = validate(raw);
     const am = new Map(x.actions.map(a => [a.id, a]));
     const worlds = x.worlds.filter(w => x.observations.every(e => lookup(am, e.action).outcomes[w.id] === e.outcome));
-    const signature = (w) => JSON.stringify(x.decisions.map(d => w.answers[d.id]));
-    const sigKeys = sorted([...new Set(worlds.map(signature))]);
+    const signatureByWorld = new Map(worlds.map(w => [w.id, JSON.stringify(x.decisions.map(d => w.answers[d.id]))]));
+    const sigKeys = sorted([...new Set(signatureByWorld.values())]);
     const signatures = sigKeys.map(k => JSON.parse(k)), n = signatures.length;
     const decisions = x.decisions.map(d => {
         const possible = sorted([...new Set(worlds.map(w => w.answers[d.id]))]);
@@ -128,7 +142,7 @@ export function evaluate(raw) {
             group.push(w);
             groups.set(k, group);
         }
-        const outcomes = sorted([...groups.keys()]).map(k => { const ws = lookup(groups, k); return { outcome: k, worlds: ws.length, signatures: new Set(ws.map(signature)).size }; });
+        const outcomes = sorted([...groups.keys()]).map(k => { const ws = lookup(groups, k); return { outcome: k, worlds: ws.length, signatures: new Set(ws.map(w => lookup(signatureByWorld, w.id))).size }; });
         const worstResidual = outcomes.reduce((m, o) => Math.max(m, o.signatures), 0);
         const guaranteedReduction = n - worstResidual;
         const exclusion = a.permission === 'denied' ? 'denied' : a.permission === 'unknown' ? 'permission_unknown' : !a.available ? 'unavailable' : BigInt(a.cost) > BigInt(x.remainingBudget) ? 'over_budget' : outcomes.length <= 1 ? 'no_partition' : null;
