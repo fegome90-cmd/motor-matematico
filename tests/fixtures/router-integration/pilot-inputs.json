@@ -1,0 +1,221 @@
+{
+  "kind": "synthetic_contract_pilot",
+  "source_plugin_version": "0.2.1",
+  "cases": [
+    {
+      "id": "ready_zero",
+      "request": "Crea un prompt agnóstico para un agente que reciba un JSON con items enteros, calcule su suma y entregue únicamente JSON con total. Casos exigidos: [] produce 0 y [5,-2] produce 3. Mantén literalmente «No uses la red ni instales dependencias». El encargo está completo y no hay una decisión material pendiente.",
+      "anchor": "GOAL: sumar items enteros.\nMUST DO: []→0; [5,-2]→3.\nNO GO: No uses la red ni instales dependencias.\nDONE WHEN: JSON con total.",
+      "brief": null,
+      "context": {
+        "taskId": "ready_zero",
+        "revision": "r1",
+        "anchor": "GOAL: sumar items enteros.\nMUST DO: []→0; [5,-2]→3.\nNO GO: No uses la red ni instales dependencias.\nDONE WHEN: JSON con total.",
+        "gate": "allowed"
+      }
+    },
+    {
+      "id": "focused_two_reads",
+      "request": "Redacta un prompt de auditoría de la concordancia de dos contratos. Objetivo y estrategia están decididos; la única incógnita concreta es si coinciden sus etiquetas. Resolverla necesita consultar ambos contratos. El host aporta el modelo de las dos consultas, todavía sin observaciones. Mantén literalmente «No modificar archivos». No propongas una estrategia alternativa ni afirmes que las etiquetas coinciden antes de observarlas.",
+      "anchor": "GOAL: comparar etiquetas de dos contratos.\r\nNO GO: no modificar archivos.\r\nDONE WHEN: establecer si coinciden con evidencia de ambos.",
+      "brief": {
+        "anchor": "GOAL: comparar etiquetas de dos contratos.\r\nNO GO: no modificar archivos.\r\nDONE WHEN: establecer si coinciden con evidencia de ambos.",
+        "coverage": "complete",
+        "gate": "allowed",
+        "costUnit": "reads",
+        "remainingBudget": "2",
+        "questions": [
+          {
+            "id": "agreement",
+            "domain": [
+              "same",
+              "different"
+            ]
+          }
+        ],
+        "probes": [
+          {
+            "id": "read_left",
+            "capability": "read",
+            "permission": "allowed",
+            "available": true,
+            "cost": "1"
+          },
+          {
+            "id": "read_right",
+            "capability": "read",
+            "permission": "allowed",
+            "available": true,
+            "cost": "1"
+          }
+        ],
+        "scenarios": [
+          {
+            "id": "w00",
+            "answers": {
+              "agreement": "same"
+            },
+            "outcomes": {
+              "read_left": "v0",
+              "read_right": "v0"
+            }
+          },
+          {
+            "id": "w01",
+            "answers": {
+              "agreement": "different"
+            },
+            "outcomes": {
+              "read_left": "v0",
+              "read_right": "v1"
+            }
+          },
+          {
+            "id": "w10",
+            "answers": {
+              "agreement": "different"
+            },
+            "outcomes": {
+              "read_left": "v1",
+              "read_right": "v0"
+            }
+          },
+          {
+            "id": "w11",
+            "answers": {
+              "agreement": "same"
+            },
+            "outcomes": {
+              "read_left": "v1",
+              "read_right": "v1"
+            }
+          }
+        ],
+        "observations": []
+      },
+      "context": {
+        "taskId": "focused_two_reads",
+        "revision": "r1",
+        "anchor": "GOAL: comparar etiquetas de dos contratos.\r\nNO GO: no modificar archivos.\r\nDONE WHEN: establecer si coinciden con evidencia de ambos.",
+        "gate": "allowed"
+      }
+    },
+    {
+      "id": "exploratory_one_read",
+      "request": "Necesito explorar la estrategia de un editor, todavía no decidida: componente embebido o integración externa. Hay que comparar alternativas por mantenimiento, portabilidad y capacidades; una consulta al reporte de requisitos puede discriminar el modelo declarado por el host. La ruta de trabajo sigue siendo exploración de estrategia, aunque baste esa consulta. Mantén literalmente «No imponer proveedor ni instalar software».",
+      "anchor": "GOAL: explorar una estrategia de edición.\nNO GO: no imponer proveedor ni instalar software.\nDONE WHEN: comparar alternativas con los criterios entregados.",
+      "brief": {
+        "anchor": "GOAL: explorar una estrategia de edición.\nNO GO: no imponer proveedor ni instalar software.\nDONE WHEN: comparar alternativas con los criterios entregados.",
+        "coverage": "complete",
+        "gate": "allowed",
+        "costUnit": "reads",
+        "remainingBudget": "1",
+        "questions": [
+          {
+            "id": "strategy",
+            "domain": [
+              "embedded",
+              "external"
+            ]
+          }
+        ],
+        "probes": [
+          {
+            "id": "read_requirements",
+            "capability": "read",
+            "permission": "allowed",
+            "available": true,
+            "cost": "1"
+          }
+        ],
+        "scenarios": [
+          {
+            "id": "embedded_case",
+            "answers": {
+              "strategy": "embedded"
+            },
+            "outcomes": {
+              "read_requirements": "local_only"
+            }
+          },
+          {
+            "id": "external_case",
+            "answers": {
+              "strategy": "external"
+            },
+            "outcomes": {
+              "read_requirements": "external_ok"
+            }
+          }
+        ],
+        "observations": []
+      },
+      "context": {
+        "taskId": "exploratory_one_read",
+        "revision": "r1",
+        "anchor": "GOAL: explorar una estrategia de edición.\nNO GO: no imponer proveedor ni instalar software.\nDONE WHEN: comparar alternativas con los criterios entregados.",
+        "gate": "allowed"
+      }
+    },
+    {
+      "id": "explicit_exploration",
+      "request": "Crea un prompt para resumir un texto adjunto en cuatro viñetas, sin añadir fuentes. Todos los requisitos están definidos y no queda una duda material. Aun así te pido explícitamente explorar enfoques de redacción antes de entregar el prompt. Mantén literalmente «Cuatro viñetas, sin fuentes adicionales». La exploración solicitada todavía no se ha realizado.",
+      "anchor": "GOAL: resumir texto adjunto.\nMUST DO: Cuatro viñetas, sin fuentes adicionales.\nMUST DO: explorar enfoques antes de entregar.",
+      "brief": null,
+      "context": {
+        "taskId": "explicit_exploration",
+        "revision": "r1",
+        "anchor": "GOAL: resumir texto adjunto.\nMUST DO: Cuatro viñetas, sin fuentes adicionales.\nMUST DO: explorar enfoques antes de entregar.",
+        "gate": "allowed"
+      }
+    },
+    {
+      "id": "recipient_portability",
+      "request": "Crea un prompt para Claude que audite el README adjunto contra el contrato adjunto. Sólo lectura; señala divergencias con localizadores. El receptor deberá comprobar qué herramientas tiene. Mantén literalmente «No heredes capacidades del redactor». No traslades Bootstrap, Kernel, memoria, plugins ni rutas privadas de ChatGPT. El encargo está definido; no necesitas consultar otras fuentes para redactarlo.",
+      "anchor": "GOAL: auditar README frente a contrato adjunto.\nTARGET: Claude.\nNO GO: No heredes capacidades del redactor.\nDONE WHEN: divergencias con localizadores.",
+      "brief": null,
+      "context": {
+        "taskId": "recipient_portability",
+        "revision": "r1",
+        "anchor": "GOAL: auditar README frente a contrato adjunto.\nTARGET: Claude.\nNO GO: No heredes capacidades del redactor.\nDONE WHEN: divergencias con localizadores.",
+        "gate": "allowed"
+      }
+    },
+    {
+      "id": "audit_not_repair",
+      "request": "Crea un prompt para auditar el PR que le entregue al receptor. Debe inspeccionar el estado y el diff reales y devolver hallazgos, severidad y evidencia. Es auditoría, no reparación. Mantén literalmente «No escribas archivos, no hagas merge y no despliegues». No hay que resolver una decisión adicional para redactar estas instrucciones.",
+      "anchor": "GOAL: auditar el PR proporcionado.\nNO GO: No escribas archivos, no hagas merge y no despliegues.\nDONE WHEN: hallazgos con severidad y evidencia.",
+      "brief": null,
+      "context": {
+        "taskId": "audit_not_repair",
+        "revision": "r1",
+        "anchor": "GOAL: auditar el PR proporcionado.\nNO GO: No escribas archivos, no hagas merge y no despliegues.\nDONE WHEN: hallazgos con severidad y evidencia.",
+        "gate": "allowed"
+      }
+    },
+    {
+      "id": "mandatory_worker",
+      "request": "Crea un prompt para otro agente que debe delegar una revisión a un worker real; esa delegación es obligatoria, no opcional. Si el receptor carece de workers, bloqueará sólo la revisión dependiente y podrá preparar lo independiente autorizado. Mantén literalmente «No sustituyas el worker por una revisión propia». El redactor no debe asumir capacidades del receptor. No hay otra incógnita necesaria para redactar el prompt.",
+      "anchor": "GOAL: revisión por worker real.\nMUST DO: delegación obligatoria.\nNO GO: No sustituyas el worker por una revisión propia.\nDONE WHEN: revisión o bloqueo explícito de lo dependiente.",
+      "brief": null,
+      "context": {
+        "taskId": "mandatory_worker",
+        "revision": "r1",
+        "anchor": "GOAL: revisión por worker real.\nMUST DO: delegación obligatoria.\nNO GO: No sustituyas el worker por una revisión propia.\nDONE WHEN: revisión o bloqueo explícito de lo dependiente.",
+        "gate": "allowed"
+      }
+    },
+    {
+      "id": "optional_no_go",
+      "request": "Crea un prompt agnóstico para resumir el texto que adjunte el receptor en cuatro viñetas, conservando los números y declarando si falta el texto. La información necesaria para redactarlo ya está dada. No agregues preguntas de confirmación ni un formulario de restricciones opcionales.",
+      "anchor": "GOAL: resumir el texto aportado.\nMUST DO: cuatro viñetas, conservar números.\nDONE WHEN: resumen o ausencia de texto declarada.",
+      "brief": null,
+      "context": {
+        "taskId": "optional_no_go",
+        "revision": "r1",
+        "anchor": "GOAL: resumir el texto aportado.\nMUST DO: cuatro viñetas, conservar números.\nDONE WHEN: resumen o ausencia de texto declarada.",
+        "gate": "allowed"
+      }
+    }
+  ]
+}

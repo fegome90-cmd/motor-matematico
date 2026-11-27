@@ -1,0 +1,141 @@
+import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
+import { fileURLToPath } from 'node:url';
+import { compileAnchor, routeFalp } from '/workspace/scratch/ea177efed27f/motor-falp-contract/dist/index.js';
+
+const inputPath = '/workspace/scratch/ea177efed27f/motor-router-tests/tests/fixtures/router-integration/pilot-inputs.json';
+const outputDirectory = new URL('./', import.meta.url);
+const inputBytes = await readFile(inputPath);
+const input = JSON.parse(inputBytes.toString('utf8'));
+
+// Explicit host judgments written from the requests, before the engine is called.
+// The finite scenario models are supplied hypotheses, not observed evidence.
+const assessments = {
+  ready_zero: {
+    kind: 'ready',
+    explorationRequested: false,
+    materialUnknown: null,
+    rationale: 'El formato de entrada, el cálculo, los dos ejemplos, la prohibición literal y la salida están definidos. Redactar no requiere investigar ni ejecutar la suma.',
+    explorationRationale: 'No se solicita explorar y el encargo declara que no hay una decisión material pendiente.',
+  },
+  focused_two_reads: {
+    kind: 'investigation',
+    classification: 'focused',
+    explorationRequested: false,
+    materialUnknown: 'Concordancia de las etiquetas de los dos contratos, aún no observadas.',
+    rationale: 'El objetivo y la estrategia ya están decididos. La única incógnita concreta exige evidencia de ambos contratos; necesitar dos lecturas no cambia la naturaleza focalizada.',
+    explorationRationale: 'No hay una solicitud de abrir estrategias; el pedido prohíbe proponer una alternativa.',
+    modelStatus: 'Modelo hipotético suministrado por el caso; coverage=complete es una declaración del modelo finito. observations=[]; ninguna etiqueta ha sido observada.',
+  },
+  exploratory_one_read: {
+    kind: 'investigation',
+    classification: 'exploratory',
+    explorationRequested: true,
+    materialUnknown: 'Estrategia de edición aún abierta entre componente embebido e integración externa, a comparar por mantenimiento, portabilidad y capacidades.',
+    rationale: 'La decisión es una estrategia abierta y el pedido exige comparar alternativas. Una sola lectura capaz de discriminar el modelo no vuelve focalizada la ruta semántica.',
+    explorationRationale: 'La solicitud dice explícitamente que necesita explorar una estrategia todavía no decidida.',
+    modelStatus: 'Modelo hipotético suministrado por el caso; la relación entre read_requirements y la estrategia es declarada, no observada. observations=[].',
+  },
+  explicit_exploration: {
+    kind: 'ready',
+    explorationRequested: true,
+    materialUnknown: null,
+    rationale: 'Los requisitos para redactar están completos y no existe una incógnita material. ready describe esa suficiencia; no afirma que la exploración solicitada se haya realizado.',
+    explorationRationale: 'El usuario pide expresamente explorar enfoques antes de entregar y declara esa actividad pendiente.',
+  },
+  recipient_portability: {
+    kind: 'ready',
+    explorationRequested: false,
+    materialUnknown: null,
+    rationale: 'Se puede redactar la auditoría de los adjuntos para Claude con sólo lectura, evidencia localizada y comprobación de capacidades en destino. No es necesario conocer las herramientas del receptor para formular esa comprobación.',
+    explorationRationale: 'El pedido está definido y no requiere fuentes adicionales para redactarlo.',
+  },
+  audit_not_repair: {
+    kind: 'ready',
+    explorationRequested: false,
+    materialUnknown: null,
+    rationale: 'La auditoría del PR, su alcance de lectura, la inspección del estado y diff reales y la forma de los hallazgos están definidos. Leer o auditar el PR ahora sería ejecutar la tarea destinataria.',
+    explorationRationale: 'El pedido declara que no hay una decisión adicional necesaria para redactar.',
+  },
+  mandatory_worker: {
+    kind: 'ready',
+    explorationRequested: false,
+    materialUnknown: null,
+    rationale: 'La delegación real es obligatoria en destino y ya está definido qué hacer si falta esa capacidad: bloquear sólo la revisión dependiente y preparar lo independiente autorizado. La capacidad del receptor se comprobará allí.',
+    explorationRationale: 'No hay otra incógnita necesaria para redactar y no se solicita exploración.',
+  },
+  optional_no_go: {
+    kind: 'ready',
+    explorationRequested: false,
+    materialUnknown: null,
+    rationale: 'El texto de entrada, las cuatro viñetas, la preservación de números y el tratamiento de la ausencia están definidos. NO GO opcional no es una carencia material ni una ampliación de permisos.',
+    explorationRationale: 'No se solicita explorar ni confirmar; el pedido excluye preguntas de confirmación y formularios de restricciones opcionales.',
+  },
+};
+
+if (input.cases.length !== 8 || new Set(input.cases.map(item => item.id)).size !== 8) {
+  throw new Error('The authorized input must contain eight distinct cases.');
+}
+const requests = input.cases.map(item => {
+  const hostAssessment = assessments[item.id];
+  if (!hostAssessment) throw new Error('Missing explicit host assessment: ' + item.id);
+  const common = { context: structuredClone(item.context), explorationRequested: hostAssessment.explorationRequested };
+  const request = hostAssessment.kind === 'ready'
+    ? { kind: 'ready', ...common }
+    : {
+        kind: 'investigation',
+        ...common,
+        classification: hostAssessment.classification,
+        state: compileAnchor(item.brief),
+      };
+  return { id: item.id, hostAssessment, request };
+});
+
+const metadata = {
+  inputPath,
+  inputSha256: createHash('sha256').update(inputBytes).digest('hex'),
+  engineEntry: '/workspace/scratch/ea177efed27f/motor-falp-contract/dist/index.js',
+  nodeVersion: process.version,
+  command: 'node ' + fileURLToPath(import.meta.url),
+  constraints: {
+    recipientTasksExecuted: false,
+    scenarioProbesExecuted: false,
+    networkResearchPerformed: false,
+    hypotheticalOutcomesPromotedToFacts: false,
+    contextIsolation: 'Fresh assigned task; isolation not independently accredited.',
+    sharedFilesystem: true,
+    blindEvaluationAccredited: false,
+    modelDiversityAccredited: false,
+    tokenAndCostTelemetryAvailable: false,
+  },
+};
+await mkdir(outputDirectory, { recursive: true });
+await writeFile(new URL('requests.json', outputDirectory), JSON.stringify({ metadata, cases: requests }, null, 2) + '\n');
+
+const startedAt = new Date().toISOString();
+const results = [];
+for (const [index, item] of requests.entries()) {
+  const calledAt = new Date().toISOString();
+  // Exactly one real call per case. No probes or receipts are executed.
+  const result = routeFalp(item.request);
+  const record = { id: item.id, invocation: index + 1, calledAt, result };
+  results.push(record);
+  console.log(JSON.stringify({
+    invocation: index + 1,
+    id: item.id,
+    route: result.route,
+    next: result.next,
+    explorationRequired: result.explorationRequired,
+    observationRoute: result.observationRoute,
+    reason: result.reason,
+    planStatus: result.plan?.status ?? null,
+    recommendedAction: result.plan?.recommendedAction ?? null,
+  }));
+}
+await writeFile(new URL('engine-results.json', outputDirectory), JSON.stringify({
+  metadata,
+  startedAt,
+  completedAt: new Date().toISOString(),
+  routeFalpInvocationCount: results.length,
+  cases: results,
+}, null, 2) + '\n');

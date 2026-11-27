@@ -1,0 +1,105 @@
+{
+  "frozen_before_outputs": true,
+  "basis": "Author-labelled synthetic cases grounded in installed FALP contract; not human-validated production corpus",
+  "cases": {
+    "ready_zero": {
+      "routes": [
+        "direct"
+      ],
+      "next": [
+        "readback"
+      ],
+      "explorationRequired": false,
+      "protected": [
+        "No uses la red ni instales dependencias"
+      ]
+    },
+    "focused_two_reads": {
+      "routes": [
+        "focused"
+      ],
+      "next": [
+        "observe"
+      ],
+      "explorationRequired": true,
+      "protected": [
+        "No modificar archivos"
+      ],
+      "observationRoute": "exploratory",
+      "cost": "2"
+    },
+    "exploratory_one_read": {
+      "routes": [
+        "exploratory"
+      ],
+      "next": [
+        "observe"
+      ],
+      "explorationRequired": true,
+      "protected": [
+        "No imponer proveedor ni instalar software"
+      ],
+      "observationRoute": "focused",
+      "cost": "1"
+    },
+    "explicit_exploration": {
+      "routes": [
+        "direct",
+        "exploratory"
+      ],
+      "next": [
+        "explore"
+      ],
+      "explorationRequired": true,
+      "protected": [
+        "Cuatro viñetas, sin fuentes adicionales"
+      ]
+    },
+    "recipient_portability": {
+      "routes": [
+        "direct"
+      ],
+      "next": [
+        "readback"
+      ],
+      "explorationRequired": false,
+      "protected": [
+        "No heredes capacidades del redactor"
+      ]
+    },
+    "audit_not_repair": {
+      "routes": [
+        "direct"
+      ],
+      "next": [
+        "readback"
+      ],
+      "explorationRequired": false,
+      "protected": [
+        "No escribas archivos, no hagas merge y no despliegues"
+      ]
+    },
+    "mandatory_worker": {
+      "routes": [
+        "direct"
+      ],
+      "next": [
+        "readback"
+      ],
+      "explorationRequired": false,
+      "protected": [
+        "No sustituyas el worker por una revisión propia"
+      ]
+    },
+    "optional_no_go": {
+      "routes": [
+        "direct"
+      ],
+      "next": [
+        "readback"
+      ],
+      "explorationRequired": false,
+      "protected": []
+    }
+  }
+}

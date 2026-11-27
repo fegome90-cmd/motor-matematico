@@ -1,0 +1,20 @@
+{
+  "variant": "instructional-baseline",
+  "readsCompletedInFull": [
+    "/home/agent/.codex/plugins/cache/created-by-me-remote/pstack-chatgpt/0.15.15-chatgpt.10/skills/poteto-mode/worker.md",
+    "/home/agent/.codex/plugins/cache/created-by-me-remote/prompts-con-ancla/0.2.1/skills/crear-prompts-gobernados/SKILL.md",
+    "/home/agent/.codex/plugins/cache/created-by-me-remote/prompts-con-ancla/0.2.1/skills/crear-prompts-gobernados/references/exploracion-falp.md",
+    "/workspace/scratch/ea177efed27f/motor-router-tests/tests/fixtures/router-integration/pilot-inputs.json"
+  ],
+  "scope": "Selección instruccional de ruta y generación de prompts, sin ejecución de las tareas destinatarias.",
+  "constraintsObserved": [
+    "No se consultaron expectativas, módulos FALP, salidas asistidas ni informes de otros agentes.",
+    "No se usó el motor matemático ni se realizaron consultas de red.",
+    "Los modelos y escenarios de brief no se trataron como observaciones.",
+    "No se modificó el repositorio ni el plugin.",
+    "El contexto conversacional es fresco y el filesystem compartido; no se afirma evaluación ciega ni un modelo diferente.",
+    "No se dispone de telemetría de tokens o coste y no se estimó."
+  ],
+  "checks": "Readback textual del alcance, literales, obligaciones, portabilidad y dependencias; comprobación local del formato JSON y preservación exacta del ancla.",
+  "output": "/workspace/scratch/ea177efed27f/router-pilot/baseline/output.json"
+}

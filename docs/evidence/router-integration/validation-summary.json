@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "command": "AGENT_DOCS_KIT_PATH=/workspace/scratch/ea177efed27f/agent-docs-source npm run check",
+  "exit_code": 0,
+  "node": "v24.22.3",
+  "python": "3.12.14",
+  "node_tests": 106,
+  "node_passed": 106,
+  "node_failed": 0,
+  "legacy_oracle_passed": 4352,
+  "planner_oracle_passed": 18750,
+  "lint_files": 25,
+  "documentation_check": "5 documents; structural only",
+  "package": "Installed tarball, exported FALP route and receipt session; 0 runtime dependencies",
+  "validation_log_sha256": "6b8c3016a2f1712bb19629752d4a773f2c70e5a005a2b1efe4326253a58d3e09",
+  "module_artifacts": {
+    "entry": "/workspace/scratch/ea177efed27f/motor-router-tests/dist/index.js",
+    "javascript_files": {
+      "anchor.js": "8cc627874f493f87661a8988c98d5d07b8fdf54be03dfb3b17225f05615a6c9b",
+      "core.js": "55babe2ce3f8bfe6c08f20c4d1c6ac5a2035a8ae2ed11f76f5182c76358fed92",
+      "falp.js": "ec6faf53927d41d0a71450a615e1bafedf3790b2090c4404d80f67a9ca80e27f",
+      "index.js": "b39cb44247b731bb013ab6843d46eec54904faf8e48e4f0f25624f7e89b1132a",
+      "planner.js": "ae9546a9089f06d5026edd57fa1e0339450074ba6a66fb9f747020279dcf56ab",
+      "session.js": "8a22d88422a934b071d9a12b9d7f5cdce9017793c80209a1c8853f1c8f95fc5d"
+    },
+    "sha256": "16e992cb9706c0a5f7af6a1fef29daf26d7d79f6d6f3633cd95dc615c59618f3"
+  },
+  "mechanical_pilot_cases_per_variant": 8,
+  "translation_permutations": 168,
+  "json_sessions": 24,
+  "new_node_tests_over_anchor_adapter": 27,
+  "scope": "Finite contract acceptance; does not install plugin, execute external probes or establish production semantic quality."
+}

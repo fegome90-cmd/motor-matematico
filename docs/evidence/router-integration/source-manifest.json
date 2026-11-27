@@ -1,0 +1,36 @@
+{
+  "plugin": "prompts-con-ancla",
+  "version": "0.2.1",
+  "observed_at": "2026-11-27T13:22:19.839332+00:00",
+  "source_root": "/home/agent/.codex/plugins/cache/created-by-me-remote/prompts-con-ancla/0.2.1",
+  "source_kind": "installed_instructional_plugin",
+  "files": [
+    {
+      "path": "skills/crear-prompts-gobernados/SKILL.md",
+      "sha256": "a4166336ba85a4935b264fe6f2a79a4350b3d9f884fda45163bbfe01ec983451"
+    },
+    {
+      "path": "skills/crear-prompts-gobernados/references/exploracion-falp.md",
+      "sha256": "5deedad46952ca44691c2b9656c2eba6b2dd83c51c728a5f699ee18179de8de2"
+    },
+    {
+      "path": "skills/crear-prompts-gobernados/references/gobernanza.md",
+      "sha256": "a422d9ef5a45013fe924613c19d335f527cd08d20f1dd14a73f20353615f469c"
+    },
+    {
+      "path": "skills/crear-prompts-gobernados/references/perfiles-dispatcher.md",
+      "sha256": "6fd6abbc530c9310db312f3b9c9d06eaaa9d2fabc8d5072103dd9f63115543f3"
+    },
+    {
+      "path": "plugin.json",
+      "sha256": "99b7a7988ebc457064416fc5a8e20c82ec8682e01b0d4a2d0a4c8cf3ee17271c"
+    },
+    {
+      "path": ".codex-plugin/plugin.json",
+      "sha256": "ea7117f732fe42a781e4a1aa5262c8e87dab14fce72dabcf48a5335ec3c84f23"
+    }
+  ],
+  "modified": false,
+  "runtime_hook_present": false,
+  "method": "Full skill and named references read; source tree inspected; hashes read from installed files."
+}

@@ -29,6 +29,7 @@ Todos se ejecutan en la raíz. Los scripts npm están definidos en el manifiesto
 | Comprobar tipos | `npm run typecheck` | Núcleo TypeScript |
 | Compilar | `npm run build` | `src` a `dist` y declaraciones |
 | Tests | `npm test` | Núcleo, planificación, sesión y CLI |
+| Replay del piloto FALP | `node scripts/verify-router-pilot.mjs` | Ocho solicitudes guardadas contra la API actual; sin nueva ejecución LLM |
 | Oráculo histórico | `npm run test:oracle` | Diagnóstico original vs Python |
 | Oráculo de planificación | `npm run test:planner-oracle` | Minimax y certificados completos |
 | Documentos | `npm run check:docs` | Cinco documentos, estructura y enlaces simples |
