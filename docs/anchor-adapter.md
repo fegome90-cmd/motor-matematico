@@ -29,6 +29,8 @@ Cada fila debe incluir un resultado por probe, aunque el probe no esté disponib
 | exploratory | planned y al menos una rama requiere observaciones adicionales |
 | abstain | blocked, incomplete, conflict, infeasible o limit_exceeded |
 
+Esta ruta describe la profundidad de observación, no la clasificación semántica del encargo FALP. Una brecha focalizada puede requerir dos consultas y una tarea exploratoria puede tener una política de una sola consulta. Para integrar el router se usa [la frontera FALP](falp-integration.md): `routeFalp` conserva esa clasificación aportada por el host, publica por separado `observationRoute` y exige controlar `next`. Un brief ya listo se representa con `kind: 'ready'` sin llamar a `compileAnchor` con preguntas vacías o ficticias.
+
 `advanceAnchor(state, observation, options?)` usa `advance`, sin ejecutar herramientas. Devuelve otro estado con el mismo texto del ancla. Conserva costos exactos, restricciones, idempotencia del recibo y límites del motor. El host revalida permisos, usa las mismas opciones para continuar y no modifica el ancla durante la sesión. Una revisión autorizada del ancla requiere reconstruir el brief; no es una observación.
 
 ## Probar
@@ -42,4 +44,4 @@ node --input-type=module -e "import {readFileSync} from 'node:fs'; import {compi
 node --test tests/anchor.test.mjs
 ```
 
-La siguiente etapa necesita un corpus autorizado de tareas reales, etiquetas de decisiones materiales y costos medidos, además de comparar contra el router actual sin sustituirlo. No se ha integrado el plugin de Prompts con Ancla ni se ha medido ahorro de tokens.
+La frontera del host añade vinculación de recibos al contexto y controles de transición; no instala el plugin. La evaluación de calidad sigue necesitando un corpus autorizado de tareas reales, etiquetas de decisiones materiales y costos medidos, además de comparar contra el router actual sin sustituirlo. Este adaptador y sus pruebas sintéticas no demuestran ahorro de tokens.
