@@ -12,6 +12,7 @@ El núcleo calcula sobre datos explícitos; el adaptador CLI maneja archivos y p
 | [planner.ts](../../src/planner.ts) | Búsqueda minimax, límites, memo y certificado | `validate` del núcleo |
 | [session.ts](../../src/session.ts) | Registrar un recibo, descontar una vez, devolver estado nuevo | `validate` y `plan` |
 | [anchor.ts](../../src/anchor.ts) | Compilar briefs, conservar ancla y clasificar la política | `validate`, `plan` y `advance` |
+| [falp.ts](../../src/falp.ts) | Separar clasificación semántica y control operativo; validar recibos contextuales | Adaptador de anclas y `validate` |
 | [index.ts](../../src/index.ts) | Exportaciones públicas | Los módulos de biblioteca |
 | [CLI](../../cli.mjs) | Parsear JSON, limitar bytes, imprimir y definir códigos de salida | API pública y archivos de Node |
 
@@ -20,6 +21,8 @@ El núcleo calcula sobre datos explícitos; el adaptador CLI maneja archivos y p
 La llamada a `plan` valida y filtra evidencia. Comprueba conflicto, gate, cobertura y suficiencia antes de buscar. La búsqueda produce un DAG completo o una razón explícita sin plan. El host ejecuta la primera acción autorizada, obtiene un recibo y llama `advance` para producir el siguiente estado. [API](../api.md) posee ese contrato, incluida la responsabilidad del host ante concurrencia.
 
 Las máscaras de mundos, costos `BigInt` y memo sólo existen durante una llamada. No hay caché global, red, base de datos ni secretos del producto. Los objetos públicos serializados usan cadenas y números acotados.
+
+La [frontera FALP](../falp-integration.md) recibe la evaluación semántica del host. `routeFalp` distingue una tarea lista de una investigación y devuelve el próximo control en `next`. Los recibos se comparan con el contexto actual y el despacho confiado que aporta el host. El host conserva la autoridad sobre clasificación, vigencia global, identidad del emisor y entrega del prompt.
 
 ## Invariantes y evolución
 

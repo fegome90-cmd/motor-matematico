@@ -1,0 +1,45 @@
+{
+  "mechanism": "GitHub Git Data API; authenticated repository connector",
+  "branch": "test/falp-router-integration",
+  "base": "71717755b5369a570580e76b8b17a1051341e035",
+  "included_existing_mvp_commit": "95b63ac63cf328e3b833d01ff0551aa392c4d1f0",
+  "changes": [
+    {
+      "local_sha": "2be9b067ff2f9c7764f428deb531f7ec5dc5df4b",
+      "remote_sha": "3dec7fc2b5c862c92df209a336511eeebc67dd62",
+      "tree_sha": "befa5bb3674eb3f94560cee6c9cde57e041dce57",
+      "identical_tree": true
+    },
+    {
+      "local_sha": "5448629b7c2b78a8fbe4e05857ebc29d060ab2e4",
+      "remote_sha": "87e12bf41776f68fa31e55bda6b172d45d4ab4dd",
+      "tree_sha": "f675922938742470714afb34990b32cf51ac4aa0",
+      "identical_tree": true
+    },
+    {
+      "local_sha": "68b6e73ec2376ecdbbe9efb5104d9c5a1056dea3",
+      "remote_sha": "efd48072a8146a74807add2ccfa5a97a86722773",
+      "tree_sha": "99a388d673c26a88866933bf6b716a1ce62a7cff",
+      "identical_tree": true
+    },
+    {
+      "local_sha": "5dc7ae6b579635e94651d5b7545786a6630593e0",
+      "remote_sha": "aa10f12dc7700794e0f9a2b4198ebacd6fa570d1",
+      "tree_sha": "d8da79386dc2dd12040562bd182390b2138b7684",
+      "identical_tree": true
+    },
+    {
+      "local_sha": "799606409e18ce3f67a8534dd5a0b0a178da9c92",
+      "remote_sha": "ed00b9cd1618850d402fedef7a5d99e86bfa3a03",
+      "tree_sha": "a7519eb42eacf63d98fb4492a07e805a1771fc18",
+      "identical_tree": true
+    }
+  ],
+  "verification": "Every returned Git tree SHA equals the corresponding verified local tree, including file content and modes. Commit metadata changed IDs; local history is preserved.",
+  "review_scope": {
+    "code_review_local_head": "68b6e73ec2376ecdbbe9efb5104d9c5a1056dea3",
+    "code_review_remote_equivalent": "efd48072a8146a74807add2ccfa5a97a86722773",
+    "combined_acceptance_local_head": "799606409e18ce3f67a8534dd5a0b0a178da9c92",
+    "combined_acceptance_remote_head": "ed00b9cd1618850d402fedef7a5d99e86bfa3a03"
+  }
+}

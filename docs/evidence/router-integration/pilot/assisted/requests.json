@@ -1,0 +1,307 @@
+{
+  "metadata": {
+    "inputPath": "/workspace/scratch/ea177efed27f/motor-router-tests/tests/fixtures/router-integration/pilot-inputs.json",
+    "inputSha256": "fa08630b5dc166a52a4c0401eed3f2b5a95e09b7b608630e4a553c8fd542c74f",
+    "engineEntry": "/workspace/scratch/ea177efed27f/motor-falp-contract/dist/index.js",
+    "nodeVersion": "v24.22.3",
+    "command": "node /workspace/scratch/ea177efed27f/router-pilot/assisted/run-engine.mjs",
+    "constraints": {
+      "recipientTasksExecuted": false,
+      "scenarioProbesExecuted": false,
+      "networkResearchPerformed": false,
+      "hypotheticalOutcomesPromotedToFacts": false,
+      "contextIsolation": "Fresh assigned task; isolation not independently accredited.",
+      "sharedFilesystem": true,
+      "blindEvaluationAccredited": false,
+      "modelDiversityAccredited": false,
+      "tokenAndCostTelemetryAvailable": false
+    }
+  },
+  "cases": [
+    {
+      "id": "ready_zero",
+      "hostAssessment": {
+        "kind": "ready",
+        "explorationRequested": false,
+        "materialUnknown": null,
+        "rationale": "El formato de entrada, el cálculo, los dos ejemplos, la prohibición literal y la salida están definidos. Redactar no requiere investigar ni ejecutar la suma.",
+        "explorationRationale": "No se solicita explorar y el encargo declara que no hay una decisión material pendiente."
+      },
+      "request": {
+        "kind": "ready",
+        "context": {
+          "taskId": "ready_zero",
+          "revision": "r1",
+          "anchor": "GOAL: sumar items enteros.\nMUST DO: []→0; [5,-2]→3.\nNO GO: No uses la red ni instales dependencias.\nDONE WHEN: JSON con total.",
+          "gate": "allowed"
+        },
+        "explorationRequested": false
+      }
+    },
+    {
+      "id": "focused_two_reads",
+      "hostAssessment": {
+        "kind": "investigation",
+        "classification": "focused",
+        "explorationRequested": false,
+        "materialUnknown": "Concordancia de las etiquetas de los dos contratos, aún no observadas.",
+        "rationale": "El objetivo y la estrategia ya están decididos. La única incógnita concreta exige evidencia de ambos contratos; necesitar dos lecturas no cambia la naturaleza focalizada.",
+        "explorationRationale": "No hay una solicitud de abrir estrategias; el pedido prohíbe proponer una alternativa.",
+        "modelStatus": "Modelo hipotético suministrado por el caso; coverage=complete es una declaración del modelo finito. observations=[]; ninguna etiqueta ha sido observada."
+      },
+      "request": {
+        "kind": "investigation",
+        "context": {
+          "taskId": "focused_two_reads",
+          "revision": "r1",
+          "anchor": "GOAL: comparar etiquetas de dos contratos.\r\nNO GO: no modificar archivos.\r\nDONE WHEN: establecer si coinciden con evidencia de ambos.",
+          "gate": "allowed"
+        },
+        "explorationRequested": false,
+        "classification": "focused",
+        "state": {
+          "anchor": "GOAL: comparar etiquetas de dos contratos.\r\nNO GO: no modificar archivos.\r\nDONE WHEN: establecer si coinciden con evidencia de ambos.",
+          "model": {
+            "coverage": "complete",
+            "gate": "allowed",
+            "costUnit": "reads",
+            "remainingBudget": "2",
+            "decisions": [
+              {
+                "id": "agreement",
+                "domain": [
+                  "different",
+                  "same"
+                ]
+              }
+            ],
+            "worlds": [
+              {
+                "id": "w00",
+                "answers": {
+                  "agreement": "same"
+                }
+              },
+              {
+                "id": "w01",
+                "answers": {
+                  "agreement": "different"
+                }
+              },
+              {
+                "id": "w10",
+                "answers": {
+                  "agreement": "different"
+                }
+              },
+              {
+                "id": "w11",
+                "answers": {
+                  "agreement": "same"
+                }
+              }
+            ],
+            "actions": [
+              {
+                "id": "read_left",
+                "capability": "read",
+                "permission": "allowed",
+                "available": true,
+                "cost": "1",
+                "outcomes": {
+                  "w00": "v0",
+                  "w01": "v0",
+                  "w10": "v1",
+                  "w11": "v1"
+                }
+              },
+              {
+                "id": "read_right",
+                "capability": "read",
+                "permission": "allowed",
+                "available": true,
+                "cost": "1",
+                "outcomes": {
+                  "w00": "v0",
+                  "w01": "v1",
+                  "w10": "v0",
+                  "w11": "v1"
+                }
+              }
+            ],
+            "observations": []
+          }
+        }
+      }
+    },
+    {
+      "id": "exploratory_one_read",
+      "hostAssessment": {
+        "kind": "investigation",
+        "classification": "exploratory",
+        "explorationRequested": true,
+        "materialUnknown": "Estrategia de edición aún abierta entre componente embebido e integración externa, a comparar por mantenimiento, portabilidad y capacidades.",
+        "rationale": "La decisión es una estrategia abierta y el pedido exige comparar alternativas. Una sola lectura capaz de discriminar el modelo no vuelve focalizada la ruta semántica.",
+        "explorationRationale": "La solicitud dice explícitamente que necesita explorar una estrategia todavía no decidida.",
+        "modelStatus": "Modelo hipotético suministrado por el caso; la relación entre read_requirements y la estrategia es declarada, no observada. observations=[]."
+      },
+      "request": {
+        "kind": "investigation",
+        "context": {
+          "taskId": "exploratory_one_read",
+          "revision": "r1",
+          "anchor": "GOAL: explorar una estrategia de edición.\nNO GO: no imponer proveedor ni instalar software.\nDONE WHEN: comparar alternativas con los criterios entregados.",
+          "gate": "allowed"
+        },
+        "explorationRequested": true,
+        "classification": "exploratory",
+        "state": {
+          "anchor": "GOAL: explorar una estrategia de edición.\nNO GO: no imponer proveedor ni instalar software.\nDONE WHEN: comparar alternativas con los criterios entregados.",
+          "model": {
+            "coverage": "complete",
+            "gate": "allowed",
+            "costUnit": "reads",
+            "remainingBudget": "1",
+            "decisions": [
+              {
+                "id": "strategy",
+                "domain": [
+                  "embedded",
+                  "external"
+                ]
+              }
+            ],
+            "worlds": [
+              {
+                "id": "embedded_case",
+                "answers": {
+                  "strategy": "embedded"
+                }
+              },
+              {
+                "id": "external_case",
+                "answers": {
+                  "strategy": "external"
+                }
+              }
+            ],
+            "actions": [
+              {
+                "id": "read_requirements",
+                "capability": "read",
+                "permission": "allowed",
+                "available": true,
+                "cost": "1",
+                "outcomes": {
+                  "embedded_case": "local_only",
+                  "external_case": "external_ok"
+                }
+              }
+            ],
+            "observations": []
+          }
+        }
+      }
+    },
+    {
+      "id": "explicit_exploration",
+      "hostAssessment": {
+        "kind": "ready",
+        "explorationRequested": true,
+        "materialUnknown": null,
+        "rationale": "Los requisitos para redactar están completos y no existe una incógnita material. ready describe esa suficiencia; no afirma que la exploración solicitada se haya realizado.",
+        "explorationRationale": "El usuario pide expresamente explorar enfoques antes de entregar y declara esa actividad pendiente."
+      },
+      "request": {
+        "kind": "ready",
+        "context": {
+          "taskId": "explicit_exploration",
+          "revision": "r1",
+          "anchor": "GOAL: resumir texto adjunto.\nMUST DO: Cuatro viñetas, sin fuentes adicionales.\nMUST DO: explorar enfoques antes de entregar.",
+          "gate": "allowed"
+        },
+        "explorationRequested": true
+      }
+    },
+    {
+      "id": "recipient_portability",
+      "hostAssessment": {
+        "kind": "ready",
+        "explorationRequested": false,
+        "materialUnknown": null,
+        "rationale": "Se puede redactar la auditoría de los adjuntos para Claude con sólo lectura, evidencia localizada y comprobación de capacidades en destino. No es necesario conocer las herramientas del receptor para formular esa comprobación.",
+        "explorationRationale": "El pedido está definido y no requiere fuentes adicionales para redactarlo."
+      },
+      "request": {
+        "kind": "ready",
+        "context": {
+          "taskId": "recipient_portability",
+          "revision": "r1",
+          "anchor": "GOAL: auditar README frente a contrato adjunto.\nTARGET: Claude.\nNO GO: No heredes capacidades del redactor.\nDONE WHEN: divergencias con localizadores.",
+          "gate": "allowed"
+        },
+        "explorationRequested": false
+      }
+    },
+    {
+      "id": "audit_not_repair",
+      "hostAssessment": {
+        "kind": "ready",
+        "explorationRequested": false,
+        "materialUnknown": null,
+        "rationale": "La auditoría del PR, su alcance de lectura, la inspección del estado y diff reales y la forma de los hallazgos están definidos. Leer o auditar el PR ahora sería ejecutar la tarea destinataria.",
+        "explorationRationale": "El pedido declara que no hay una decisión adicional necesaria para redactar."
+      },
+      "request": {
+        "kind": "ready",
+        "context": {
+          "taskId": "audit_not_repair",
+          "revision": "r1",
+          "anchor": "GOAL: auditar el PR proporcionado.\nNO GO: No escribas archivos, no hagas merge y no despliegues.\nDONE WHEN: hallazgos con severidad y evidencia.",
+          "gate": "allowed"
+        },
+        "explorationRequested": false
+      }
+    },
+    {
+      "id": "mandatory_worker",
+      "hostAssessment": {
+        "kind": "ready",
+        "explorationRequested": false,
+        "materialUnknown": null,
+        "rationale": "La delegación real es obligatoria en destino y ya está definido qué hacer si falta esa capacidad: bloquear sólo la revisión dependiente y preparar lo independiente autorizado. La capacidad del receptor se comprobará allí.",
+        "explorationRationale": "No hay otra incógnita necesaria para redactar y no se solicita exploración."
+      },
+      "request": {
+        "kind": "ready",
+        "context": {
+          "taskId": "mandatory_worker",
+          "revision": "r1",
+          "anchor": "GOAL: revisión por worker real.\nMUST DO: delegación obligatoria.\nNO GO: No sustituyas el worker por una revisión propia.\nDONE WHEN: revisión o bloqueo explícito de lo dependiente.",
+          "gate": "allowed"
+        },
+        "explorationRequested": false
+      }
+    },
+    {
+      "id": "optional_no_go",
+      "hostAssessment": {
+        "kind": "ready",
+        "explorationRequested": false,
+        "materialUnknown": null,
+        "rationale": "El texto de entrada, las cuatro viñetas, la preservación de números y el tratamiento de la ausencia están definidos. NO GO opcional no es una carencia material ni una ampliación de permisos.",
+        "explorationRationale": "No se solicita explorar ni confirmar; el pedido excluye preguntas de confirmación y formularios de restricciones opcionales."
+      },
+      "request": {
+        "kind": "ready",
+        "context": {
+          "taskId": "optional_no_go",
+          "revision": "r1",
+          "anchor": "GOAL: resumir el texto aportado.\nMUST DO: cuatro viñetas, conservar números.\nDONE WHEN: resumen o ausencia de texto declarada.",
+          "gate": "allowed"
+        },
+        "explorationRequested": false
+      }
+    }
+  ]
+}

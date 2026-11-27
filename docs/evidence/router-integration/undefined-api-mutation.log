@@ -1,0 +1,244 @@
+✖ FALP ready reaches readback without a fabricated question or plan (1.396519ms)
+✖ explicit exploration activates the module even for a sufficient brief (0.164437ms)
+✖ one concrete question remains focused when it requires two observations (2.072465ms)
+✖ an exploratory framing remains exploratory with a one-observation policy (1.406564ms)
+✖ a mathematically solved investigation requires host reassessment (0.370877ms)
+✖ host gates block ready and investigation without publishing a plan (0.175724ms)
+✖ model blocking states retain their exact reason without an executable fallback (0.808546ms)
+✖ supported receipts advance only the matching context and preserve inputs (0.93131ms)
+✖ receipts from another task, revision, anchor, question or action are rejected (1.654487ms)
+✖ dispatches must name a modeled question and the currently recommended action (0.866443ms)
+✖ UNKNOWN, CONFLICT and BLOCKED remain distinct without inventing an outcome or charge (0.786823ms)
+✖ a matching replay is idempotent but another revision cannot reuse it (3.901304ms)
+✖ revoked gates, permission and availability block supported receipts before charging (0.794525ms)
+✖ new evidence cannot replace an observed action or bypass a lower current budget (0.633412ms)
+✖ an unmodeled supported result is recorded and then exposes conflict (1.341887ms)
+✖ exact anchors survive CRLF, exterior spaces and both Unicode forms (0.349495ms)
+✖ a full receipt sequence retains costs above Number precision (0.253371ms)
+✖ strict boundaries reject malformed variants, receipt schemas and non-data properties (0.268144ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 0
+ℹ fail 18
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 157.104903
+
+✖ failing tests:
+
+test at .audit/local/falp-undefined.test.mjs:46:1
+✖ FALP ready reaches readback without a fabricated question or plan (1.396519ms)
+  TypeError [Error]: routeFalp is not a function
+      at TestContext.<anonymous> (file:///workspace/scratch/ea177efed27f/motor-falp-contract/.audit/local/falp-undefined.test.mjs:48:18)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17)
+
+test at .audit/local/falp-undefined.test.mjs:60:1
+✖ explicit exploration activates the module even for a sufficient brief (0.164437ms)
+  TypeError [Error]: routeFalp is not a function
+      at TestContext.<anonymous> (file:///workspace/scratch/ea177efed27f/motor-falp-contract/.audit/local/falp-undefined.test.mjs:61:18)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+
+test at .audit/local/falp-undefined.test.mjs:68:1
+✖ one concrete question remains focused when it requires two observations (2.072465ms)
+  TypeError [Error]: routeFalp is not a function
+      at TestContext.<anonymous> (file:///workspace/scratch/ea177efed27f/motor-falp-contract/.audit/local/falp-undefined.test.mjs:75:18)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at .audit/local/falp-undefined.test.mjs:83:1
+✖ an exploratory framing remains exploratory with a one-observation policy (1.406564ms)
+  TypeError [Error]: routeFalp is not a function
+      at TestContext.<anonymous> (file:///workspace/scratch/ea177efed27f/motor-falp-contract/.audit/local/falp-undefined.test.mjs:86:18)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at .audit/local/falp-undefined.test.mjs:93:1
+✖ a mathematically solved investigation requires host reassessment (0.370877ms)
+  TypeError [Error]: routeFalp is not a function
+      at TestContext.<anonymous> (file:///workspace/scratch/ea177efed27f/motor-falp-contract/.audit/local/falp-undefined.test.mjs:97:20)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at .audit/local/falp-undefined.test.mjs:105:1
+✖ host gates block ready and investigation without publishing a plan (0.175724ms)
+  TypeError [Error]: routeFalp is not a function
+      at TestContext.<anonymous> (file:///workspace/scratch/ea177efed27f/motor-falp-contract/.audit/local/falp-undefined.test.mjs:113:22)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at .audit/local/falp-undefined.test.mjs:122:1
+✖ model blocking states retain their exact reason without an executable fallback (0.808546ms)
+  TypeError [Error]: routeFalp is not a function
+      at TestContext.<anonymous> (file:///workspace/scratch/ea177efed27f/motor-falp-contract/.audit/local/falp-undefined.test.mjs:169:20)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at .audit/local/falp-undefined.test.mjs:182:1
+✖ supported receipts advance only the matching context and preserve inputs (0.93131ms)
+  TypeError [Error]: acceptFalpReceipt is not a function
+      at TestContext.<anonymous> (file:///workspace/scratch/ea177efed27f/motor-falp-contract/.audit/local/falp-undefined.test.mjs:186:18)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at .audit/local/falp-undefined.test.mjs:199:1
+✖ receipts from another task, revision, anchor, question or action are rejected (1.654487ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /dispatch context mismatch: taskId/. Input:
+
+  'TypeError: acceptFalpReceipt is not a function'
+
+      at TestContext.<anonymous> (file:///workspace/scratch/ea177efed27f/motor-falp-contract/.audit/local/falp-undefined.test.mjs:219:14)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: TypeError: acceptFalpReceipt is not a function
+        at file:///workspace/scratch/ea177efed27f/motor-falp-contract/.audit/local/falp-undefined.test.mjs:220:15
+        at getActual (node:assert:611:5)
+        at strict.throws (node:assert:759:24)
+        at TestContext.<anonymous> (file:///workspace/scratch/ea177efed27f/motor-falp-contract/.audit/local/falp-undefined.test.mjs:219:14)
+        at Test.runInAsyncScope (node:async_hooks:227:14)
+        at Test.run (node:internal/test_runner/test:1402:25)
+        at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+        at Test.postRun (node:internal/test_runner/test:1542:19)
+        at Test.run (node:internal/test_runner/test:1467:12)
+        at async Test.processPendingSubtests (node:internal/test_runner/test:974:7),
+    expected: /dispatch context mismatch: taskId/,
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at .audit/local/falp-undefined.test.mjs:230:1
+✖ dispatches must name a modeled question and the currently recommended action (0.866443ms)
+  TypeError [Error]: acceptFalpReceipt is not a function
+      at TestContext.<anonymous> (file:///workspace/scratch/ea177efed27f/motor-falp-contract/.audit/local/falp-undefined.test.mjs:232:20)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at .audit/local/falp-undefined.test.mjs:245:1
+✖ UNKNOWN, CONFLICT and BLOCKED remain distinct without inventing an outcome or charge (0.786823ms)
+  TypeError [Error]: acceptFalpReceipt is not a function
+      at TestContext.<anonymous> (file:///workspace/scratch/ea177efed27f/motor-falp-contract/.audit/local/falp-undefined.test.mjs:250:20)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at .audit/local/falp-undefined.test.mjs:264:1
+✖ a matching replay is idempotent but another revision cannot reuse it (3.901304ms)
+  TypeError [Error]: acceptFalpReceipt is not a function
+      at TestContext.<anonymous> (file:///workspace/scratch/ea177efed27f/motor-falp-contract/.audit/local/falp-undefined.test.mjs:268:16)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at .audit/local/falp-undefined.test.mjs:279:1
+✖ revoked gates, permission and availability block supported receipts before charging (0.794525ms)
+  TypeError [Error]: acceptFalpReceipt is not a function
+      at TestContext.<anonymous> (file:///workspace/scratch/ea177efed27f/motor-falp-contract/.audit/local/falp-undefined.test.mjs:327:22)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at .audit/local/falp-undefined.test.mjs:344:1
+✖ new evidence cannot replace an observed action or bypass a lower current budget (0.633412ms)
+  TypeError [Error]: acceptFalpReceipt is not a function
+      at TestContext.<anonymous> (file:///workspace/scratch/ea177efed27f/motor-falp-contract/.audit/local/falp-undefined.test.mjs:347:16)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at .audit/local/falp-undefined.test.mjs:354:1
+✖ an unmodeled supported result is recorded and then exposes conflict (1.341887ms)
+  TypeError [Error]: acceptFalpReceipt is not a function
+      at TestContext.<anonymous> (file:///workspace/scratch/ea177efed27f/motor-falp-contract/.audit/local/falp-undefined.test.mjs:357:18)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at .audit/local/falp-undefined.test.mjs:367:1
+✖ exact anchors survive CRLF, exterior spaces and both Unicode forms (0.349495ms)
+  TypeError [Error]: acceptFalpReceipt is not a function
+      at TestContext.<anonymous> (file:///workspace/scratch/ea177efed27f/motor-falp-contract/.audit/local/falp-undefined.test.mjs:373:18)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at .audit/local/falp-undefined.test.mjs:387:1
+✖ a full receipt sequence retains costs above Number precision (0.253371ms)
+  TypeError [Error]: routeFalp is not a function
+      at TestContext.<anonymous> (file:///workspace/scratch/ea177efed27f/motor-falp-contract/.audit/local/falp-undefined.test.mjs:393:16)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at .audit/local/falp-undefined.test.mjs:407:1
+✖ strict boundaries reject malformed variants, receipt schemas and non-data properties (0.268144ms)
+  TypeError [Error]: routeFalp is not a function
+      at TestContext.<anonymous> (file:///workspace/scratch/ea177efed27f/motor-falp-contract/.audit/local/falp-undefined.test.mjs:408:16)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)

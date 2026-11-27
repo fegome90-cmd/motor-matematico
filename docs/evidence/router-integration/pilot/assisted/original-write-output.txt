@@ -1,0 +1,171 @@
+import { readFile, writeFile } from 'node:fs/promises';
+
+const directory = new URL('./', import.meta.url);
+const input = JSON.parse(await readFile('/workspace/scratch/ea177efed27f/motor-router-tests/tests/fixtures/router-integration/pilot-inputs.json', 'utf8'));
+const engine = JSON.parse(await readFile(new URL('engine-results.json', directory), 'utf8'));
+const requests = JSON.parse(await readFile(new URL('requests.json', directory), 'utf8'));
+
+// Drafted after reading the actual engine results. This script never calls the engine.
+const drafts = {
+  ready_zero: {
+    prompt: `Recibirás un objeto JSON con el campo obligatorio "items", cuyo valor es un arreglo de números enteros. Calcula la suma de todos sus elementos.
+
+No uses la red ni instales dependencias.
+
+Responde únicamente con un objeto JSON que tenga una sola propiedad obligatoria: "total", de tipo entero. No incluyas campos adicionales, Markdown, comentarios ni explicaciones. "total" no puede omitirse ni ser null.
+
+Respeta estos casos exigidos:
+- Entrada: {"items":[]}. Salida: {"total":0}.
+- Entrada: {"items":[5,-2]}. Salida: {"total":3}.
+
+Una lista vacía es una entrada válida y su suma es 0.`,
+    notes: 'Prompt completo tras readback textual propio: conserva el cálculo, los ejemplos, la salida JSON y la prohibición literal. El next=readback habilitó esta revisión; no constituye aprobación automática del motor. No se ejecutó la tarea destinataria ni se probaron respuestas en otro host.',
+  },
+  focused_two_reads: {
+    prompt: `Audita, sólo mediante lectura, la concordancia de las etiquetas de los dos contratos que se te proporcionen. El objetivo y la estrategia están decididos: compara sus etiquetas; no propongas una estrategia alternativa.
+
+No modificar archivos.
+
+Consulta ambos contratos y registra las etiquetas observadas con su fuente y localizador. Establece si coinciden o difieren únicamente cuando cuentes con evidencia de ambos. No afirmes que coinciden antes de observarlas.
+
+Si falta un contrato o no puedes leerlo, declara qué evidencia falta y deja pendiente la conclusión que depende de ella.`,
+    notes: 'Borrador de contenido invariante; no se entrega como prompt final validado. next=observe: pendiente obtener las dos observaciones reales. La política recomienda read_left y después read_right; no se ejecutó ninguna. La ruta semántica permanece focused, aunque observationRoute=exploratory y la profundidad de la política es 2. v0/v1 y same/different son posibilidades del modelo hipotético, no etiquetas ni conclusiones observadas. El ancla conserva literalmente sus CRLF; la prohibición del prompt conserva la mayúscula exacta pedida.',
+  },
+  exploratory_one_read: {
+    prompt: `Explora la estrategia de un editor y compara las dos alternativas que siguen abiertas: componente embebido e integración externa.
+
+No imponer proveedor ni instalar software.
+
+Usa el reporte de requisitos que se te proporcione para evaluar ambas alternativas por mantenimiento, portabilidad y capacidades. Relaciona la comparación con los requisitos efectivamente observados y señala su fuente o localizador. Distingue requisitos documentados, inferencias e información ausente.
+
+Entrega una comparación sustentada en esos criterios. Si falta el reporte o no hay evidencia suficiente para una elección, declara lo pendiente y conserva abierta la decisión.`,
+    notes: 'Borrador de contenido invariante; la estrategia no está seleccionada ni se afirma una comparación concluida. next=observe: pendiente la observación real de read_requirements. La ruta semántica permanece exploratory, aunque observationRoute=focused y la política tiene profundidad 1. local_only/external_ok y embedded/external pertenecen al modelo hipotético; no son hallazgos. Tras observar, el host deberá reevaluar suficiencia y hacer readback; solved tampoco aprobaría por sí solo el prompt.',
+  },
+  explicit_exploration: {
+    prompt: `Resume el texto adjunto usando únicamente su contenido.
+
+Cuatro viñetas, sin fuentes adicionales.
+
+Conserva las ideas del texto sin añadir información no respaldada por él.`,
+    notes: 'Sólo contenido invariante provisional. next=explore: está pendiente que el redactor explore enfoques de redacción antes de entregar el prompt. El brief suficiente produce route=direct, pero explorationRequired=true impide tratarlo como entrega final. No se afirma que la exploración se haya realizado ni se transfiere ese proceso del redactor al receptor.',
+  },
+  recipient_portability: {
+    prompt: `Claude, audita el README adjunto frente al contrato adjunto. Trabaja sólo mediante lectura y señala las divergencias entre ambos.
+
+No heredes capacidades del redactor.
+
+Comprueba qué herramientas están realmente disponibles en tu entorno y si puedes acceder a los dos adjuntos. Usa únicamente los recursos efectivamente disponibles y autorizados para esta auditoría. Si falta un adjunto o no puedes leerlo, declara la limitación y deja pendiente sólo la comparación que dependa de él.
+
+Para cada divergencia, identifica el requisito del contrato, el contenido correspondiente del README y un localizador verificable en cada documento, como sección o número de línea cuando esté disponible. Distingue una divergencia comprobada de una falta de evidencia. No modifiques los documentos ni inventes accesos, lecturas o hallazgos.
+
+Entrega las divergencias sustentadas y la cobertura real de la revisión. Si no encuentras divergencias, acota esa conclusión al material que efectivamente revisaste.`,
+    notes: 'Prompt completo tras readback textual propio: Claude es el receptor, se comprueban capacidades en destino y se preservan sólo lectura, adjuntos y localizadores. No incorpora Bootstrap, Kernel, memoria, plugins ni rutas privadas del redactor. No se leyeron los adjuntos ni se ejecutó la auditoría; esa ejecución corresponde al receptor.',
+  },
+  audit_not_repair: {
+    prompt: `Audita el PR que te proporcione el usuario y devuelve hallazgos con severidad y evidencia.
+
+No escribas archivos, no hagas merge y no despliegues.
+
+Inspecciona el estado realmente disponible y el diff real del PR. Cuando trabajes en un repositorio local, comprueba la rama o worktree existente y las revisiones que estás comparando; no crees otro por defecto. Distingue el estado declarado por el usuario del que hayas podido comprobar.
+
+Limita tu actuación a la auditoría. Para cada hallazgo, explica el problema y su impacto, asigna una severidad justificada e incluye evidencia observable con archivo y localizador cuando estén disponibles. No repares el código ni presentes suposiciones como defectos confirmados.
+
+Si no puedes acceder al PR, al diff o a parte del estado necesario, indica qué falta y qué conclusiones quedan sin comprobar. Informa la cobertura y las limitaciones reales; no afirmes haber ejecutado pruebas o verificaciones que no realizaste.`,
+    notes: 'Prompt completo tras readback textual propio: conserva auditoría, estado y diff reales, severidad, evidencia y prohibición literal. No amplía autorización a reparación, escritura, merge o despliegue. No se inspeccionó ningún PR ni se ejecutó la auditoría durante este piloto.',
+  },
+  mandatory_worker: {
+    prompt: `La revisión del material que te entregue el usuario debe delegarse a un worker real. Esta delegación es obligatoria.
+
+No sustituyas el worker por una revisión propia.
+
+Comprueba si tu entorno dispone realmente de workers y permite efectuar esa delegación. No presupongas capacidades por el entorno del redactor.
+
+Si puedes delegar, envía al worker el material autorizado necesario y el alcance exacto de la revisión, junto con sus restricciones y el resultado esperado. Incluye de forma explícita cualquier cadena o campo que deba preservarse; no remitas a contexto que el worker no pueda ver. Solicita hallazgos y evidencia observable, recibe su resultado y comprueba que corresponda al encargo enviado. Informa lo efectivamente delegado y recibido; una etiqueta de rol, una sesión abierta o una revisión tuya no demuestran una revisión de worker completada.
+
+Si careces de workers o no puedes cumplir la delegación, declara BLOCKED únicamente para la revisión que depende del worker. Puedes preparar lo independiente que esté autorizado, identificándolo como preparación y dejando pendiente la revisión obligatoria.`,
+    notes: 'Prompt completo tras readback textual propio: la delegación obligatoria permanece en destino; no presupone herramientas del receptor ni permite sustitución por trabajo propio. La falta de workers bloquea sólo la revisión dependiente. Este piloto redactó esa instrucción; no ejecutó la revisión destinataria ni acredita revisión independiente, evaluación ciega o diversidad de modelos.',
+  },
+  optional_no_go: {
+    prompt: `Resume el texto que se te adjunte en exactamente cuatro viñetas. Conserva sus números sin modificarlos, aproximarlos ni inventar cifras, y mantén el sentido del texto.
+
+Si falta el texto o no puedes acceder a él, declara brevemente esa ausencia y no inventes un resumen. Cuando haya texto disponible, entrega las cuatro viñetas; cuando falte, entrega la declaración de ausencia.
+
+No agregues preguntas de confirmación ni un formulario de restricciones opcionales.`,
+    notes: 'Prompt completo tras readback textual propio: cuatro viñetas, números conservados y ausencia declarada. NO GO opcional no generó preguntas, un formulario ni un nuevo permiso. No se resumió texto alguno durante el piloto.',
+  },
+};
+
+const results = new Map(engine.cases.map(item => [item.id, item.result]));
+const output = {
+  variant: 'motor-assisted',
+  cases: input.cases.map(item => {
+    const result = results.get(item.id);
+    if (!result || !drafts[item.id]) throw new Error('Missing observed result or draft: ' + item.id);
+    return {
+      id: item.id,
+      route: result.route,
+      next: result.next,
+      explorationRequired: result.explorationRequired,
+      anchor: item.anchor,
+      prompt: drafts[item.id].prompt,
+      clarifyingQuestions: [],
+      notes: drafts[item.id].notes,
+    };
+  }),
+};
+await writeFile(new URL('output.json', directory), JSON.stringify(output, null, 2) + '\n');
+
+// Mechanical custody/readback checks, not a claim of semantic or behavioral validation.
+const reread = JSON.parse(await readFile(new URL('output.json', directory), 'utf8'));
+const protectedPhrases = {
+  ready_zero: 'No uses la red ni instales dependencias',
+  focused_two_reads: 'No modificar archivos',
+  exploratory_one_read: 'No imponer proveedor ni instalar software',
+  explicit_exploration: 'Cuatro viñetas, sin fuentes adicionales',
+  recipient_portability: 'No heredes capacidades del redactor',
+  audit_not_repair: 'No escribas archivos, no hagas merge y no despliegues',
+  mandatory_worker: 'No sustituyas el worker por una revisión propia',
+};
+const requiredFields = ['id', 'route', 'next', 'explorationRequired', 'anchor', 'prompt', 'clarifyingQuestions', 'notes'];
+const checks = reread.cases.map((item, index) => {
+  const source = input.cases[index];
+  const observed = results.get(item.id);
+  const request = requests.cases.find(row => row.id === item.id)?.request;
+  const check = {
+    id: item.id,
+    exactOutputFields: Object.keys(item).length === requiredFields.length && requiredFields.every(field => Object.hasOwn(item, field)),
+    correctInputOrder: item.id === source.id,
+    anchorPreservedExactly: item.anchor === source.anchor && request?.context.anchor === source.context.anchor,
+    observedControlsPreserved: item.route === observed.route && item.next === observed.next && item.explorationRequired === observed.explorationRequired,
+    protectedPhrasePreserved: !protectedPhrases[item.id] || item.prompt.includes(protectedPhrases[item.id]),
+    nonemptyPromptAndNotes: typeof item.prompt === 'string' && item.prompt.length > 0 && typeof item.notes === 'string' && item.notes.length > 0,
+    noClarifyingQuestionsAdded: Array.isArray(item.clarifyingQuestions) && item.clarifyingQuestions.length === 0,
+    investigationHasNoObservedEvidence: request.kind !== 'investigation' || request.state.model.observations.length === 0,
+    stage: item.next === 'readback' ? 'textually-reviewed-final-prompt' : 'invariant-draft-with-pending-work',
+  };
+  for (const [name, value] of Object.entries(check)) {
+    if (typeof value === 'boolean' && !value) throw new Error(item.id + ': readback failed: ' + name);
+  }
+  return check;
+});
+const readback = {
+  scope: 'Mechanical custody checks plus the author’s textual readback recorded in output.notes; no execution of recipient tasks and no independent behavioral validation.',
+  routeFalpCallsMadeByThisScript: 0,
+  routeFalpCallsRecordedByEngineRun: engine.routeFalpInvocationCount,
+  outputCaseCount: reread.cases.length,
+  readyForDeliveryAfterTextualReadback: checks.filter(item => item.stage === 'textually-reviewed-final-prompt').map(item => item.id),
+  pending: checks.filter(item => item.stage === 'invariant-draft-with-pending-work').map(item => item.id),
+  checks,
+};
+if (reread.variant !== 'motor-assisted' || reread.cases.length !== 8 || engine.routeFalpInvocationCount !== 8) {
+  throw new Error('Pilot variant or case/call count mismatch.');
+}
+await writeFile(new URL('readback.json', directory), JSON.stringify(readback, null, 2) + '\n');
+console.log(JSON.stringify({
+  output: new URL('output.json', directory).pathname,
+  cases: reread.cases.length,
+  finalPromptsAfterTextualReadback: readback.readyForDeliveryAfterTextualReadback.length,
+  invariantDraftsWithPendingWork: readback.pending.length,
+  routeFalpCallsInThisScript: 0,
+  mechanicalCustodyChecks: 'completed',
+}));

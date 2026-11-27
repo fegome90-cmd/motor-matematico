@@ -1,5 +1,7 @@
 # Evidencia del MVP 0.2.0
 
+Esta página conserva la campaña original del núcleo. La campaña posterior de [integración FALP](router-integration/README.md) registra el adaptador de host, las pruebas de traducción y el piloto sintético del router, con sus propios hashes y resultados.
+
 **Resultado local: apto para usar como biblioteca y CLI sobre modelos finitos explícitos.** La exactitud y optimalidad son condicionales al modelo y a la terminación de la búsqueda. No se evaluó extracción de prompts ni ejecución de proveedores LLM.
 
 ## Verificación integrada

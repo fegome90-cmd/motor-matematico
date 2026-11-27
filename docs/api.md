@@ -156,3 +156,9 @@ Las escrituras esperan su finalización y manejan errores asíncronos, incluida 
 ## Adaptador de anclas
 
 El paquete exporta también `compileAnchor`, `routeAnchor` y `advanceAnchor`. Su contrato independiente está en [adaptador de anclas](anchor-adapter.md).
+
+## Frontera FALP del host
+
+`routeFalp(request: unknown, options?: PlanOptions)` conserva la clasificación semántica declarada por el host y separa la ruta de observación del control operativo `next`. Admite briefs `ready` sin modelo ni preguntas ficticias. Una investigación `solved` pasa a `reassess`; no aprueba la entrega del prompt.
+
+`acceptFalpReceipt(request: unknown, dispatch: unknown, receipt: unknown, options?: PlanOptions)` vincula un recibo al contexto actual y al despacho confiado del host, revalida gates y permisos, y registra sólo un resultado `SUPPORTED` de la acción vigente. `UNKNOWN`, `CONFLICT` y `BLOCKED` conservan estado y presupuesto; un replay exacto no cobra otra vez. La [frontera FALP](falp-integration.md) documenta schemas, estados, errores y responsabilidades del host. Ambas funciones y sus tipos se exportan desde el paquete principal.

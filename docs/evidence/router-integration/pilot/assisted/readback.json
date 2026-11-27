@@ -1,0 +1,116 @@
+{
+  "scope": "Mechanical custody checks plus the author’s textual readback recorded in output.notes; no execution of recipient tasks and no independent behavioral validation.",
+  "routeFalpCallsMadeByThisScript": 0,
+  "routeFalpCallsRecordedByEngineRun": 8,
+  "outputCaseCount": 8,
+  "readyForDeliveryAfterTextualReadback": [
+    "ready_zero",
+    "recipient_portability",
+    "audit_not_repair",
+    "mandatory_worker",
+    "optional_no_go"
+  ],
+  "pending": [
+    "focused_two_reads",
+    "exploratory_one_read",
+    "explicit_exploration"
+  ],
+  "checks": [
+    {
+      "id": "ready_zero",
+      "exactOutputFields": true,
+      "correctInputOrder": true,
+      "anchorPreservedExactly": true,
+      "observedControlsPreserved": true,
+      "protectedPhrasePreserved": true,
+      "nonemptyPromptAndNotes": true,
+      "noClarifyingQuestionsAdded": true,
+      "investigationHasNoObservedEvidence": true,
+      "stage": "textually-reviewed-final-prompt"
+    },
+    {
+      "id": "focused_two_reads",
+      "exactOutputFields": true,
+      "correctInputOrder": true,
+      "anchorPreservedExactly": true,
+      "observedControlsPreserved": true,
+      "protectedPhrasePreserved": true,
+      "nonemptyPromptAndNotes": true,
+      "noClarifyingQuestionsAdded": true,
+      "investigationHasNoObservedEvidence": true,
+      "stage": "invariant-draft-with-pending-work"
+    },
+    {
+      "id": "exploratory_one_read",
+      "exactOutputFields": true,
+      "correctInputOrder": true,
+      "anchorPreservedExactly": true,
+      "observedControlsPreserved": true,
+      "protectedPhrasePreserved": true,
+      "nonemptyPromptAndNotes": true,
+      "noClarifyingQuestionsAdded": true,
+      "investigationHasNoObservedEvidence": true,
+      "stage": "invariant-draft-with-pending-work"
+    },
+    {
+      "id": "explicit_exploration",
+      "exactOutputFields": true,
+      "correctInputOrder": true,
+      "anchorPreservedExactly": true,
+      "observedControlsPreserved": true,
+      "protectedPhrasePreserved": true,
+      "nonemptyPromptAndNotes": true,
+      "noClarifyingQuestionsAdded": true,
+      "investigationHasNoObservedEvidence": true,
+      "stage": "invariant-draft-with-pending-work"
+    },
+    {
+      "id": "recipient_portability",
+      "exactOutputFields": true,
+      "correctInputOrder": true,
+      "anchorPreservedExactly": true,
+      "observedControlsPreserved": true,
+      "protectedPhrasePreserved": true,
+      "nonemptyPromptAndNotes": true,
+      "noClarifyingQuestionsAdded": true,
+      "investigationHasNoObservedEvidence": true,
+      "stage": "textually-reviewed-final-prompt"
+    },
+    {
+      "id": "audit_not_repair",
+      "exactOutputFields": true,
+      "correctInputOrder": true,
+      "anchorPreservedExactly": true,
+      "observedControlsPreserved": true,
+      "protectedPhrasePreserved": true,
+      "nonemptyPromptAndNotes": true,
+      "noClarifyingQuestionsAdded": true,
+      "investigationHasNoObservedEvidence": true,
+      "stage": "textually-reviewed-final-prompt"
+    },
+    {
+      "id": "mandatory_worker",
+      "exactOutputFields": true,
+      "correctInputOrder": true,
+      "anchorPreservedExactly": true,
+      "observedControlsPreserved": true,
+      "protectedPhrasePreserved": true,
+      "nonemptyPromptAndNotes": true,
+      "noClarifyingQuestionsAdded": true,
+      "investigationHasNoObservedEvidence": true,
+      "stage": "textually-reviewed-final-prompt"
+    },
+    {
+      "id": "optional_no_go",
+      "exactOutputFields": true,
+      "correctInputOrder": true,
+      "anchorPreservedExactly": true,
+      "observedControlsPreserved": true,
+      "protectedPhrasePreserved": true,
+      "nonemptyPromptAndNotes": true,
+      "noClarifyingQuestionsAdded": true,
+      "investigationHasNoObservedEvidence": true,
+      "stage": "textually-reviewed-final-prompt"
+    }
+  ]
+}

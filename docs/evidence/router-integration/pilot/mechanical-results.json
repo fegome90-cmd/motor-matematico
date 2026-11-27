@@ -1,0 +1,204 @@
+{
+  "status": "PASS",
+  "kind": "recorded_synthetic_contract_pilot_and_current_engine_replay",
+  "node": "v24.22.3",
+  "variants": {
+    "baseline": {
+      "cases": 8,
+      "passed": 8,
+      "results": [
+        {
+          "id": "ready_zero",
+          "route": "direct",
+          "next": "readback",
+          "mechanicalChecks": "PASS"
+        },
+        {
+          "id": "focused_two_reads",
+          "route": "focused",
+          "next": "observe",
+          "mechanicalChecks": "PASS"
+        },
+        {
+          "id": "exploratory_one_read",
+          "route": "exploratory",
+          "next": "observe",
+          "mechanicalChecks": "PASS"
+        },
+        {
+          "id": "explicit_exploration",
+          "route": "direct",
+          "next": "explore",
+          "mechanicalChecks": "PASS"
+        },
+        {
+          "id": "recipient_portability",
+          "route": "direct",
+          "next": "readback",
+          "mechanicalChecks": "PASS"
+        },
+        {
+          "id": "audit_not_repair",
+          "route": "direct",
+          "next": "readback",
+          "mechanicalChecks": "PASS"
+        },
+        {
+          "id": "mandatory_worker",
+          "route": "direct",
+          "next": "readback",
+          "mechanicalChecks": "PASS"
+        },
+        {
+          "id": "optional_no_go",
+          "route": "direct",
+          "next": "readback",
+          "mechanicalChecks": "PASS"
+        }
+      ]
+    },
+    "assisted": {
+      "cases": 8,
+      "passed": 8,
+      "results": [
+        {
+          "id": "ready_zero",
+          "route": "direct",
+          "next": "readback",
+          "mechanicalChecks": "PASS"
+        },
+        {
+          "id": "focused_two_reads",
+          "route": "focused",
+          "next": "observe",
+          "mechanicalChecks": "PASS"
+        },
+        {
+          "id": "exploratory_one_read",
+          "route": "exploratory",
+          "next": "observe",
+          "mechanicalChecks": "PASS"
+        },
+        {
+          "id": "explicit_exploration",
+          "route": "direct",
+          "next": "explore",
+          "mechanicalChecks": "PASS"
+        },
+        {
+          "id": "recipient_portability",
+          "route": "direct",
+          "next": "readback",
+          "mechanicalChecks": "PASS"
+        },
+        {
+          "id": "audit_not_repair",
+          "route": "direct",
+          "next": "readback",
+          "mechanicalChecks": "PASS"
+        },
+        {
+          "id": "mandatory_worker",
+          "route": "direct",
+          "next": "readback",
+          "mechanicalChecks": "PASS"
+        },
+        {
+          "id": "optional_no_go",
+          "route": "direct",
+          "next": "readback",
+          "mechanicalChecks": "PASS"
+        }
+      ]
+    }
+  },
+  "replayedEngineCalls": 8,
+  "numericPlans": 2,
+  "replays": [
+    {
+      "id": "ready_zero",
+      "route": "direct",
+      "observationRoute": null,
+      "next": "readback",
+      "cost": null,
+      "status": "PASS"
+    },
+    {
+      "id": "focused_two_reads",
+      "route": "focused",
+      "observationRoute": "exploratory",
+      "next": "observe",
+      "cost": "2",
+      "status": "PASS"
+    },
+    {
+      "id": "exploratory_one_read",
+      "route": "exploratory",
+      "observationRoute": "focused",
+      "next": "observe",
+      "cost": "1",
+      "status": "PASS"
+    },
+    {
+      "id": "explicit_exploration",
+      "route": "direct",
+      "observationRoute": null,
+      "next": "explore",
+      "cost": null,
+      "status": "PASS"
+    },
+    {
+      "id": "recipient_portability",
+      "route": "direct",
+      "observationRoute": null,
+      "next": "readback",
+      "cost": null,
+      "status": "PASS"
+    },
+    {
+      "id": "audit_not_repair",
+      "route": "direct",
+      "observationRoute": null,
+      "next": "readback",
+      "cost": null,
+      "status": "PASS"
+    },
+    {
+      "id": "mandatory_worker",
+      "route": "direct",
+      "observationRoute": null,
+      "next": "readback",
+      "cost": null,
+      "status": "PASS"
+    },
+    {
+      "id": "optional_no_go",
+      "route": "direct",
+      "observationRoute": null,
+      "next": "readback",
+      "cost": null,
+      "status": "PASS"
+    }
+  ],
+  "hashes": {
+    "inputs": "fa08630b5dc166a52a4c0401eed3f2b5a95e09b7b608630e4a553c8fd542c74f",
+    "expectations": "2cb689a203c593d651cc0e9537059309a2f783120c3c21b050603d2c5d9cc070",
+    "baseline.output": "0d84faf7e8c40c4ee630ed8cccbb20167d953b0e73454b341cf0370dffc73877",
+    "assisted.output": "713950426e4fff7293911b069b293152ccac5ee497aeb062b06f14fe7701ca55",
+    "assisted.requests": "fdfd9ea56195f956998da6f1e2d2995d61731c7eacdcfb2f71a6f05c90a56440",
+    "assisted.engine-results": "62f142e16e34f342d4190d2d7ed52090084d510234f0a79e0779e3c5c82081ff",
+    "src/falp.ts": "4ca2e3299512dee298d617f8e555990f4f3f2105a0c4623df1033b5714f8f573",
+    "dist/falp.js": "ec6faf53927d41d0a71450a615e1bafedf3790b2090c4404d80f67a9ca80e27f",
+    "dist/anchor.js": "8cc627874f493f87661a8988c98d5d07b8fdf54be03dfb3b17225f05615a6c9b",
+    "dist/planner.js": "ae9546a9089f06d5026edd57fa1e0339450074ba6a66fb9f747020279dcf56ab",
+    "dist/session.js": "8a22d88422a934b071d9a12b9d7f5cdce9017793c80209a1c8853f1c8f95fc5d",
+    "dist/core.js": "55babe2ce3f8bfe6c08f20c4d1c6ac5a2035a8ae2ed11f76f5182c76358fed92"
+  },
+  "limitations": [
+    "Eight author-labelled synthetic cases; no claim of production representativeness or statistical improvement.",
+    "Fresh agent contexts shared a filesystem; blindness and model-family diversity are not established.",
+    "Prompt semantics require the separate recorded review; these checks cover declared controls and literal constraints.",
+    "Replaying saved requests runs the current library, not a new LLM evaluation.",
+    "No external probes, recipient tasks or installed-plugin changes; no token, provider-cost or end-to-end latency telemetry."
+  ]
+}

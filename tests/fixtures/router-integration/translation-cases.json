@@ -1,0 +1,96 @@
+[
+  {
+    "name": "three correlated rows with object-property IDs",
+    "brief": {
+      "anchor": "  ANCLA: conservar Café y Café.\r\nNO GO: escribir.\r\n ",
+      "coverage": "complete",
+      "gate": "allowed",
+      "costUnit": "probe-unit",
+      "remainingBudget": "2",
+      "questions": [
+        { "id": "toString", "domain": ["south", "north", "east"] },
+        { "id": "constructor", "domain": ["upper", "lower"] }
+      ],
+      "probes": [
+        { "id": "toString", "capability": "partition", "permission": "denied", "available": true, "cost": "1" },
+        { "id": "probe:3", "capability": "local-only", "permission": "allowed", "available": false, "cost": "1" },
+        { "id": "constructor", "capability": "read-color", "permission": "allowed", "available": true, "cost": "2" }
+      ],
+      "scenarios": [
+        { "id": "w:2", "answers": { "toString": "east", "constructor": "lower" }, "outcomes": { "toString": "same", "probe:3": "n:2", "constructor": "green" } },
+        { "id": "constructor", "answers": { "toString": "north", "constructor": "lower" }, "outcomes": { "toString": "same", "probe:3": "n:0", "constructor": "red" } },
+        { "id": "toString", "answers": { "toString": "south", "constructor": "upper" }, "outcomes": { "toString": "other", "probe:3": "n:1", "constructor": "blue" } }
+      ],
+      "observations": []
+    },
+    "expectedModel": {
+      "coverage": "complete",
+      "gate": "allowed",
+      "costUnit": "probe-unit",
+      "remainingBudget": "2",
+      "decisions": [
+        { "id": "constructor", "domain": ["lower", "upper"] },
+        { "id": "toString", "domain": ["east", "north", "south"] }
+      ],
+      "worlds": [
+        { "id": "constructor", "answers": { "constructor": "lower", "toString": "north" } },
+        { "id": "toString", "answers": { "constructor": "upper", "toString": "south" } },
+        { "id": "w:2", "answers": { "constructor": "lower", "toString": "east" } }
+      ],
+      "actions": [
+        { "id": "constructor", "capability": "read-color", "permission": "allowed", "available": true, "cost": "2", "outcomes": { "constructor": "red", "toString": "blue", "w:2": "green" } },
+        { "id": "probe:3", "capability": "local-only", "permission": "allowed", "available": false, "cost": "1", "outcomes": { "constructor": "n:0", "toString": "n:1", "w:2": "n:2" } },
+        { "id": "toString", "capability": "partition", "permission": "denied", "available": true, "cost": "1", "outcomes": { "constructor": "same", "toString": "other", "w:2": "same" } }
+      ],
+      "observations": []
+    }
+  },
+  {
+    "name": "joint equality and ownership with distinct outcome alphabets",
+    "brief": {
+      "anchor": "ANCLA: comparar los dos contratos; no modificar ninguno.",
+      "coverage": "complete",
+      "gate": "allowed",
+      "costUnit": "read-unit",
+      "remainingBudget": "5",
+      "questions": [
+        { "id": "owner", "domain": ["remote", "local"] },
+        { "id": "alignment", "domain": ["same", "different"] }
+      ],
+      "probes": [
+        { "id": "read_right", "capability": "read-file", "permission": "allowed", "available": true, "cost": "3" },
+        { "id": "noise", "capability": "read-label", "permission": "allowed", "available": true, "cost": "1" },
+        { "id": "read_left", "capability": "read-file", "permission": "allowed", "available": true, "cost": "2" }
+      ],
+      "scenarios": [
+        { "id": "w11", "answers": { "owner": "remote", "alignment": "same" }, "outcomes": { "read_right": "right:1", "noise": "label.same", "read_left": "left:1" } },
+        { "id": "w00", "answers": { "owner": "local", "alignment": "same" }, "outcomes": { "read_right": "right:0", "noise": "label.same", "read_left": "left:0" } },
+        { "id": "w10", "answers": { "owner": "remote", "alignment": "different" }, "outcomes": { "read_right": "right:0", "noise": "label.same", "read_left": "left:1" } },
+        { "id": "w01", "answers": { "owner": "local", "alignment": "different" }, "outcomes": { "read_right": "right:1", "noise": "label.same", "read_left": "left:0" } }
+      ],
+      "observations": []
+    },
+    "expectedModel": {
+      "coverage": "complete",
+      "gate": "allowed",
+      "costUnit": "read-unit",
+      "remainingBudget": "5",
+      "decisions": [
+        { "id": "alignment", "domain": ["different", "same"] },
+        { "id": "owner", "domain": ["local", "remote"] }
+      ],
+      "worlds": [
+        { "id": "w00", "answers": { "alignment": "same", "owner": "local" } },
+        { "id": "w01", "answers": { "alignment": "different", "owner": "local" } },
+        { "id": "w10", "answers": { "alignment": "different", "owner": "remote" } },
+        { "id": "w11", "answers": { "alignment": "same", "owner": "remote" } }
+      ],
+      "actions": [
+        { "id": "noise", "capability": "read-label", "permission": "allowed", "available": true, "cost": "1", "outcomes": { "w00": "label.same", "w01": "label.same", "w10": "label.same", "w11": "label.same" } },
+        { "id": "read_left", "capability": "read-file", "permission": "allowed", "available": true, "cost": "2", "outcomes": { "w00": "left:0", "w01": "left:0", "w10": "left:1", "w11": "left:1" } },
+        { "id": "read_right", "capability": "read-file", "permission": "allowed", "available": true, "cost": "3", "outcomes": { "w00": "right:0", "w01": "right:1", "w10": "right:0", "w11": "right:1" } }
+      ],
+      "observations": []
+    }
+  }
+]

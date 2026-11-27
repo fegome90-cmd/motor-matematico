@@ -83,8 +83,10 @@ const scenarios = [
 for (const scenario of scenarios) scenario.json = JSON.stringify(scenario.input);
 function verify(scenario, result) {
   assert.equal(result.status, scenario.status, `${scenario.name}: unexpected status`);
-  if (scenario.cost) assert.equal(result.worstCaseCost, scenario.cost);
-  else {
+  if (scenario.status === 'planned') {
+    assert.ok(result.policy, `${scenario.name}: planned result has no policy`);
+    assert.equal(result.worstCaseCost, scenario.cost);
+  } else {
     assert.equal(result.policy, null);
     assert.equal(result.worstCaseCost, null);
     assert.equal(result.reason, scenario.reason);

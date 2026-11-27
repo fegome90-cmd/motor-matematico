@@ -1,0 +1,19 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> @fegome90/motor-matematico@0.2.0 check:docs
+> python3 -B scripts/check-docs.py
+
+agent-docs-kit c1efd7bed2c2e74f47a7ce41a893839cfcdc6f57: 5 documents, structural check PASS (not semantic attestation)
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> @fegome90/motor-matematico@0.2.0 lint
+> biome check .
+
+Checked 25 files in 27ms. No fixes applied.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> @fegome90/motor-matematico@0.2.0 verify:package
+> node scripts/verify-package.mjs
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+{"status":"PASS","packedFiles":86,"libraryCost":"6","cliCost":"6","falpSession":{"next":"reassess","remainingBudget":"0"},"runtimeDependencies":0}

@@ -74,7 +74,7 @@ npm run verify:package
 
 Los oráculos requieren Python >=3.11. El gate completo `npm run check` añade lint, tipos y documentación; la [guía de operación](docs/agent/RUNTIME.md) explica cómo preparar el checker documental fijado por commit. `npm run bench` mide planificación local, con verificación de sus resultados.
 
-La [evidencia de la entrega](docs/evidence/README.md) incluye los resultados de pruebas, benchmark y revisión con contexto nuevo. Las pruebas usan modelos sintéticos: no miden comprensión de prompts, tokens ni proveedores LLM. La integración con un router anfitrión requiere construir y validar su modelo y revalidar permisos antes de ejecutar herramientas.
+La [evidencia de la entrega](docs/evidence/README.md) incluye los resultados de pruebas, benchmark y revisión con contexto nuevo. La [campaña de integración FALP](docs/evidence/router-integration/README.md) añade un piloto de ocho encargos sintéticos con agentes y su replay mecánico. No mide calidad sobre tareas de producción, tokens ni costo de proveedores. La integración con un router anfitrión requiere construir y validar su modelo y revalidar permisos antes de ejecutar herramientas.
 
 ## Continuar el proyecto
 
@@ -89,3 +89,14 @@ La implementación conserva `evaluate` para el diagnóstico de un paso de v0.1.0
 ## Adaptador de Prompts con Ancla
 
 El candidato `compileAnchor`, `routeAnchor` y `advanceAnchor` transforma briefs estructurados en modelos del motor. Consulta el [contrato y ejemplo](docs/anchor-adapter.md). No interpreta texto libre ni concede permisos.
+
+Para integrar el router FALP, usa la [frontera de host](docs/falp-integration.md): `routeFalp` conserva la clasificación semántica del host y separa el plan de observaciones del siguiente control. Admite encargos listos sin preguntas artificiales. `acceptFalpReceipt` comprueba tarea, pregunta, revisión, ancla y acción contra el despacho conservado por el host.
+
+El consumidor debe seguir `next`: `readback`, `explore`, `observe`, `reassess` o `blocked`. Una respuesta resuelta en el modelo vuelve a evaluación del host. La integración está disponible como biblioteca; el plugin instalado sigue siendo un router instruccional.
+
+```sh
+node scripts/verify-router-pilot.mjs
+node --test tests/falp.test.mjs tests/anchor-differential.test.mjs tests/router-pilot.test.mjs
+```
+
+El primer comando comprueba las salidas registradas del piloto y vuelve a ejecutar ocho solicitudes sobre la API actual; no llama nuevamente a un LLM.

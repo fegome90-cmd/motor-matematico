@@ -1,0 +1,85 @@
+{
+  "variant": "motor-assisted",
+  "cases": [
+    {
+      "id": "ready_zero",
+      "route": "direct",
+      "next": "readback",
+      "explorationRequired": false,
+      "anchor": "GOAL: sumar items enteros.\nMUST DO: []→0; [5,-2]→3.\nNO GO: No uses la red ni instales dependencias.\nDONE WHEN: JSON con total.",
+      "prompt": "Recibirás un objeto JSON con el campo obligatorio \"items\", cuyo valor es un arreglo de números enteros. Calcula la suma de todos sus elementos.\n\nNo uses la red ni instales dependencias.\n\nResponde únicamente con un objeto JSON que tenga una sola propiedad obligatoria: \"total\", de tipo entero. No incluyas campos adicionales, Markdown, comentarios ni explicaciones. \"total\" no puede omitirse ni ser null.\n\nRespeta estos casos exigidos:\n- Entrada: {\"items\":[]}. Salida: {\"total\":0}.\n- Entrada: {\"items\":[5,-2]}. Salida: {\"total\":3}.\n\nUna lista vacía es una entrada válida y su suma es 0.",
+      "clarifyingQuestions": [],
+      "notes": "Prompt completo tras readback textual propio: conserva el cálculo, los ejemplos, la salida JSON y la prohibición literal. El next=readback habilitó esta revisión; no constituye aprobación automática del motor. No se ejecutó la tarea destinataria ni se probaron respuestas en otro host."
+    },
+    {
+      "id": "focused_two_reads",
+      "route": "focused",
+      "next": "observe",
+      "explorationRequired": true,
+      "anchor": "GOAL: comparar etiquetas de dos contratos.\r\nNO GO: no modificar archivos.\r\nDONE WHEN: establecer si coinciden con evidencia de ambos.",
+      "prompt": "Audita, sólo mediante lectura, la concordancia de las etiquetas de los dos contratos que se te proporcionen. El objetivo y la estrategia están decididos: compara sus etiquetas; no propongas una estrategia alternativa.\n\nNo modificar archivos.\n\nConsulta ambos contratos y registra las etiquetas observadas con su fuente y localizador. Establece si coinciden o difieren únicamente cuando cuentes con evidencia de ambos. No afirmes que coinciden antes de observarlas.\n\nSi falta un contrato o no puedes leerlo, declara qué evidencia falta y deja pendiente la conclusión que depende de ella.",
+      "clarifyingQuestions": [],
+      "notes": "Borrador de contenido invariante; no se entrega como prompt final validado. next=observe: pendiente obtener las dos observaciones reales. La política recomienda read_left y después read_right; no se ejecutó ninguna. La ruta semántica permanece focused, aunque observationRoute=exploratory y la profundidad de la política es 2. v0/v1 y same/different son posibilidades del modelo hipotético, no etiquetas ni conclusiones observadas. El ancla conserva literalmente sus CRLF; la prohibición del prompt conserva la mayúscula exacta pedida."
+    },
+    {
+      "id": "exploratory_one_read",
+      "route": "exploratory",
+      "next": "observe",
+      "explorationRequired": true,
+      "anchor": "GOAL: explorar una estrategia de edición.\nNO GO: no imponer proveedor ni instalar software.\nDONE WHEN: comparar alternativas con los criterios entregados.",
+      "prompt": "Explora la estrategia de un editor y compara las dos alternativas que siguen abiertas: componente embebido e integración externa.\n\nNo imponer proveedor ni instalar software.\n\nUsa el reporte de requisitos que se te proporcione para evaluar ambas alternativas por mantenimiento, portabilidad y capacidades. Relaciona la comparación con los requisitos efectivamente observados y señala su fuente o localizador. Distingue requisitos documentados, inferencias e información ausente.\n\nEntrega una comparación sustentada en esos criterios. Si falta el reporte o no hay evidencia suficiente para una elección, declara lo pendiente y conserva abierta la decisión.",
+      "clarifyingQuestions": [],
+      "notes": "Borrador de contenido invariante; la estrategia no está seleccionada ni se afirma una comparación concluida. next=observe: pendiente la observación real de read_requirements. La ruta semántica permanece exploratory, aunque observationRoute=focused y la política tiene profundidad 1. local_only/external_ok y embedded/external pertenecen al modelo hipotético; no son hallazgos. Tras observar, el host deberá reevaluar suficiencia y hacer readback; solved tampoco aprobaría por sí solo el prompt."
+    },
+    {
+      "id": "explicit_exploration",
+      "route": "direct",
+      "next": "explore",
+      "explorationRequired": true,
+      "anchor": "GOAL: resumir texto adjunto.\nMUST DO: Cuatro viñetas, sin fuentes adicionales.\nMUST DO: explorar enfoques antes de entregar.",
+      "prompt": "Resume el texto adjunto usando únicamente su contenido.\n\nCuatro viñetas, sin fuentes adicionales.\n\nConserva las ideas del texto sin añadir información no respaldada por él.",
+      "clarifyingQuestions": [],
+      "notes": "Sólo contenido invariante provisional. next=explore: está pendiente que el redactor explore enfoques de redacción antes de entregar el prompt. El brief suficiente produce route=direct, pero explorationRequired=true impide tratarlo como entrega final. No se afirma que la exploración se haya realizado ni se transfiere ese proceso del redactor al receptor."
+    },
+    {
+      "id": "recipient_portability",
+      "route": "direct",
+      "next": "readback",
+      "explorationRequired": false,
+      "anchor": "GOAL: auditar README frente a contrato adjunto.\nTARGET: Claude.\nNO GO: No heredes capacidades del redactor.\nDONE WHEN: divergencias con localizadores.",
+      "prompt": "Claude, audita el README adjunto frente al contrato adjunto. Trabaja sólo mediante lectura y señala las divergencias entre ambos.\n\nNo heredes capacidades del redactor.\n\nComprueba qué herramientas están realmente disponibles en tu entorno y si puedes acceder a los dos adjuntos. Usa únicamente los recursos efectivamente disponibles y autorizados para esta auditoría. Si falta un adjunto o no puedes leerlo, declara la limitación y deja pendiente sólo la comparación que dependa de él.\n\nPara cada divergencia, identifica el requisito del contrato, el contenido correspondiente del README y un localizador verificable en cada documento, como sección o número de línea cuando esté disponible. Distingue una divergencia comprobada de una falta de evidencia. No modifiques los documentos ni inventes accesos, lecturas o hallazgos.\n\nEntrega las divergencias sustentadas y la cobertura real de la revisión. Si no encuentras divergencias, acota esa conclusión al material que efectivamente revisaste.",
+      "clarifyingQuestions": [],
+      "notes": "Prompt completo tras readback textual propio: Claude es el receptor, se comprueban capacidades en destino y se preservan sólo lectura, adjuntos y localizadores. No incorpora Bootstrap, Kernel, memoria, plugins ni rutas privadas del redactor. No se leyeron los adjuntos ni se ejecutó la auditoría; esa ejecución corresponde al receptor."
+    },
+    {
+      "id": "audit_not_repair",
+      "route": "direct",
+      "next": "readback",
+      "explorationRequired": false,
+      "anchor": "GOAL: auditar el PR proporcionado.\nNO GO: No escribas archivos, no hagas merge y no despliegues.\nDONE WHEN: hallazgos con severidad y evidencia.",
+      "prompt": "Audita el PR que te proporcione el usuario y devuelve hallazgos con severidad y evidencia.\n\nNo escribas archivos, no hagas merge y no despliegues.\n\nInspecciona el estado realmente disponible y el diff real del PR. Cuando trabajes en un repositorio local, comprueba la rama o worktree existente y las revisiones que estás comparando; no crees otro por defecto. Distingue el estado declarado por el usuario del que hayas podido comprobar.\n\nLimita tu actuación a la auditoría. Para cada hallazgo, explica el problema y su impacto, asigna una severidad justificada e incluye evidencia observable con archivo y localizador cuando estén disponibles. No repares el código ni presentes suposiciones como defectos confirmados.\n\nSi no puedes acceder al PR, al diff o a parte del estado necesario, indica qué falta y qué conclusiones quedan sin comprobar. Informa la cobertura y las limitaciones reales; no afirmes haber ejecutado pruebas o verificaciones que no realizaste.",
+      "clarifyingQuestions": [],
+      "notes": "Prompt completo tras readback textual propio: conserva auditoría, estado y diff reales, severidad, evidencia y prohibición literal. No amplía autorización a reparación, escritura, merge o despliegue. No se inspeccionó ningún PR ni se ejecutó la auditoría durante este piloto."
+    },
+    {
+      "id": "mandatory_worker",
+      "route": "direct",
+      "next": "readback",
+      "explorationRequired": false,
+      "anchor": "GOAL: revisión por worker real.\nMUST DO: delegación obligatoria.\nNO GO: No sustituyas el worker por una revisión propia.\nDONE WHEN: revisión o bloqueo explícito de lo dependiente.",
+      "prompt": "La revisión del material que te entregue el usuario debe delegarse a un worker real. Esta delegación es obligatoria.\n\nNo sustituyas el worker por una revisión propia.\n\nComprueba si tu entorno dispone realmente de workers y permite efectuar esa delegación. No presupongas capacidades por el entorno del redactor.\n\nSi puedes delegar, envía al worker el material autorizado necesario y el alcance exacto de la revisión, junto con sus restricciones y el resultado esperado. Incluye de forma explícita cualquier cadena o campo que deba preservarse; no remitas a contexto que el worker no pueda ver. Solicita hallazgos y evidencia observable, recibe su resultado y comprueba que corresponda al encargo enviado. Informa lo efectivamente delegado y recibido; una etiqueta de rol, una sesión abierta o una revisión tuya no demuestran una revisión de worker completada.\n\nSi careces de workers o no puedes cumplir la delegación, declara BLOCKED únicamente para la revisión que depende del worker. Puedes preparar lo independiente que esté autorizado, identificándolo como preparación y dejando pendiente la revisión obligatoria.",
+      "clarifyingQuestions": [],
+      "notes": "Prompt completo tras readback textual propio: la delegación obligatoria permanece en destino; no presupone herramientas del receptor ni permite sustitución por trabajo propio. La falta de workers bloquea sólo la revisión dependiente. Este piloto redactó esa instrucción; no ejecutó la revisión destinataria ni acredita revisión independiente, evaluación ciega o diversidad de modelos."
+    },
+    {
+      "id": "optional_no_go",
+      "route": "direct",
+      "next": "readback",
+      "explorationRequired": false,
+      "anchor": "GOAL: resumir el texto aportado.\nMUST DO: cuatro viñetas, conservar números.\nDONE WHEN: resumen o ausencia de texto declarada.",
+      "prompt": "Resume el texto que se te adjunte en exactamente cuatro viñetas. Conserva sus números sin modificarlos, aproximarlos ni inventar cifras, y mantén el sentido del texto.\n\nSi falta el texto o no puedes acceder a él, declara brevemente esa ausencia y no inventes un resumen. Cuando haya texto disponible, entrega las cuatro viñetas; cuando falte, entrega la declaración de ausencia.\n\nNo agregues preguntas de confirmación ni un formulario de restricciones opcionales.",
+      "clarifyingQuestions": [],
+      "notes": "Prompt completo tras readback textual propio: cuatro viñetas, números conservados y ausencia declarada. NO GO opcional no generó preguntas, un formulario ni un nuevo permiso. No se resumió texto alguno durante el piloto."
+    }
+  ]
+}

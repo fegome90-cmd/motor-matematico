@@ -1,0 +1,333 @@
+{
+  "metadata": {
+    "inputPath": "/workspace/scratch/ea177efed27f/motor-router-tests/tests/fixtures/router-integration/pilot-inputs.json",
+    "inputSha256": "fa08630b5dc166a52a4c0401eed3f2b5a95e09b7b608630e4a553c8fd542c74f",
+    "engineEntry": "/workspace/scratch/ea177efed27f/motor-falp-contract/dist/index.js",
+    "nodeVersion": "v24.22.3",
+    "command": "node /workspace/scratch/ea177efed27f/router-pilot/assisted/run-engine.mjs",
+    "constraints": {
+      "recipientTasksExecuted": false,
+      "scenarioProbesExecuted": false,
+      "networkResearchPerformed": false,
+      "hypotheticalOutcomesPromotedToFacts": false,
+      "contextIsolation": "Fresh assigned task; isolation not independently accredited.",
+      "sharedFilesystem": true,
+      "blindEvaluationAccredited": false,
+      "modelDiversityAccredited": false,
+      "tokenAndCostTelemetryAvailable": false
+    }
+  },
+  "startedAt": "2026-11-27T13:15:49.656Z",
+  "completedAt": "2026-11-27T13:15:49.659Z",
+  "routeFalpInvocationCount": 8,
+  "cases": [
+    {
+      "id": "ready_zero",
+      "invocation": 1,
+      "calledAt": "2026-11-27T13:15:49.657Z",
+      "result": {
+        "context": {
+          "taskId": "ready_zero",
+          "revision": "r1",
+          "anchor": "GOAL: sumar items enteros.\nMUST DO: []→0; [5,-2]→3.\nNO GO: No uses la red ni instales dependencias.\nDONE WHEN: JSON con total.",
+          "gate": "allowed"
+        },
+        "route": "direct",
+        "explorationRequired": false,
+        "observationRoute": null,
+        "next": "readback",
+        "reason": "BRIEF_SUFFICIENT",
+        "plan": null
+      }
+    },
+    {
+      "id": "focused_two_reads",
+      "invocation": 2,
+      "calledAt": "2026-11-27T13:15:49.658Z",
+      "result": {
+        "context": {
+          "taskId": "focused_two_reads",
+          "revision": "r1",
+          "anchor": "GOAL: comparar etiquetas de dos contratos.\r\nNO GO: no modificar archivos.\r\nDONE WHEN: establecer si coinciden con evidencia de ambos.",
+          "gate": "allowed"
+        },
+        "route": "focused",
+        "explorationRequired": true,
+        "observationRoute": "exploratory",
+        "next": "observe",
+        "reason": "OPTIMAL_POLICY",
+        "plan": {
+          "status": "planned",
+          "reason": "OPTIMAL_POLICY",
+          "recommendedAction": "read_left",
+          "worstCaseCost": "2",
+          "policy": {
+            "root": "n0",
+            "nodes": [
+              {
+                "id": "n0",
+                "type": "decision",
+                "action": "read_left",
+                "branches": [
+                  {
+                    "outcome": "v0",
+                    "child": "n1"
+                  },
+                  {
+                    "outcome": "v1",
+                    "child": "n4"
+                  }
+                ]
+              },
+              {
+                "id": "n1",
+                "type": "decision",
+                "action": "read_right",
+                "branches": [
+                  {
+                    "outcome": "v0",
+                    "child": "n2"
+                  },
+                  {
+                    "outcome": "v1",
+                    "child": "n3"
+                  }
+                ]
+              },
+              {
+                "id": "n2",
+                "type": "leaf",
+                "answers": {
+                  "agreement": "same"
+                }
+              },
+              {
+                "id": "n3",
+                "type": "leaf",
+                "answers": {
+                  "agreement": "different"
+                }
+              },
+              {
+                "id": "n4",
+                "type": "decision",
+                "action": "read_right",
+                "branches": [
+                  {
+                    "outcome": "v0",
+                    "child": "n3"
+                  },
+                  {
+                    "outcome": "v1",
+                    "child": "n2"
+                  }
+                ]
+              }
+            ]
+          },
+          "coverage": "complete",
+          "gate": "allowed",
+          "costUnit": "reads",
+          "remainingBudget": "2",
+          "statistics": {
+            "worlds": 4,
+            "compatibleWorlds": 4,
+            "signatures": 2,
+            "actions": 2,
+            "admissibleActions": 2,
+            "states": 9,
+            "cacheHits": 4,
+            "transitions": 12,
+            "maxDepth": 2,
+            "policyNodes": 5
+          },
+          "limits": {
+            "maxWorlds": 128,
+            "maxActions": 32,
+            "maxStates": 20000,
+            "maxTransitions": 500000,
+            "maxDepth": 32,
+            "maxMillis": 1000
+          }
+        }
+      }
+    },
+    {
+      "id": "exploratory_one_read",
+      "invocation": 3,
+      "calledAt": "2026-11-27T13:15:49.659Z",
+      "result": {
+        "context": {
+          "taskId": "exploratory_one_read",
+          "revision": "r1",
+          "anchor": "GOAL: explorar una estrategia de edición.\nNO GO: no imponer proveedor ni instalar software.\nDONE WHEN: comparar alternativas con los criterios entregados.",
+          "gate": "allowed"
+        },
+        "route": "exploratory",
+        "explorationRequired": true,
+        "observationRoute": "focused",
+        "next": "observe",
+        "reason": "OPTIMAL_POLICY",
+        "plan": {
+          "status": "planned",
+          "reason": "OPTIMAL_POLICY",
+          "recommendedAction": "read_requirements",
+          "worstCaseCost": "1",
+          "policy": {
+            "root": "n0",
+            "nodes": [
+              {
+                "id": "n0",
+                "type": "decision",
+                "action": "read_requirements",
+                "branches": [
+                  {
+                    "outcome": "external_ok",
+                    "child": "n1"
+                  },
+                  {
+                    "outcome": "local_only",
+                    "child": "n2"
+                  }
+                ]
+              },
+              {
+                "id": "n1",
+                "type": "leaf",
+                "answers": {
+                  "strategy": "external"
+                }
+              },
+              {
+                "id": "n2",
+                "type": "leaf",
+                "answers": {
+                  "strategy": "embedded"
+                }
+              }
+            ]
+          },
+          "coverage": "complete",
+          "gate": "allowed",
+          "costUnit": "reads",
+          "remainingBudget": "1",
+          "statistics": {
+            "worlds": 2,
+            "compatibleWorlds": 2,
+            "signatures": 2,
+            "actions": 1,
+            "admissibleActions": 1,
+            "states": 3,
+            "cacheHits": 0,
+            "transitions": 2,
+            "maxDepth": 1,
+            "policyNodes": 3
+          },
+          "limits": {
+            "maxWorlds": 128,
+            "maxActions": 32,
+            "maxStates": 20000,
+            "maxTransitions": 500000,
+            "maxDepth": 32,
+            "maxMillis": 1000
+          }
+        }
+      }
+    },
+    {
+      "id": "explicit_exploration",
+      "invocation": 4,
+      "calledAt": "2026-11-27T13:15:49.659Z",
+      "result": {
+        "context": {
+          "taskId": "explicit_exploration",
+          "revision": "r1",
+          "anchor": "GOAL: resumir texto adjunto.\nMUST DO: Cuatro viñetas, sin fuentes adicionales.\nMUST DO: explorar enfoques antes de entregar.",
+          "gate": "allowed"
+        },
+        "route": "direct",
+        "explorationRequired": true,
+        "observationRoute": null,
+        "next": "explore",
+        "reason": "EXPLORATION_REQUESTED",
+        "plan": null
+      }
+    },
+    {
+      "id": "recipient_portability",
+      "invocation": 5,
+      "calledAt": "2026-11-27T13:15:49.659Z",
+      "result": {
+        "context": {
+          "taskId": "recipient_portability",
+          "revision": "r1",
+          "anchor": "GOAL: auditar README frente a contrato adjunto.\nTARGET: Claude.\nNO GO: No heredes capacidades del redactor.\nDONE WHEN: divergencias con localizadores.",
+          "gate": "allowed"
+        },
+        "route": "direct",
+        "explorationRequired": false,
+        "observationRoute": null,
+        "next": "readback",
+        "reason": "BRIEF_SUFFICIENT",
+        "plan": null
+      }
+    },
+    {
+      "id": "audit_not_repair",
+      "invocation": 6,
+      "calledAt": "2026-11-27T13:15:49.659Z",
+      "result": {
+        "context": {
+          "taskId": "audit_not_repair",
+          "revision": "r1",
+          "anchor": "GOAL: auditar el PR proporcionado.\nNO GO: No escribas archivos, no hagas merge y no despliegues.\nDONE WHEN: hallazgos con severidad y evidencia.",
+          "gate": "allowed"
+        },
+        "route": "direct",
+        "explorationRequired": false,
+        "observationRoute": null,
+        "next": "readback",
+        "reason": "BRIEF_SUFFICIENT",
+        "plan": null
+      }
+    },
+    {
+      "id": "mandatory_worker",
+      "invocation": 7,
+      "calledAt": "2026-11-27T13:15:49.659Z",
+      "result": {
+        "context": {
+          "taskId": "mandatory_worker",
+          "revision": "r1",
+          "anchor": "GOAL: revisión por worker real.\nMUST DO: delegación obligatoria.\nNO GO: No sustituyas el worker por una revisión propia.\nDONE WHEN: revisión o bloqueo explícito de lo dependiente.",
+          "gate": "allowed"
+        },
+        "route": "direct",
+        "explorationRequired": false,
+        "observationRoute": null,
+        "next": "readback",
+        "reason": "BRIEF_SUFFICIENT",
+        "plan": null
+      }
+    },
+    {
+      "id": "optional_no_go",
+      "invocation": 8,
+      "calledAt": "2026-11-27T13:15:49.659Z",
+      "result": {
+        "context": {
+          "taskId": "optional_no_go",
+          "revision": "r1",
+          "anchor": "GOAL: resumir el texto aportado.\nMUST DO: cuatro viñetas, conservar números.\nDONE WHEN: resumen o ausencia de texto declarada.",
+          "gate": "allowed"
+        },
+        "route": "direct",
+        "explorationRequired": false,
+        "observationRoute": null,
+        "next": "readback",
+        "reason": "BRIEF_SUFFICIENT",
+        "plan": null
+      }
+    }
+  ]
+}

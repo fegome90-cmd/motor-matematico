@@ -32,7 +32,13 @@ const output = rows.map((row) => {
     // JSON serialization is part of the public contract; BigInt output must fail here.
     return { ok: true, result: JSON.parse(JSON.stringify(result)) };
   } catch (error) {
-    return { ok: false, error: { name: error.name, message: error.message } };
+    return {
+      ok: false,
+      error:
+        error instanceof Error
+          ? { name: error.name, message: error.message }
+          : { name: 'Error', message: 'A non-Error value was thrown' },
+    };
   }
 });
 process.stdout.write(JSON.stringify(output) + '\n');
