@@ -1,0 +1,56 @@
+{
+  "source": {
+    "repository": "fegome90-cmd/code-dope",
+    "commit": "0bd8cbc8ed278ad93ac7f5d69c0ccc4cf932b71a"
+  },
+  "license": "licenses/code-dope-MIT.txt",
+  "files": [
+    {
+      "path": "scripts/check-docs.mjs",
+      "source_path": "scripts/check-docs.mjs",
+      "source_blob": "e3eff68a23245c5986c34961fc345ecdfcaea554",
+      "adaptation": "None; byte-for-byte copy",
+      "imported_sha256": "cbeba52b0b4792151589d06497a18edd780a524f9dab94526ac28e980d6ba4db"
+    },
+    {
+      "path": "scripts/check-secrets.sh",
+      "source_path": "scripts/check-secrets.sh",
+      "source_blob": "d7fbaeedb3c96ce2afb9f292a8d1113639a9eeee",
+      "adaptation": "Prefix code-dope-secrets replaced by motor-matematico-secrets",
+      "imported_sha256": "145c646bc8d4122c45c188d8993be4ecd2fc169d0025c643e10f6fb6b804075c"
+    },
+    {
+      "path": "scripts/scan-staged-secrets.mjs",
+      "source_path": "scripts/scan-staged-secrets.mjs",
+      "source_blob": "397a9d7dc9a0413d8ad8819e19da268f824e2e7a",
+      "adaptation": "None; byte-for-byte copy",
+      "imported_sha256": "a3933e5ebac9360326fd5b9120894552d872462a3baca8ac76963d09a0ac9c2b"
+    },
+    {
+      "path": "scripts/scan-staged-secrets.test.mjs",
+      "source_path": "scripts/scan-staged-secrets.test.mjs",
+      "source_blob": "7fcd0e09ba849d41e9c1a0b12a4d5c9e55e6661c",
+      "adaptation": "Prefix code-dope-staged-test replaced by motor-matematico-staged-test",
+      "imported_sha256": "c3af48469531083741d14a234074bdb75b1eb626c5403f7a4b9ab5883ee78a68"
+    },
+    {
+      "path": ".gitleaks.toml",
+      "source_path": ".gitleaks.toml",
+      "source_blob": "16fc7dcaa1475aac90722824d7cd35440a78fb40",
+      "adaptation": "Repository title only",
+      "imported_sha256": "4b449a701954acbd2e90224c9f8216deebb0dd939333b1a7fe63d954f9d959bd"
+    }
+  ],
+  "actions": [
+    {
+      "name": "actions/checkout",
+      "upstream_tag": "v4",
+      "sha": "11d5960a326750d5838078e36cf38b85af677262"
+    },
+    {
+      "name": "actions/setup-node",
+      "upstream_tag": "v4",
+      "sha": "49933ea5288caeca8642d1e84afbd3f7d6820020"
+    }
+  ]
+}
