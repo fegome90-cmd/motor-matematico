@@ -11,7 +11,8 @@ El núcleo calcula sobre datos explícitos; el adaptador CLI maneja archivos y p
 | [core.ts](../../src/core.ts) | Contrato canónico y diagnóstico de un paso | JavaScript estándar |
 | [planner.ts](../../src/planner.ts) | Búsqueda minimax, límites, memo y certificado | `validate` del núcleo |
 | [session.ts](../../src/session.ts) | Registrar un recibo, descontar una vez, devolver estado nuevo | `validate` y `plan` |
-| [index.ts](../../src/index.ts) | Exportaciones públicas | Los tres módulos anteriores |
+| [anchor.ts](../../src/anchor.ts) | Compilar briefs, conservar ancla y clasificar la política | `validate`, `plan` y `advance` |
+| [index.ts](../../src/index.ts) | Exportaciones públicas | Los módulos de biblioteca |
 | [CLI](../../cli.mjs) | Parsear JSON, limitar bytes, imprimir y definir códigos de salida | API pública y archivos de Node |
 
 ## Flujos y estado

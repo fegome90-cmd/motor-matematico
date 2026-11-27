@@ -85,3 +85,7 @@ La [evidencia de la entrega](docs/evidence/README.md) incluye los resultados de 
 - [Gobierno y autoridades](GOVERNANCE.md).
 
 La implementación conserva `evaluate` para el diagnóstico de un paso de v0.1.0 y añade `plan` para políticas completas. Los cambios de código, evidencia y documentos se trabajan juntos en este repositorio.
+
+## Adaptador de Prompts con Ancla
+
+El candidato `compileAnchor`, `routeAnchor` y `advanceAnchor` transforma briefs estructurados en modelos del motor. Consulta el [contrato y ejemplo](docs/anchor-adapter.md). No interpreta texto libre ni concede permisos.

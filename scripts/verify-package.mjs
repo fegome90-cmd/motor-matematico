@@ -47,6 +47,17 @@ try {
     { cwd: work, input: fixture, encoding: 'utf8' },
   );
   assert.equal(imported, '6');
+  const anchorFixture = readFileSync(join(root, 'examples/anchor-routing.json'), 'utf8');
+  const anchorImported = execFileSync(
+    process.execPath,
+    [
+      '--input-type=module',
+      '-e',
+      "import {compileAnchor,routeAnchor} from '@fegome90/motor-matematico'; import fs from 'node:fs'; const r=routeAnchor(compileAnchor(JSON.parse(fs.readFileSync(0,'utf8')))); process.stdout.write(JSON.stringify([r.route,r.plan.worstCaseCost]))",
+    ],
+    { cwd: work, input: anchorFixture, encoding: 'utf8' },
+  );
+  assert.deepEqual(JSON.parse(anchorImported), ['exploratory', '5']);
   console.log(
     JSON.stringify({
       status: 'PASS',

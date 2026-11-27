@@ -152,3 +152,7 @@ motor-matematico advance modelo.json observacion.json --limits limites.json
 Un `infeasible` o `limit_exceeded` es un resultado válido del motor y conserva salida 0. `evaluate` devuelve `Result`, con `route` y `reason`; `validate` y `advance` devuelven el modelo `Input`, sin `status`. El help usa texto, no JSON. El formato antiguo sin subcomando produce error de uso.
 
 Las escrituras esperan su finalización y manejan errores asíncronos, incluida una tubería stdout cerrada. Si stderr también falla, el CLI conserva salida 3, pero no puede entregar un diagnóstico JSON por ese canal.
+
+## Adaptador de anclas
+
+El paquete exporta también `compileAnchor`, `routeAnchor` y `advanceAnchor`. Su contrato independiente está en [adaptador de anclas](anchor-adapter.md).

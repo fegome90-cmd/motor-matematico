@@ -1,0 +1,97 @@
+{
+  "anchor": "  ANCHOR\r\nGOAL\nAuditar la implementación de un PR.\nTARGET / SCOPE\nRama de revisión; solo lectura.\nMUST DO\nVerificar el entorno y la fuente del contrato.\nNO GO\nNo modificar, fusionar ni publicar.\nDONE WHEN\nInforme con evidencia y límites explícitos.\n  ",
+  "coverage": "complete",
+  "gate": "allowed",
+  "costUnit": "work_units",
+  "remainingBudget": "5",
+  "questions": [
+    {
+      "id": "runtime",
+      "domain": [
+        "native",
+        "direct"
+      ]
+    },
+    {
+      "id": "contract",
+      "domain": [
+        "local",
+        "remote"
+      ]
+    }
+  ],
+  "probes": [
+    {
+      "id": "inspect_host",
+      "capability": "host_metadata",
+      "permission": "allowed",
+      "available": true,
+      "cost": "2"
+    },
+    {
+      "id": "locate_contract",
+      "capability": "repo_read",
+      "permission": "allowed",
+      "available": true,
+      "cost": "3"
+    },
+    {
+      "id": "noise",
+      "capability": "metadata",
+      "permission": "allowed",
+      "available": true,
+      "cost": "1"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "native-local",
+      "answers": {
+        "runtime": "native",
+        "contract": "local"
+      },
+      "outcomes": {
+        "inspect_host": "native",
+        "locate_contract": "local",
+        "noise": "same"
+      }
+    },
+    {
+      "id": "native-remote",
+      "answers": {
+        "runtime": "native",
+        "contract": "remote"
+      },
+      "outcomes": {
+        "inspect_host": "native",
+        "locate_contract": "remote",
+        "noise": "same"
+      }
+    },
+    {
+      "id": "direct-local",
+      "answers": {
+        "runtime": "direct",
+        "contract": "local"
+      },
+      "outcomes": {
+        "inspect_host": "direct",
+        "locate_contract": "local",
+        "noise": "same"
+      }
+    },
+    {
+      "id": "direct-remote",
+      "answers": {
+        "runtime": "direct",
+        "contract": "remote"
+      },
+      "outcomes": {
+        "inspect_host": "direct",
+        "locate_contract": "remote",
+        "noise": "same"
+      }
+    }
+  ],
+  "observations": []
+}

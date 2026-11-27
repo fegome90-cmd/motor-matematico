@@ -1,0 +1,4 @@
+ts	phase	decision	why	evidence	result
+2026-11-27T12:44:03Z	baseline	Separar el adaptador de los dos PR abiertos	Evitar cambios simultáneos en gobernanza o el motor base	PR1;PR2;effb31deb7a04ca89ff6f2e76639508a65d550e7	rama separada
+2026-11-27T12:44:03Z	design	Recibir tabla explícita de escenarios y conservar texto opaco	No inferir cobertura ni modificar restricciones protegidas; reutilizar el validador y el planificador	docs/anchor-adapter.md;src/anchor.ts	candidato tipado
+2026-11-27T12:44:03Z	capabilities	Usar GitHub CI para ejecutar el candidato	No hay red Git local ni herramienta de despacho de workers expuesta; EGM independiente y pstack FULL_EVAL no ejecutados	.github/workflows/ci.yml;tests/anchor.test.mjs	verificación remota pendiente
