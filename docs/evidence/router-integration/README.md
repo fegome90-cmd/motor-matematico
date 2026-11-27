@@ -80,3 +80,9 @@ El replay ejecuta el motor sobre solicitudes guardadas; no regenera las respuest
 La frontera es candidata para conectar un host que suministre estado vigente, preserve el despacho confiado, obedezca `next` y haga readback. La exactitud depende del universo y costos declarados. Una cadena intacta no acredita fidelidad semántica; el motor tampoco autentica emisores ni coordina estados concurrentes.
 
 Para probar uso real del plugin falta conectar sus llamadas al paquete y ejecutar encargos representativos con sus herramientas y permisos de destino. Ese paso debe conservar la comparación por tarea, evidencia y costos completos, incluidos intentos externos inconclusos. Esta campaña no declara ese despliegue ejecutado ni aprobación automática de su resultado.
+
+## Publicación y CI
+
+El cambio está publicado en el [PR #3](https://github.com/fegome90-cmd/motor-matematico/pull/3), con base en la rama del adaptador. Los árboles publicados coinciden exactamente con los árboles locales verificados; [publish-map.json](publish-map.json) registra los IDs equivalentes cuando cambian los metadatos de commit. Se preservó el historial local y se comprobó la igualdad de contenido antes de alinear el checkout con la rama remota.
+
+El commit de producto `ed00b9cd1618850d402fedef7a5d99e86bfa3a03` pasó la matriz Node 22/24 tanto en [push](https://github.com/fegome90-cmd/motor-matematico/actions/runs/46007407092) como en [pull request](https://github.com/fegome90-cmd/motor-matematico/actions/runs/46007411164). Pasaron el gate integrado, la distribución versionada y la demo de sesión. Node24 ejecutó además el benchmark acotado del planner; no mide rendimiento del router completo. [ci.json](ci.json) conserva los jobs y pasos observados. Los commits posteriores que registran esta evidencia tienen sus propios [checks del PR](https://github.com/fegome90-cmd/motor-matematico/pull/3/checks).
