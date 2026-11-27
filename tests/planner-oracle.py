@@ -179,7 +179,7 @@ def verify_policy(x: dict, result: dict, ref: Reference) -> dict:
     actions = {a['id']: a for a in x['actions']}
     budget = int(x['remainingBudget'])
     existing_observations = canonical_observation_count(x)
-    reached: dict[str, set[str]] = defaultdict(set)
+    reached: dict[str, dict[tuple[str, ...], set[str]]] = defaultdict(lambda: defaultdict(set))
     paths, costs, action_steps = [], [], 0
     for world_id, signature in ref.worlds.items():
         node_id = policy['root']
@@ -189,7 +189,7 @@ def verify_policy(x: dict, result: dict, ref: Reference) -> dict:
             require(node_id in nodes, f'branch points to missing node {node_id!r}')
             require(node_id not in visited, f'cycle on path for world {world_id}')
             visited.add(node_id)
-            reached[node_id].add(world_id)
+            reached[node_id][tuple(path)].add(world_id)
             node = nodes[node_id]
             if node['type'] == 'leaf':
                 expected = dict(zip(ref.decisions, signature))
@@ -218,7 +218,7 @@ def verify_policy(x: dict, result: dict, ref: Reference) -> dict:
             actual_outcome = action['outcomes'][world_id]
             children = [b['child'] for b in branches if b['outcome'] == actual_outcome]
             require(len(children) == 1, f'policy omits outcome {actual_outcome!r} for {world_id}')
-            path.append(action_id)
+            path.append(actual_outcome)
             action_steps += 1
             node_id = children[0]
         paths.append(path)
@@ -226,9 +226,11 @@ def verify_policy(x: dict, result: dict, ref: Reference) -> dict:
     require(set(reached) == set(nodes), 'policy contains unreachable nodes')
     for node_id, node in nodes.items():
         if node['type'] == 'decision':
-            possible = {actions[node['action']]['outcomes'][w] for w in reached[node_id]}
             emitted = {branch['outcome'] for branch in node['branches']}
-            require(possible == emitted, 'policy branches differ from nonempty supported outcomes')
+            # An outcome prefix identifies a path from the root, even when nodes are shared.
+            for worlds in reached[node_id].values():
+                possible = {actions[node['action']]['outcomes'][w] for w in worlds}
+                require(possible == emitted, 'policy branches differ from supported outcomes on an incoming path')
     worst = decimal(result['worstCaseCost'], 'worstCaseCost')
     require(worst == max(costs), f'reported worst cost {worst} differs from executed paths {max(costs)}')
     require(worst == ref.optimum, f'policy cost {worst} differs from independent optimum {ref.optimum}')
@@ -716,6 +718,30 @@ def self_test() -> dict:
         rejected += 1
     else:
         raise AssertionError('certificate checker accepted a policy without observation slots')
+    shared_model = model([('v0',), ('v1',), ('v0',), ('v1',), ('v2',)], [
+        ('first', 1, ['left', 'left', 'right', 'right', 'single']),
+        ('second', 1, ['o0', 'o1', 'o0', 'o1', 'o0']),
+    ], 2)
+    shared = {'recommendedAction': 'first', 'worstCaseCost': '2', 'policy': {'root': 'root', 'nodes': [
+        {'id': 'root', 'type': 'decision', 'action': 'first', 'branches': [
+            {'outcome': 'left', 'child': 'shared'}, {'outcome': 'right', 'child': 'shared'},
+            {'outcome': 'single', 'child': 'v2'},
+        ]},
+        {'id': 'shared', 'type': 'decision', 'action': 'second', 'branches': [
+            {'outcome': 'o0', 'child': 'v0'}, {'outcome': 'o1', 'child': 'v1'},
+        ]},
+        *({'id': value, 'type': 'leaf', 'answers': {'q0': value}} for value in ('v0', 'v1', 'v2')),
+    ]}}
+    verify_policy(shared_model, shared, reference(shared_model))
+    shared_model['actions'][1]['outcomes']['w2'] = 'o2'
+    shared['policy']['nodes'][1]['branches'].append({'outcome': 'o2', 'child': 'v0'})
+    try:
+        verify_policy(shared_model, shared, reference(shared_model))
+    except AssertionError as error:
+        require('supported outcomes on an incoming path' in str(error), str(error))
+        rejected += 1
+    else:
+        raise AssertionError('certificate checker accepted branches supported only by the union of paths')
     return {'hand_derived_optimum_checks': hand_checked, 'corrupt_certificates_rejected': rejected}
 
 
@@ -733,10 +759,11 @@ def run_batch(cases: list[Case], module: str | None) -> list[dict]:
 
 def module_fingerprint(module: str | None) -> dict:
     """Hash compiled public-module artifacts for provenance without inspecting their code."""
-    entry = Path(module).resolve() if module else ROOT / 'dist/index.js'
+    entry = (Path(module) if module else ROOT / 'dist/index.js').resolve()
     require(entry.is_file(), f'built public API module is missing: {entry}; run npm run build')
+    paths = set(entry.parent.rglob('*.js')) | {entry}
     files = {str(path.relative_to(entry.parent)): hashlib.sha256(path.read_bytes()).hexdigest()
-             for path in sorted(entry.parent.rglob('*.js'))}
+             for path in sorted(paths)}
     payload = json.dumps(files, sort_keys=True, separators=(',', ':')).encode()
     return {'entry': str(entry), 'sha256': hashlib.sha256(payload).hexdigest(), 'javascript_files': files}
 
