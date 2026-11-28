@@ -269,6 +269,9 @@ def verify_result(case: Case, actual: dict, ref: Reference | None) -> dict:
     require(isinstance(stats, dict) and STATISTIC_FIELDS <= stats.keys(), 'missing search statistics')
     require(all(type(stats[k]) is int and stats[k] >= 0 for k in STATISTIC_FIELDS),
             'search statistics must be nonnegative integers')
+    if result['status'] == 'planned':
+        for key in ('states', 'transitions'):
+            require(stats[key] > 0, f'planned {key} must be positive')
     if result['status'] in {'solved', 'planned'}:
         cert = verify_policy(case.input, result, ref)
         require(stats['policyNodes'] == cert['nodes'], 'policyNodes statistic disagrees with certificate')
@@ -634,7 +637,46 @@ def malformed_cases() -> list[Case]:
     return cases
 
 
+def verify_search_counter_cases() -> None:
+    planned = model([('v0',), ('v1',)], [('resolve', 2, ['o0', 'o1'])], 2)
+    solved = model([('v0',)], [], 0)
+    leaves = [
+        {'id': 'n1', 'type': 'leaf', 'answers': {'q0': 'v0'}},
+        {'id': 'n2', 'type': 'leaf', 'answers': {'q0': 'v1'}},
+    ]
+    missing_rejections = []
+    for name, x, states, transitions, rejected_field in (
+        ('planned_positive', planned, 1, 2, None),
+        ('planned_without_states', planned, 0, 2, 'states'),
+        ('planned_without_transitions', planned, 1, 0, 'transitions'),
+        ('solved_zero_search', solved, 0, 0, None),
+    ):
+        case = Case(name, 'oracle_self_check', x)
+        ref = reference(x)
+        status, reason = expected_outcome(case, ref)
+        is_planned = status == 'planned'
+        nodes = ([{'id': 'n0', 'type': 'decision', 'action': 'resolve',
+                   'branches': [{'outcome': 'o0', 'child': 'n1'}, {'outcome': 'o1', 'child': 'n2'}]}]
+                 + leaves if is_planned else [leaves[0]])
+        stats = dict.fromkeys(STATISTIC_FIELDS, 0)
+        stats.update(states=states, transitions=transitions, maxDepth=int(is_planned), policyNodes=len(nodes))
+        result = {k: x[k] for k in ('coverage', 'gate', 'costUnit', 'remainingBudget')}
+        result.update(status=status, reason=reason, recommendedAction='resolve' if is_planned else None,
+                      worstCaseCost='2' if is_planned else '0', limits=dict(DEFAULT_LIMITS),
+                      statistics=stats, policy={'root': nodes[0]['id'], 'nodes': nodes})
+        try:
+            verify_result(case, {'ok': True, 'result': result}, ref)
+        except AssertionError as error:
+            require(rejected_field is not None and str(error) == f'planned {rejected_field} must be positive',
+                    f'{name}: unexpected rejection: {error}')
+        else:
+            if rejected_field is not None:
+                missing_rejections.append(name)
+    require(not missing_rejections, f'planner counter self-check accepted: {", ".join(missing_rejections)}')
+
+
 def self_test() -> dict:
+    verify_search_counter_cases()
     regressions = regression_cases()
     hand_checked = 0
     for case in regressions + observation_capacity_cases() + limit_cases():
