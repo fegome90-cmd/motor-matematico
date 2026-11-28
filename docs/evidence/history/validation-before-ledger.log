@@ -1,0 +1,221 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> @fegome90/motor-matematico@0.2.0 check
+> npm run lint && npm run typecheck && npm run build && npm test && npm run test:oracle && npm run test:planner-oracle && npm run check:docs && npm run verify:package
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> @fegome90/motor-matematico@0.2.0 lint
+> biome check .
+
+Checked 17 files in 18ms. No fixes applied.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> @fegome90/motor-matematico@0.2.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> @fegome90/motor-matematico@0.2.0 build
+> tsc -p tsconfig.json
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> @fegome90/motor-matematico@0.2.0 test
+> node --test tests/*.test.mjs
+
+✔ CLI plans JSON file and stdin through the public library (160.772543ms)
+✔ CLI validates and retains historical evaluation explicitly (113.775225ms)
+✔ CLI distinguishes invalid input, file errors, help and computed abstention (459.611795ms)
+✔ CLI applies limits and writes an advanced model without changing source files (121.367073ms)
+✔ CLI refuses input above its byte cap without producing a decision (114.384269ms)
+✔ CLI advances a model requiring the same custom limits used to plan (283.896697ms)
+✔ fixture focused (4.172391ms)
+✔ fixture direct (0.564088ms)
+✔ fixture incomplete (1.13738ms)
+✔ fixture conflict (0.311869ms)
+✔ fixture blocked (0.313522ms)
+✔ fixture exploratory (0.31959ms)
+✔ fixture no_action (0.354593ms)
+✔ fixture joint_plan (0.269986ms)
+✔ exact rational equality and comparison beyond Number precision (0.631769ms)
+✔ exact cost selection beyond Number precision (0.721715ms)
+✔ joint signatures preserve correlations; marginal product is not manufactured (0.46543ms)
+✔ same signature in distinct worlds is sufficient if coverage asserted (0.43266ms)
+✔ idempotent observation and immutable input (0.700643ms)
+✔ invariant under order and domain order (1.379563ms)
+✔ evidence intersection is monotone and order invariant, conflict retained (1.179473ms)
+✔ permission, availability, budget and global gate are fail closed (0.561854ms)
+✔ empty complete universe is contradiction; empty incomplete universe not certainty (0.257457ms)
+✔ joint plan: partial observation makes second action sufficient (0.410127ms)
+✔ JSON round-trip exact and output contains no BigInt (0.407422ms)
+✔ stable tie break by ID (0.245139ms)
+✔ reject malformed input badCost (0.421323ms)
+✔ reject malformed input numericCost (0.209965ms)
+✔ reject malformed input leadingZero (0.207482ms)
+✔ reject malformed input duplicateWorld (0.201092ms)
+✔ reject malformed input duplicateDecision (0.180031ms)
+✔ reject malformed input duplicateAction (0.252369ms)
+✔ reject malformed input missingOutcome (0.218719ms)
+✔ reject malformed input extraOutcome (0.21949ms)
+✔ reject malformed input invalidAnswer (0.189975ms)
+✔ reject malformed input missingAnswer (0.222905ms)
+✔ reject malformed input badEvidence (0.207031ms)
+✔ reject malformed input badGate (0.145149ms)
+✔ reject malformed input unknownField (0.195584ms)
+✔ reject malformed input emptyDecisionList (0.586972ms)
+✔ reject malformed input invalidCoverage (0.205569ms)
+✔ three-bit parity ignores cheap noise and resolves every branch for cost six (9.493376ms)
+✔ an adaptive policy chooses different follow-up actions in its two branches (0.813373ms)
+✔ minimax cost includes the expensive branch even when another outcome stops early (4.699644ms)
+✔ sum and comparison of costs remain exact beyond Number precision (1.058611ms)
+✔ equal optimum costs choose the action with the smallest canonical ID (0.477397ms)
+✔ input and option ordering, duplicates of evidence, and frozen objects preserve the result (1.893575ms)
+✔ solved requires complete coverage and an allowed global gate (0.84501ms)
+✔ empty complete models and out-of-support evidence are conflicts, including behind a gate (0.570787ms)
+✔ joint answers stop without distinguishing worlds that have the same signature (0.561153ms)
+✔ a differing answer pair that no action distinguishes has no robust policy (0.6123ms)
+✔ permissions, availability, and affordability exclude actions from every policy (0.462345ms)
+✔ all deterministic search limits withhold action, cost, and policy (1.20492ms)
+✔ elapsed-time interruption withholds the entire result (0.373021ms)
+✔ world capacity applies to compatible worlds and terminal results need no search (4.714935ms)
+✔ action capacity counts affordable allowed available actions, including constants (1.272042ms)
+✔ options reject unknown keys, malformed integers, and unsupported capacities (1.218101ms)
+✔ JSON data validation rejects getters and custom arrays without running user code (0.739351ms)
+✔ prototype-like canonical IDs remain ordinary own data keys (0.380992ms)
+✔ complete session resolves all sixteen worlds without spending on noise (59.219897ms)
+✔ receipt replay is idempotent and leaves the caller input unchanged (2.633478ms)
+✔ an existing exact receipt remains idempotent when multiple sources are present (1.834878ms)
+✔ advance refuses unrelated actions, replaced receipts and invalid evidence (3.895564ms)
+✔ unknown outcome is recorded and charged, then planning reports conflict (1.460695ms)
+✔ blocked, incomplete, unaffordable and interrupted states cannot advance (3.708493ms)
+✔ session debits integers beyond binary floating-point precision exactly (1.600285ms)
+ℹ tests 66
+ℹ suites 0
+ℹ pass 66
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1346.081745
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> @fegome90/motor-matematico@0.2.0 test:oracle
+> python3 -B tests/oracle.py
+
+exhaustive: 3840/3840 PASS
+seeded: 512/512 PASS
+differential total: 4352 PASS
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> @fegome90/motor-matematico@0.2.0 test:planner-oracle
+> python3 -B tests/planner-oracle.py
+
+planner oracle: 256/18740 checked; failures=0
+planner oracle: 4096/18740 checked; failures=0
+planner oracle: 8192/18740 checked; failures=0
+planner oracle: 12288/18740 checked; failures=0
+planner oracle: 16384/18740 checked; failures=0
+planner oracle: 18740/18740 checked; failures=0
+{
+  "authorized_action_steps_checked": 19434,
+  "case_sha256": "0a3b627bff4f198d2f690c5a7c1a1aa74abbd59669c2a0d0be37db058a937296",
+  "cases": 18740,
+  "certificates_checked": 5832,
+  "compatible_world_paths_checked": 24214,
+  "elapsed_seconds": 8.062,
+  "exact_costs_above_2pow53_checked": 17,
+  "failed": 0,
+  "groups": {
+    "exhaustive": {
+      "passed": 16384
+    },
+    "historical_budget": {
+      "passed": 100
+    },
+    "historical_conflict": {
+      "passed": 100
+    },
+    "historical_cost": {
+      "passed": 150
+    },
+    "historical_direct": {
+      "passed": 100
+    },
+    "historical_focused": {
+      "passed": 150
+    },
+    "historical_gates": {
+      "passed": 100
+    },
+    "historical_multiple": {
+      "passed": 150
+    },
+    "historical_synergy": {
+      "passed": 150
+    },
+    "limits": {
+      "passed": 14
+    },
+    "malformed": {
+      "passed": 81
+    },
+    "regression": {
+      "passed": 61
+    },
+    "seeded": {
+      "passed": 1200
+    }
+  },
+  "historical_sha256": "78d109caec3c1264f01471049807da4cb76cde8ec0ba2a82b91e3ba2b4b5e5ec",
+  "limitations": [
+    "Finite synthetic models; completeness and permissions remain supplied assertions.",
+    "Deterministic capacity limits are tested; wall-clock timeout timing is not asserted.",
+    "Shared development environment; not a blind evaluation."
+  ],
+  "maximum_path_actions": 6,
+  "maximum_policy_nodes": 15,
+  "module_artifacts": {
+    "entry": "/workspace/scratch/ea177efed27f/motor-mvp/dist/index.js",
+    "javascript_files": {
+      "core.js": "6909037944f01b9ce25897d46f9869a9c462c0ebea95c58d654a696aeed1ea45",
+      "index.js": "d2cb4cb20114f65965dff8c2ffb8b8b8767ee3e9c4f0af2b423029b107775190",
+      "planner.js": "478a032e37f0a4c794f4cbb4b71236fae680ee075f1f104c73b32b63a36d9adb",
+      "session.js": "8a22d88422a934b071d9a12b9d7f5cdce9017793c80209a1c8853f1c8f95fc5d"
+    },
+    "sha256": "f66230a5d52b20d0af56f808bf605eb2e513aeec9a0019ac9b1b1f79af7a072d"
+  },
+  "oracle_states": 126823,
+  "passed": 18740,
+  "planner_states": 56277,
+  "planner_transitions": 64892,
+  "seed": 27112026,
+  "self_checks": {
+    "corrupt_certificates_rejected": 15,
+    "hand_derived_optimum_checks": 35
+  },
+  "status": "PASS",
+  "statuses": {
+    "TypeError": 81,
+    "blocked": 248,
+    "conflict": 323,
+    "incomplete": 157,
+    "infeasible": 12093,
+    "limit_exceeded": 6,
+    "planned": 3466,
+    "solved": 2366
+  }
+}
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> @fegome90/motor-matematico@0.2.0 check:docs
+> python3 -B scripts/check-docs.py
+
+agent-docs-kit c1efd7bed2c2e74f47a7ce41a893839cfcdc6f57: 5 documents, structural check PASS (not semantic attestation)
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> @fegome90/motor-matematico@0.2.0 verify:package
+> node scripts/verify-package.mjs
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+{"status":"PASS","packedFiles":41,"libraryCost":"6","cliCost":"6","runtimeDependencies":0}

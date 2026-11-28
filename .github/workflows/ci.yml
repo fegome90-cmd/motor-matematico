@@ -1,0 +1,88 @@
+name: verify
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+concurrency:
+  group: verify-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  package:
+    name: package
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.22.3'
+          cache: npm
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - name: Fetch pinned documentation checker
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: fegome90-cmd/agent-docs-kit
+          ref: c1efd7bed2c2e74f47a7ce41a893839cfcdc6f57
+          path: .tools/agent-docs-kit
+          persist-credentials: false
+      - name: Pin npm
+        run: npm install --global --ignore-scripts npm@11.19.1
+      - run: npm ci --ignore-scripts
+      - run: npm run check
+      - name: Verify committed distribution
+        run: |
+          git diff --exit-code -- dist
+          if [ -n "$(git ls-files --others -- dist)" ]; then
+            git ls-files --others -- dist
+            exit 1
+          fi
+      - name: Exercise complete session
+        run: npm run demo
+      - name: Record bounded performance sample
+        run: npm run bench -- --output .audit/local/benchmark.json
+      - name: Save performance sample
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: benchmark-node-24
+          path: .audit/local/benchmark.json
+          if-no-files-found: error
+  compatibility-node-22:
+    name: compatibility-node-22
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22.18.0'
+          cache: npm
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - name: Fetch pinned documentation checker
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: fegome90-cmd/agent-docs-kit
+          ref: c1efd7bed2c2e74f47a7ce41a893839cfcdc6f57
+          path: .tools/agent-docs-kit
+          persist-credentials: false
+      - name: Pin npm
+        run: npm install --global --ignore-scripts npm@11.19.1
+      - run: npm ci --ignore-scripts
+      - run: npm run check
+      - name: Verify committed distribution
+        run: |
+          git diff --exit-code -- dist
+          if [ -n "$(git ls-files --others -- dist)" ]; then
+            git ls-files --others -- dist
+            exit 1
+          fi
+      - name: Exercise complete session
+        run: npm run demo

@@ -1,0 +1,92 @@
+{
+  "authorized_action_steps_checked": 19454,
+  "case_sha256": "3821c001f00eba2cd005ceea67fd1c71721cafb3027cfe30404387476544b2a7",
+  "cases": 18750,
+  "certificates_checked": 5837,
+  "compatible_world_paths_checked": 24228,
+  "elapsed_seconds": 7.648,
+  "exact_costs_above_2pow53_checked": 17,
+  "failed": 0,
+  "groups": {
+    "exhaustive": {
+      "passed": 16384
+    },
+    "historical_budget": {
+      "passed": 100
+    },
+    "historical_conflict": {
+      "passed": 100
+    },
+    "historical_cost": {
+      "passed": 150
+    },
+    "historical_direct": {
+      "passed": 100
+    },
+    "historical_focused": {
+      "passed": 150
+    },
+    "historical_gates": {
+      "passed": 100
+    },
+    "historical_multiple": {
+      "passed": 150
+    },
+    "historical_synergy": {
+      "passed": 150
+    },
+    "limits": {
+      "passed": 14
+    },
+    "malformed": {
+      "passed": 81
+    },
+    "observation_capacity": {
+      "passed": 10
+    },
+    "regression": {
+      "passed": 61
+    },
+    "seeded": {
+      "passed": 1200
+    }
+  },
+  "historical_sha256": "78d109caec3c1264f01471049807da4cb76cde8ec0ba2a82b91e3ba2b4b5e5ec",
+  "limitations": [
+    "Finite synthetic models; completeness and permissions remain supplied assertions.",
+    "Deterministic capacity limits are tested; wall-clock timeout timing is not asserted.",
+    "Shared development environment; not a blind evaluation."
+  ],
+  "maximum_path_actions": 6,
+  "maximum_policy_nodes": 15,
+  "module_artifacts": {
+    "entry": "/workspace/scratch/ea177efed27f/motor-mvp/dist/index.js",
+    "javascript_files": {
+      "core.js": "55babe2ce3f8bfe6c08f20c4d1c6ac5a2035a8ae2ed11f76f5182c76358fed92",
+      "index.js": "d2cb4cb20114f65965dff8c2ffb8b8b8767ee3e9c4f0af2b423029b107775190",
+      "planner.js": "ae9546a9089f06d5026edd57fa1e0339450074ba6a66fb9f747020279dcf56ab",
+      "session.js": "8a22d88422a934b071d9a12b9d7f5cdce9017793c80209a1c8853f1c8f95fc5d"
+    },
+    "sha256": "a77c0b9954e055eaaf7c691eb027b647d7ea68dadf72f282345cabf9457375ed"
+  },
+  "oracle_states": 126914,
+  "passed": 18750,
+  "planner_states": 56334,
+  "planner_transitions": 64980,
+  "seed": 27112026,
+  "self_checks": {
+    "corrupt_certificates_rejected": 16,
+    "hand_derived_optimum_checks": 45
+  },
+  "status": "PASS",
+  "statuses": {
+    "TypeError": 81,
+    "blocked": 248,
+    "conflict": 323,
+    "incomplete": 157,
+    "infeasible": 12094,
+    "limit_exceeded": 10,
+    "planned": 3470,
+    "solved": 2367
+  }
+}

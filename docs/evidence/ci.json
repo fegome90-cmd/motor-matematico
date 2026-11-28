@@ -1,0 +1,399 @@
+{
+  "observed_at": "2026-11-27T12:37:43.423Z",
+  "repository": "fegome90-cmd/motor-matematico",
+  "pull_request": 2,
+  "verified_product_commit": "4c671f01d2a7a1c88f9c14733fa5bbf35b2ff04a",
+  "note": "This records the verified product commit. Later evidence-only commits have their own live checks on the PR.",
+  "runs": [
+    {
+      "id": 45999969623,
+      "url": "https://github.com/fegome90-cmd/motor-matematico/actions/runs/45999969623",
+      "event": "pull_request",
+      "head_sha": "4c671f01d2a7a1c88f9c14733fa5bbf35b2ff04a",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-27T12:35:52Z",
+      "updated_at": "2026-11-27T12:36:24Z",
+      "run_attempt": 1,
+      "jobs": [
+        {
+          "id": 140508797396,
+          "name": "verify (24)",
+          "url": "https://github.com/fegome90-cmd/motor-matematico/actions/runs/45999969623/job/140508797396",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-27T12:35:54Z",
+          "completed_at": "2026-11-27T12:36:23Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Fetch pinned documentation checker",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm ci --ignore-scripts",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm run check",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Verify committed distribution",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Exercise complete session",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Record bounded performance sample",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Save performance sample",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Fetch pinned documentation checker",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 140508797695,
+          "name": "verify (22)",
+          "url": "https://github.com/fegome90-cmd/motor-matematico/actions/runs/45999969623/job/140508797695",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-27T12:35:55Z",
+          "completed_at": "2026-11-27T12:36:24Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Fetch pinned documentation checker",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm ci --ignore-scripts",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm run check",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Verify committed distribution",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Exercise complete session",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Record bounded performance sample",
+              "status": "completed",
+              "conclusion": "skipped"
+            },
+            {
+              "name": "Save performance sample",
+              "status": "completed",
+              "conclusion": "skipped"
+            },
+            {
+              "name": "Post Fetch pinned documentation checker",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 45999962754,
+      "url": "https://github.com/fegome90-cmd/motor-matematico/actions/runs/45999962754",
+      "event": "push",
+      "head_sha": "4c671f01d2a7a1c88f9c14733fa5bbf35b2ff04a",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-27T12:35:49Z",
+      "updated_at": "2026-11-27T12:36:21Z",
+      "run_attempt": 1,
+      "jobs": [
+        {
+          "id": 140508775256,
+          "name": "verify (22)",
+          "url": "https://github.com/fegome90-cmd/motor-matematico/actions/runs/45999962754/job/140508775256",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-27T12:35:52Z",
+          "completed_at": "2026-11-27T12:36:13Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Fetch pinned documentation checker",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm ci --ignore-scripts",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm run check",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Verify committed distribution",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Exercise complete session",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Record bounded performance sample",
+              "status": "completed",
+              "conclusion": "skipped"
+            },
+            {
+              "name": "Save performance sample",
+              "status": "completed",
+              "conclusion": "skipped"
+            },
+            {
+              "name": "Post Fetch pinned documentation checker",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 140508775666,
+          "name": "verify (24)",
+          "url": "https://github.com/fegome90-cmd/motor-matematico/actions/runs/45999962754/job/140508775666",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-27T12:35:52Z",
+          "completed_at": "2026-11-27T12:36:20Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Fetch pinned documentation checker",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm ci --ignore-scripts",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm run check",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Verify committed distribution",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Exercise complete session",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Record bounded performance sample",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Save performance sample",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Fetch pinned documentation checker",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

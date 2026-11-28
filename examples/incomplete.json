@@ -1,0 +1,69 @@
+{
+  "coverage": "incomplete",
+  "gate": "allowed",
+  "costUnit": "work_units",
+  "remainingBudget": "20",
+  "decisions": [
+    {
+      "id": "environment",
+      "domain": [
+        "native",
+        "external"
+      ]
+    },
+    {
+      "id": "strategy",
+      "domain": [
+        "direct_calls",
+        "code_mode"
+      ]
+    }
+  ],
+  "worlds": [
+    {
+      "id": "w1",
+      "answers": {
+        "environment": "native",
+        "strategy": "code_mode"
+      }
+    },
+    {
+      "id": "w2",
+      "answers": {
+        "environment": "external",
+        "strategy": "direct_calls"
+      }
+    }
+  ],
+  "actions": [
+    {
+      "id": "inspect_host",
+      "capability": "host_metadata",
+      "permission": "allowed",
+      "available": true,
+      "cost": "2",
+      "outcomes": {
+        "w1": "native",
+        "w2": "external"
+      }
+    },
+    {
+      "id": "research",
+      "capability": "web",
+      "permission": "allowed",
+      "available": true,
+      "cost": "8",
+      "outcomes": {
+        "w1": "native",
+        "w2": "external"
+      }
+    }
+  ],
+  "observations": [
+    {
+      "action": "inspect_host",
+      "outcome": "native",
+      "source": "synthetic_fixture"
+    }
+  ]
+}

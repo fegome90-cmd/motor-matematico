@@ -1,0 +1,229 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> @fegome90/motor-matematico@0.2.0 check
+> npm run lint && npm run typecheck && npm run build && npm test && npm run test:oracle && npm run test:planner-oracle && npm run check:docs && npm run verify:package
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> @fegome90/motor-matematico@0.2.0 lint
+> biome check .
+
+Checked 17 files in 14ms. No fixes applied.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> @fegome90/motor-matematico@0.2.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> @fegome90/motor-matematico@0.2.0 build
+> tsc -p tsconfig.json
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> @fegome90/motor-matematico@0.2.0 test
+> node --test tests/*.test.mjs
+
+✔ CLI plans JSON file and stdin through the public library (148.710889ms)
+✔ CLI validates and retains historical evaluation explicitly (120.245869ms)
+✔ CLI distinguishes invalid input, file errors, help and computed abstention (580.367918ms)
+✔ CLI applies limits and writes an advanced model without changing source files (128.912794ms)
+✔ CLI refuses input above its byte cap without producing a decision (113.745569ms)
+✔ CLI advances a model requiring the same custom limits used to plan (248.564299ms)
+✔ CLI reports a closed stdout as an I/O error for results and help (122.310402ms)
+✔ CLI exits with I/O status when stderr cannot carry an error (110.903137ms)
+✔ fixture focused (3.023855ms)
+✔ fixture direct (0.387192ms)
+✔ fixture incomplete (1.622048ms)
+✔ fixture conflict (0.51889ms)
+✔ fixture blocked (0.531519ms)
+✔ fixture exploratory (0.520472ms)
+✔ fixture no_action (0.284588ms)
+✔ fixture joint_plan (0.254062ms)
+✔ exact rational equality and comparison beyond Number precision (0.305219ms)
+✔ exact cost selection beyond Number precision (0.536857ms)
+✔ joint signatures preserve correlations; marginal product is not manufactured (0.526772ms)
+✔ same signature in distinct worlds is sufficient if coverage asserted (0.293231ms)
+✔ idempotent observation and immutable input (0.676257ms)
+✔ invariant under order and domain order (1.241866ms)
+✔ evidence intersection is monotone and order invariant, conflict retained (0.85864ms)
+✔ permission, availability, budget and global gate are fail closed (0.464167ms)
+✔ empty complete universe is contradiction; empty incomplete universe not certainty (0.173871ms)
+✔ joint plan: partial observation makes second action sufficient (0.318519ms)
+✔ JSON round-trip exact and output contains no BigInt (0.247793ms)
+✔ stable tie break by ID (0.188273ms)
+✔ reject malformed input badCost (0.325659ms)
+✔ reject malformed input numericCost (0.158548ms)
+✔ reject malformed input leadingZero (0.134733ms)
+✔ reject malformed input duplicateWorld (0.13358ms)
+✔ reject malformed input duplicateDecision (0.123145ms)
+✔ reject malformed input duplicateAction (0.156045ms)
+✔ reject malformed input missingOutcome (0.144157ms)
+✔ reject malformed input extraOutcome (0.131698ms)
+✔ reject malformed input invalidAnswer (0.306631ms)
+✔ reject malformed input missingAnswer (0.147071ms)
+✔ reject malformed input badEvidence (0.194753ms)
+✔ reject malformed input badGate (0.158749ms)
+✔ reject malformed input unknownField (0.137026ms)
+✔ reject malformed input emptyDecisionList (0.500091ms)
+✔ reject malformed input invalidCoverage (0.178087ms)
+✔ three-bit parity ignores cheap noise and resolves every branch for cost six (10.016133ms)
+✔ an adaptive policy chooses different follow-up actions in its two branches (0.845341ms)
+✔ minimax cost includes the expensive branch even when another outcome stops early (1.501126ms)
+✔ sum and comparison of costs remain exact beyond Number precision (1.026633ms)
+✔ equal optimum costs choose the action with the smallest canonical ID (0.544748ms)
+✔ input and option ordering, duplicates of evidence, and frozen objects preserve the result (2.001939ms)
+✔ solved requires complete coverage and an allowed global gate (0.856537ms)
+✔ empty complete models and out-of-support evidence are conflicts, including behind a gate (0.322545ms)
+✔ joint answers stop without distinguishing worlds that have the same signature (0.433021ms)
+✔ a differing answer pair that no action distinguishes has no robust policy (0.472811ms)
+✔ permissions, availability, and affordability exclude actions from every policy (0.424679ms)
+✔ all deterministic search limits withhold action, cost, and policy (1.176979ms)
+✔ elapsed-time interruption withholds the entire result (0.278789ms)
+✔ world capacity applies to compatible worlds and terminal results need no search (3.358317ms)
+✔ action capacity counts affordable allowed available actions, including constants (1.460535ms)
+✔ options reject unknown keys, malformed integers, and unsupported capacities (1.045772ms)
+✔ JSON data validation rejects getters and custom arrays without running user code (0.821464ms)
+✔ prototype-like canonical IDs remain ordinary own data keys (0.411229ms)
+✔ complete session resolves all sixteen worlds without spending on noise (38.925351ms)
+✔ receipt replay is idempotent and leaves the caller input unchanged (1.336759ms)
+✔ an existing exact receipt remains idempotent when multiple sources are present (1.272503ms)
+✔ advance refuses unrelated actions, replaced receipts and invalid evidence (2.354879ms)
+✔ unknown outcome is recorded and charged, then planning reports conflict (0.939593ms)
+✔ blocked, incomplete, unaffordable and interrupted states cannot advance (2.036681ms)
+✔ session debits integers beyond binary floating-point precision exactly (1.266183ms)
+✔ a full observation ledger withholds a recommendation before an external action (6.689714ms)
+✔ a complete policy fits the ledger exactly and all its observations can be recorded (11.682628ms)
+✔ ledger capacity checks the whole selected policy, withholds even if a costlier short plan exists (2.898536ms)
+ℹ tests 71
+ℹ suites 0
+ℹ pass 71
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1652.212928
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> @fegome90/motor-matematico@0.2.0 test:oracle
+> python3 -B tests/oracle.py
+
+exhaustive: 3840/3840 PASS
+seeded: 512/512 PASS
+differential total: 4352 PASS
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> @fegome90/motor-matematico@0.2.0 test:planner-oracle
+> python3 -B tests/planner-oracle.py
+
+planner oracle: 256/18750 checked; failures=0
+planner oracle: 4096/18750 checked; failures=0
+planner oracle: 8192/18750 checked; failures=0
+planner oracle: 12288/18750 checked; failures=0
+planner oracle: 16384/18750 checked; failures=0
+planner oracle: 18750/18750 checked; failures=0
+{
+  "authorized_action_steps_checked": 19454,
+  "case_sha256": "3821c001f00eba2cd005ceea67fd1c71721cafb3027cfe30404387476544b2a7",
+  "cases": 18750,
+  "certificates_checked": 5837,
+  "compatible_world_paths_checked": 24228,
+  "elapsed_seconds": 7.648,
+  "exact_costs_above_2pow53_checked": 17,
+  "failed": 0,
+  "groups": {
+    "exhaustive": {
+      "passed": 16384
+    },
+    "historical_budget": {
+      "passed": 100
+    },
+    "historical_conflict": {
+      "passed": 100
+    },
+    "historical_cost": {
+      "passed": 150
+    },
+    "historical_direct": {
+      "passed": 100
+    },
+    "historical_focused": {
+      "passed": 150
+    },
+    "historical_gates": {
+      "passed": 100
+    },
+    "historical_multiple": {
+      "passed": 150
+    },
+    "historical_synergy": {
+      "passed": 150
+    },
+    "limits": {
+      "passed": 14
+    },
+    "malformed": {
+      "passed": 81
+    },
+    "observation_capacity": {
+      "passed": 10
+    },
+    "regression": {
+      "passed": 61
+    },
+    "seeded": {
+      "passed": 1200
+    }
+  },
+  "historical_sha256": "78d109caec3c1264f01471049807da4cb76cde8ec0ba2a82b91e3ba2b4b5e5ec",
+  "limitations": [
+    "Finite synthetic models; completeness and permissions remain supplied assertions.",
+    "Deterministic capacity limits are tested; wall-clock timeout timing is not asserted.",
+    "Shared development environment; not a blind evaluation."
+  ],
+  "maximum_path_actions": 6,
+  "maximum_policy_nodes": 15,
+  "module_artifacts": {
+    "entry": "/workspace/scratch/ea177efed27f/motor-mvp/dist/index.js",
+    "javascript_files": {
+      "core.js": "55babe2ce3f8bfe6c08f20c4d1c6ac5a2035a8ae2ed11f76f5182c76358fed92",
+      "index.js": "d2cb4cb20114f65965dff8c2ffb8b8b8767ee3e9c4f0af2b423029b107775190",
+      "planner.js": "ae9546a9089f06d5026edd57fa1e0339450074ba6a66fb9f747020279dcf56ab",
+      "session.js": "8a22d88422a934b071d9a12b9d7f5cdce9017793c80209a1c8853f1c8f95fc5d"
+    },
+    "sha256": "a77c0b9954e055eaaf7c691eb027b647d7ea68dadf72f282345cabf9457375ed"
+  },
+  "oracle_states": 126914,
+  "passed": 18750,
+  "planner_states": 56334,
+  "planner_transitions": 64980,
+  "seed": 27112026,
+  "self_checks": {
+    "corrupt_certificates_rejected": 16,
+    "hand_derived_optimum_checks": 45
+  },
+  "status": "PASS",
+  "statuses": {
+    "TypeError": 81,
+    "blocked": 248,
+    "conflict": 323,
+    "incomplete": 157,
+    "infeasible": 12094,
+    "limit_exceeded": 10,
+    "planned": 3470,
+    "solved": 2367
+  }
+}
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> @fegome90/motor-matematico@0.2.0 check:docs
+> python3 -B scripts/check-docs.py
+
+agent-docs-kit c1efd7bed2c2e74f47a7ce41a893839cfcdc6f57: 5 documents, structural check PASS (not semantic attestation)
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> @fegome90/motor-matematico@0.2.0 verify:package
+> node scripts/verify-package.mjs
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+{"status":"PASS","packedFiles":51,"libraryCost":"6","cliCost":"6","runtimeDependencies":0}

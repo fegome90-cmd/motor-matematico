@@ -1,0 +1,194 @@
+{
+  "profileSha256": "f84461f959cd110579dd2cff0c57d3dca53dffe1465198ea73591959ed770254",
+  "buildSha256": {
+    "core": "55babe2ce3f8bfe6c08f20c4d1c6ac5a2035a8ae2ed11f76f5182c76358fed92",
+    "planner": "ae9546a9089f06d5026edd57fa1e0339450074ba6a66fb9f747020279dcf56ab",
+    "session": "8a22d88422a934b071d9a12b9d7f5cdce9017793c80209a1c8853f1c8f95fc5d",
+    "index": "d2cb4cb20114f65965dff8c2ffb8b8b8767ee3e9c4f0af2b423029b107775190"
+  },
+  "harnessSha256": "a4609b806efaf121fdf64a02c3cd1d5a15757487cbafb57e713f25e76c2f268c",
+  "method": "V8 sampled self time; separate instrumented campaign, not latency evidence",
+  "command": "node --cpu-prof --cpu-prof-dir=.audit/local --cpu-prof-name=paired-final.cpuprofile scripts/benchmark.mjs --profile --baseline .audit/local/baseline-core.mjs",
+  "topFrames": [
+    {
+      "file": ".audit/local/baseline-core.mjs",
+      "line": 114,
+      "function": "signature",
+      "sampledSelfMs": 3571.564
+    },
+    {
+      "file": ".audit/local/baseline-core.mjs",
+      "line": 114,
+      "function": "<anonymous>",
+      "sampledSelfMs": 2366.721
+    },
+    {
+      "file": "scripts/benchmark.mjs",
+      "line": 1,
+      "function": "<anonymous>",
+      "sampledSelfMs": 2149.419
+    },
+    {
+      "file": ".audit/local/baseline-core.mjs",
+      "line": 131,
+      "function": "<anonymous>",
+      "sampledSelfMs": 1803.723
+    },
+    {
+      "file": "dist/core.js",
+      "line": 80,
+      "function": "mapping",
+      "sampledSelfMs": 1567.776
+    },
+    {
+      "file": "dist/core.js",
+      "line": 25,
+      "function": "fields",
+      "sampledSelfMs": 1118.612
+    },
+    {
+      "file": "dist/core.js",
+      "line": 12,
+      "function": "object",
+      "sampledSelfMs": 1023.223
+    },
+    {
+      "file": "",
+      "line": 0,
+      "function": "(garbage collector)",
+      "sampledSelfMs": 679.424
+    },
+    {
+      "file": ".audit/local/baseline-core.mjs",
+      "line": 46,
+      "function": "mapping",
+      "sampledSelfMs": 651.836
+    },
+    {
+      "file": ".audit/local/baseline-core.mjs",
+      "line": 9,
+      "function": "fields",
+      "sampledSelfMs": 553.735
+    },
+    {
+      "file": "scripts/benchmark.mjs",
+      "line": 42,
+      "function": "<anonymous>",
+      "sampledSelfMs": 285.468
+    },
+    {
+      "file": ".audit/local/baseline-core.mjs",
+      "line": 110,
+      "function": "evaluate",
+      "sampledSelfMs": 202.148
+    },
+    {
+      "file": "dist/core.js",
+      "line": 174,
+      "function": "evaluate",
+      "sampledSelfMs": 167.698
+    },
+    {
+      "file": "dist/core.js",
+      "line": 116,
+      "function": "<anonymous>",
+      "sampledSelfMs": 122.19
+    },
+    {
+      "file": "dist/core.js",
+      "line": 83,
+      "function": "<anonymous>",
+      "sampledSelfMs": 113.446
+    },
+    {
+      "file": "dist/core.js",
+      "line": 193,
+      "function": "<anonymous>",
+      "sampledSelfMs": 112.338
+    },
+    {
+      "file": ".audit/local/baseline-core.mjs",
+      "line": 123,
+      "function": "<anonymous>",
+      "sampledSelfMs": 102.695
+    },
+    {
+      "file": "",
+      "line": 0,
+      "function": "RegExp: ^[a-zA-Z0-9][a-zA-Z0-9_.:-]*$",
+      "sampledSelfMs": 86.102
+    },
+    {
+      "file": "dist/core.js",
+      "line": 74,
+      "function": "lookup",
+      "sampledSelfMs": 74.603
+    },
+    {
+      "file": "dist/core.js",
+      "line": 201,
+      "function": "<anonymous>",
+      "sampledSelfMs": 73.824
+    },
+    {
+      "file": "scripts/benchmark.mjs",
+      "line": 25,
+      "function": "<anonymous>",
+      "sampledSelfMs": 73.792
+    },
+    {
+      "file": "dist/core.js",
+      "line": 178,
+      "function": "<anonymous>",
+      "sampledSelfMs": 72.841
+    },
+    {
+      "file": ".audit/local/baseline-core.mjs",
+      "line": 49,
+      "function": "<anonymous>",
+      "sampledSelfMs": 70.888
+    },
+    {
+      "file": ".audit/local/baseline-core.mjs",
+      "line": 70,
+      "function": "<anonymous>",
+      "sampledSelfMs": 63.889
+    },
+    {
+      "file": "dist/core.js",
+      "line": 35,
+      "function": "id",
+      "sampledSelfMs": 63.841
+    },
+    {
+      "file": "dist/planner.js",
+      "line": 63,
+      "function": "<anonymous>",
+      "sampledSelfMs": 60.312
+    },
+    {
+      "file": "dist/planner.js",
+      "line": 141,
+      "function": "solve",
+      "sampledSelfMs": 53.193
+    },
+    {
+      "file": "dist/core.js",
+      "line": 86,
+      "function": "validate",
+      "sampledSelfMs": 38.056
+    },
+    {
+      "file": ".audit/local/baseline-core.mjs",
+      "line": 19,
+      "function": "id",
+      "sampledSelfMs": 35.085
+    },
+    {
+      "file": "dist/core.js",
+      "line": 181,
+      "function": "<anonymous>",
+      "sampledSelfMs": 32.491
+    }
+  ]
+}

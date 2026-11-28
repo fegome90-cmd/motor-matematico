@@ -1,0 +1,81 @@
+{
+  "coverage": "complete",
+  "gate": "allowed",
+  "costUnit": "work_units",
+  "remainingBudget": "20",
+  "decisions": [
+    {
+      "id": "goal",
+      "domain": [
+        "audit",
+        "repair"
+      ]
+    },
+    {
+      "id": "runtime",
+      "domain": [
+        "native",
+        "external"
+      ]
+    }
+  ],
+  "worlds": [
+    {
+      "id": "w1",
+      "answers": {
+        "goal": "audit",
+        "runtime": "native"
+      }
+    },
+    {
+      "id": "w2",
+      "answers": {
+        "goal": "audit",
+        "runtime": "external"
+      }
+    },
+    {
+      "id": "w3",
+      "answers": {
+        "goal": "repair",
+        "runtime": "native"
+      }
+    },
+    {
+      "id": "w4",
+      "answers": {
+        "goal": "repair",
+        "runtime": "external"
+      }
+    }
+  ],
+  "actions": [
+    {
+      "id": "confirm_goal",
+      "capability": "human",
+      "permission": "denied",
+      "available": true,
+      "cost": "2",
+      "outcomes": {
+        "w1": "audit",
+        "w2": "audit",
+        "w3": "repair",
+        "w4": "repair"
+      }
+    },
+    {
+      "id": "inspect_host",
+      "capability": "host_metadata",
+      "permission": "allowed",
+      "available": false,
+      "cost": "3",
+      "outcomes": {
+        "w1": "native",
+        "w2": "external",
+        "w3": "native",
+        "w4": "external"
+      }
+    }
+  ],
+  "observations": []
+}

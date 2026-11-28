@@ -1,0 +1,13 @@
+node_modules/
+*.tgz
+*.cpuprofile
+coverage/
+__pycache__/
+.audit/local/
+.tools/
+.env
+.env.*
+!.env.example
+*.log
+!docs/evidence/*.log
+!docs/evidence/**/*.log
